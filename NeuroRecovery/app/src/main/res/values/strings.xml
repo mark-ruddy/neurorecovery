@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">NeuroRecovery</string>
+    <string name="menu_name">NeuroRecovery Menu</string>
+
+    <!-- Login -->
+    <string name="email_placeholder">Email</string>
+
+    <!-- AppBar -->
+    <string name="back_button">back</string>
+
+    <!-- NeuroRecovery MenuItems -->
+    <!-- header bar should have user profile icon to that section -->
+    <string name="menu_title_non_scheduled_session">Instant Exercise Session</string>
+    <string name="menu_title_scheduled_session">Scheduled Exercise Session</string>
+    <string name="menu_title_update_info">Update your information</string>
+</resources>

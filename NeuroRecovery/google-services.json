@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36082486934",
+    "project_id": "neurorecovery-ec606",
+    "storage_bucket": "neurorecovery-ec606.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36082486934:android:6105b3df6a0751ba05bcb7",
+        "android_client_info": {
+          "package_name": "com.markruddy.neurorecovery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36082486934-jeebtk384ud72ug7qh4r34d43n41d653.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIi0PuFQhBwjYscW9u1nKtu_NiFJl6cjU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36082486934-jeebtk384ud72ug7qh4r34d43n41d653.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
