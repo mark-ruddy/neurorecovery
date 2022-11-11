@@ -1,0 +1,19 @@
+$accent-color: #303030;
+
+@mixin accent-background {
+  background-color: $accent-color;
+  width: 100%;
+  height: 95%;
+}
+
+@mixin centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 3vh;
+  width: 80%;
+  margin: 0 auto;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

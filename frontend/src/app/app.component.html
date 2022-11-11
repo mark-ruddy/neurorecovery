@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <button mat-icon-button (click)='sidenav.toggle()'>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a class='toolbar-title'><span>NeuroRecovery</span></a>
+  <span class='toolbar-spacer'></span>
+  <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
+  <button *ngIf='loggedIn' class='login-button' type='button' color='basic' mat-flat-button>LOGGED IN ALREADY</button>
+</mat-toolbar>
+
+<mat-sidenav-container class='sidenav-container'>
+  <mat-sidenav #sidenav mode='side' opened='true'>
+    <mat-nav-list class='sidenav-list'>
+      <a mat-list-item routerLink="/info">Update Your Information</a>
+      <a mat-list-item routerLink="/instant">Instant Exercise Session</a>
+      <a mat-list-item routerLink="/scheduled">Scheduled Exercise Session</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

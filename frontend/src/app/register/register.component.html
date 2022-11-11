@@ -1,0 +1,38 @@
+<div class='register-form-container'>
+  <form [formGroup]='registerForm' (ngSubmit)='onSubmit()' class='register-form'>
+    <div class='form-input-container'>
+      <h2>Email</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Email</mat-label>
+          <input formControlName='email' type='email' matInput>
+      </mat-form-field>
+    </div>
+
+    <div class='form-input-container'>
+      <h2>Password</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Password</mat-label>
+          <input formControlName='password' type='password' matInput>
+          <mat-error>
+            {{ errors['minimumPasswordLength'] }}
+          </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class='form-input-container last-input-container'>
+      <h2>Confirm Password</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Confirm Password</mat-label>
+          <input formControlName='confirmPassword' type='password' [errorStateMatcher]='errorMatcher' matInput>
+          <mat-error>
+            {{ errors['confirmPasswordNotMatching'] }}
+          </mat-error>
+      </mat-form-field>
+    </div>
+    <button [disabled]='!registerForm.valid' class='dated-submit-button' type='submit' color='primary' mat-raised-button>Register</button>
+    <!-- div *ngIf='contractActivationInProgress' class='loading-bar-container'>
+    <mat-progress-bar mode='indeterminate'></mat-progress-bar>
+    </div> -->
+    <h3 class='login-text'>Already have an account? <a class='login-link' routerLink='/login'>Login here</a></h3>
+  </form>
+</div>

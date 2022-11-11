@@ -1,0 +1,24 @@
+<div class='login-form-container'>
+  <form [formGroup]='loginForm' (ngSubmit)='onSubmit()' class='login-form'>
+    <div class='form-input-container'>
+      <h2>Email</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Email</mat-label>
+          <input formControlName='email' type='email' matInput>
+      </mat-form-field>
+    </div>
+
+    <div class='form-input-container last-input-container'>
+      <h2>Password</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Password</mat-label>
+          <input formControlName='password' type='password' matInput>
+      </mat-form-field>
+    </div>
+    <button [disabled]='!loginForm.valid' class='dated-submit-button' type='submit' color='primary' mat-raised-button>Login</button>
+    <!-- div *ngIf='contractActivationInProgress' class='loading-bar-container'>
+    <mat-progress-bar mode='indeterminate'></mat-progress-bar>
+    </div> -->
+    <h3 class='register-text'>Don't have an account? <a class='register-link' routerLink='/register'>Register here</a></h3>
+  </form>
+</div>
