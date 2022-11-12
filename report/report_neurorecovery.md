@@ -90,13 +90,25 @@ TODO
 
 # Design
 ## Design Rationale
-### Android Platform with Kotlin
-The app will run on Android, which is the most common mobile platform used by people in the UK [TODO]. There will not be Apple Iphone support in order to keep the app focused on one software stack during its early development and testing stage. This decision was made in order to reach a Minimal Viable Product(MVP) in a reasonable development time.
+### App Sections
+In the app's navigation menu, the following sections will be present for users to select between:
 
-The app will be programmed in Kotlin, a Java Virtual Machine(JVM) based language which is now recommended over Java for new Android apps by Google [TODO]. Kotlin improves on some of Java's commonly perceived drawbacks, such as code verbosity. Kotlin was chosen for the NeuroRecovery app due to it being the first-language for new Android apps which receives the best support in the form of documentation, API updates, etc.
+- Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present.
+- Scheduled Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar[TODO].
+- Update User Info: Section for a user to update their information. The user may be either a therapist or a patient, and the information requested will depend on this.
 
 ### User Interaction and Experience(UI/UX)
-The apps UI/UX is intended to be straightforward for the user to navigate and interact with.
+The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provides navigation access and style consistency throughout the entire app.
+
+In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, a instant exercise section with <TODO>, etc. This storyboard visually displays the concept:
+
+TODO - add storyboard image
+
+The login form adheres to the UI/UX concept of the storyboard, with the toolbar and collapsable menu present and the login form section content in the center-right:
+
+![Login Form](images/frontend/login.png)
+
+When users visit the app they will be placed by default in the instant exercise session section <TODO>
 
 TODO - finish this section after developing the app, draw storyboards and then contrast with the real screenshots of the app
 
