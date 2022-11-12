@@ -110,7 +110,16 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 
 When users visit the app they will be placed by default in the instant exercise session section <TODO>
 
-TODO - finish this section after developing the app, draw storyboards and then contrast with the real screenshots of the app
+### Angular Material
+The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material". The language used for Angular is Typescript, a superset of Javascript with strong types which compiles down to Javascript to run in the browser [TODO].
+
+### Single Page Applications(SPAs)
+Angular is used to create Single Page Applications(SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including Javascript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
+
+While SPAs do make frontend interaction instantaneous, backend interaction from the frontend becomes more complex. Since the user will be interacting with bundled Javscript code in their browser, communication with the backend involves crafting and sending a HTTP request to the backend server from the user's browser. In a non-SPA, the user is always making HTTP requests directly to the backend to receive each page, and any backend only interaction such as database updating can be handled then.
+
+### Material
+Material is a set of UI components and theming concepts developed by Google [TODO]. Google have specifically developed a plugin[TODO] for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. The NeuroRecovery 
 
 ## Modelling
 TODO - maybe draw one model before developing app, then finish this section after developing with diagrams for the models and descriptions
