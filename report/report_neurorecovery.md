@@ -79,13 +79,69 @@ As was highlighted in the literature review, the PSC survey carried out in the U
 Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [11]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. In the case of an Android app, the Google Play Store is installed by default on all Android devices and will likely be the best place to hose the NeuroRecovery app [14].
 
 ## Requirements Specification
-TODO - this is like user stories and requirements, should be nice section to do
+The requirements for the NeuroRecovery app will be described as user stories, which are informal descriptions of a software feature from the perspective of an end-user. 
+
+The form used for user stories in this report will be a concise description followed by measurable and tangible acceptance criteria(AC) bullet points. Once development on a feature has completed, the AC will be reviewed and the user story closed if they have been fufilled.
+
+The user stories are placed in this report in order of the expected development route. This is not set in stone though as there will be concurrent work on multiple stories:
+
+### Angular Material Frontend User Story
+The frontend is expected to be aesthetically pleasing, clear and simple to navigate and be available as a cross-platform webapp. It should have code in it to handle communication with the backend where required.
+
+Acceptance Criteria:
+- Built as a cross-platform webapp
+- Built with Angular framework using Material styling
+- Clear and simple to navigate
+- Contain all of the desired sections for the app, such as the instant exercise session section and the login form seciton
+- Backend communication such as when checking a users authentication credentials
+
+### Rust Axum Backend User Story
+The backend server should handle user authentication and all communication with the MongoDB [TODO] database. It should be deployable as its own unit and is separate from the frontend and MongoDB.
+
+Acceptance Criteria:
+- Written in Rust using Axum framework.
+- Performant under a high load of requests.
+- Automated tests for all endpoints written.
+- Handles interaction with MongoDB database, including the data models represented as Rust structs.
+- Exposes required functionality as HTTP endpoints that the frontend can call.
+
+### MongoDB Data Storage User Story
+MongoDB should be available for the backend server to interact with. MongoDB should be configured securely so that only the authenticated backend server can interact with it.
+
+Acceptance Criteria:
+- Deployed as a helm chart in the same kubernetes cluster as the backend server.
+- Accessible to the backend server on a static cluster IP. This IP must be set as static explicitly to avoid it changing dynamically for each deployment.
+- Configured securely so that only authenticated connections are allowed.
+
+### Kubernetes Deployment User Story
+The app should be deployable on Kubernetes [TODO]. The app will consist of three separate entities, the frontend, the backend and MongoDB. These entities should be containerised and packed into helm charts, then deployed on a Kubernetes cluster.
+
+This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the entities into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [TODO]
+
+Acceptance Criteria:
+- The three entitites that make up the app, the frontend, the backend and MongoDB are containerised and packed into Helm Charts.
+- The Helm Charts can be deployed on a Kubernetes cluster successfully.
+- Required configurations such as a static cluster IP for the MongoDB server are exposed in the Helm Charts.
+
+### Tilt Continuous Integration and Continuous Delivery(CI/CD) User Story
+The developer should receive constant and automatic feedback on changes during development by a Continuous Integration system. The entire app should be deployable with minimal involvement, by triggering a Continuous Delivery system.
+
+This Continuous Integration and Continuous Delivery(CI/CD) system should be accomplished with Tilt [TODO], which has great support for deploying Helm Charts on Kuberentes clusters.
+
+For example if the developer writes an update to a file in the backend source code, Tilt CI/CD will automatically recognise the change and re-build and re-deploy the backend server. The developer can then check the server once it has been deployed and review the change in a real deployment.
+
+Acceptance Criteria:
+- The developer can receive constant feedback using Tilt.
+- The app can be deployed using Tilt.
+- Automated tests are executed using Tilt.
 
 ## Project Management
 TODO
 
 # Design
 ## Design Rationale
+TODO - add rationale for design before detailing design, compare alternatives etc.
+
 ### App Sections
 In the app's navigation menu, the following sections will be present for users to select between:
 
@@ -96,7 +152,7 @@ In the app's navigation menu, the following sections will be present for users t
 ### User Interaction and Experience(UI/UX)
 The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provides navigation access and style consistency throughout the entire app.
 
-In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, a instant exercise section with <TODO>, etc. This storyboard visually displays the concept:
+In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, an instant exercise section with [TODO]. This storyboard visually displays the concept:
 
 ![Menu Navigation Storyboard](images/storyboards/menu_navigation.png)
 
@@ -107,7 +163,7 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 When users visit the app they will be placed by default in the instant exercise session section <TODO>
 
 ### Angular Material
-The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [15]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [16].
+The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [15]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [16]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [17].
 
 ### NeuroRecovery as a Single Page Application(SPA)
 Angular is used to create Single Page Applications(SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
@@ -138,6 +194,7 @@ TODO - maybe draw one model before developing app, then finish this section afte
 14. Google Play Store (2022). Retreived from https://play.google.com/store/apps
 15. Angular Material (2022). Retreived from https://material.angular.io/
 16. TypeScript (2022). Retreived from https://www.typescriptlang.org/
+17. 15 Top Amazing Websites Built With Angular Framework (2021). Retreived from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
 
 ---------------------
 # Appendices
