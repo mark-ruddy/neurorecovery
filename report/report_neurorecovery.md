@@ -98,7 +98,7 @@ The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be 
 
 In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, a instant exercise section with <TODO>, etc. This storyboard visually displays the concept:
 
-![Menu Navigation Storyboard](images/storyboard/menu_navigation.png)
+![Menu Navigation Storyboard](images/storyboards/menu_navigation.png)
 
 The login form adheres to the UI/UX concept of the storyboard, with the toolbar and collapsable menu present and the login form section content in the center-right:
 
