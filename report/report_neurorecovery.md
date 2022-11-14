@@ -83,7 +83,7 @@ The requirements for the NeuroRecovery app will be described as user stories, wh
 
 The form used for user stories in this report will be a concise description followed by measurable and tangible acceptance criteria(AC) bullet points. Once development on a feature has completed, the AC will be reviewed and the user story closed if they have been fufilled.
 
-The user stories are placed in this report in order of the expected development route. This is not set in stone though as there will be concurrent work on multiple stories:
+The user stories are placed in this report in no particular order. As will be discussed in the Project Management section, the user stories will be developed alongside each other concurrently as they are dependent on each other:
 
 ### Angular Material Frontend User Story
 The frontend is expected to be aesthetically pleasing, clear and simple to navigate and be available as a cross-platform webapp. It should have code in it to handle communication with the backend where required.
@@ -100,6 +100,7 @@ The backend server should handle user authentication and all communication with 
 
 Acceptance Criteria:
 - Written in Rust using Axum framework.
+- Useful logging
 - Performant under a high load of requests.
 - Automated tests for all endpoints written.
 - Handles interaction with MongoDB database, including the data models represented as Rust structs.
@@ -114,17 +115,17 @@ Acceptance Criteria:
 - Configured securely so that only authenticated connections are allowed.
 
 ### Kubernetes Deployment User Story
-The app should be deployable on Kubernetes [TODO]. The app will consist of three separate entities, the frontend, the backend and MongoDB. These entities should be containerised and packed into helm charts, then deployed on a Kubernetes cluster.
+The app should be deployable on Kubernetes [TODO]. The app will consist of three separate microservices, the frontend, the backend and MongoDB. These microservices should be containerised and packed into helm charts, then deployed on a Kubernetes cluster.
 
-This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the entities into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [TODO]
+This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the ies into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [TODO]
 
 Acceptance Criteria:
-- The three entitites that make up the app, the frontend, the backend and MongoDB are containerised and packed into Helm Charts.
+- The three microservices that make up the app, the frontend, the backend and MongoDB are containerised and packed into Helm Charts.
 - The Helm Charts can be deployed on a Kubernetes cluster successfully.
 - Required configurations such as a static cluster IP for the MongoDB server are exposed in the Helm Charts.
 
 ### Tilt Continuous Integration and Continuous Delivery(CI/CD) User Story
-The developer should receive constant and automatic feedback on changes during development by a Continuous Integration system. The entire app should be deployable with minimal involvement, by triggering a Continuous Delivery system.
+The developer should receive constant and automatic feedback on changes during development by a Continuous Integration system. Feedback will be in the form of successful or failed code builds, and also automated tests written for the backend. The entire app should be deployable with minimal involvement, by triggering a Continuous Delivery system.
 
 This Continuous Integration and Continuous Delivery(CI/CD) system should be accomplished with Tilt [TODO], which has great support for deploying Helm Charts on Kuberentes clusters.
 
@@ -136,7 +137,41 @@ Acceptance Criteria:
 - Automated tests are executed using Tilt.
 
 ## Project Management
-TODO
+The project management for the NeuroRecovery app will be set by phases. Phases in this report are intended to mean sets of related work to achieve a goal.
+
+### Setup Tilt CI/CD with Kubernetes Phase
+The goal of the setup phase is to have Tilt CI/CD running for the three microservices as early as possible in the apps development. The microservices at this point should have the minimum code required to deploy with basic interaction. The expected basic interaction of the backend server for example will be to have one HTTP endpoint developed which interacts with MongoDB.
+
+This basic interaction allows verification that the setup phase has been successful, once Tilt CI/CD is automatically deploying the microservices and they can interact with one another on the Kubernetes cluster.
+
+TODO - mermaid graph of this interaction
+
+The reasoning for focusing on having Tilt CI/CD running early in the project is to maximise the benefit that it provides for all of the future development.
+
+### Frontend Development Phase
+At this point the majority of the frontend microservice can be developed, yet there is no fundamental reason on why the frontend development phase should come before the backend development phase.
+
+As the developer in this case though, the preference is to have a working frontend developed so that the required backend endpoints are extremely clear. For example, one of the first expected sections that the frontend will have developed is the register section. This section will have a form requesting desired email, and a password for this new account. It is then very clear that a backend HTTP endpoint to handle verifying and inserting a new user into the MongoDB database will be required for this section of the frontend.
+
+Frontend development will be completed section by section. The initial focus will be on the authentication pages for login and register. Then the user section for updating patient or therapist information [TODO]. Finally the exercise sections with embedded videos will be developed [TODO].
+
+### Backend Development Phase
+Backend development can now be started, with the goal of supporting all of the HTTP endpoints that the frontend expects to exist.
+
+The backend development phase will first involve adding suitable logging to the Rust Axum server. This will be accomplished with the standard "log" Rust crate, throughout the rest of the backend code logging statements will be added, allowing the developer to see when endpoints are called etc.
+
+Next the HTTP endpoints themselves will be developed. The endpoint code will be functions that meet Axums requirements for a "Handler" trait [TODO]. The majority of endpoints developed will have code in the Axum "Handler" function that querys the MongoDB database.
+
+Finally a set of automated tests will be written that will make mock HTTP requests against the endpoints to test their response. These automated tests will run as part of Tilt CI/CD, providing consistent feedback that the backend endpoints are working as expected after development changes.
+
+### Finalisation Phase
+When this stage is reached, the NeuroRecovery app will be functional. The deployment will be automatic through Tilt CI/CD, and both the frontend and backend are running successfully. A user should be able to visit the frontend and make actions that involve backend interaction, such as registering a new user account.
+
+The finalistation phase will be to improve the app where possible and add any desired extra features:
+
+- Improving the frontend for views on tablet and mobile screens
+- Adding new exercise videos or exercise session options such as custom timings
+- Adding thorough app documentation to a README.md in the code repo, which would describe exact instructions on how to deploy the app etc.
 
 # Design
 ## Design Rationale
