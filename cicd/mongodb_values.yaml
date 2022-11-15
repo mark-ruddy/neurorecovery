@@ -1,0 +1,7 @@
+auth:
+  rootUser: root
+  # NOTE: rootPassword is set as an envvar in the Tiltfile
+
+service:
+  type: ClusterIP
+  clusterIP: 10.43.252.173

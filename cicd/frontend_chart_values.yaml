@@ -1,0 +1,5 @@
+image:
+  repository: localhost:30000/neurorecovery-frontend
+  pullPolicy: Always
+
+port: 80

@@ -1,0 +1,5 @@
+image:
+  repository: localhost:30000/neurorecovery-backend
+  pullPolicy: Always
+
+port: 8080
