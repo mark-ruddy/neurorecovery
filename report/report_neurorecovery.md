@@ -280,7 +280,9 @@ Accessing the frontend server on `http://localhost:80`:
 ![Frontend Localhost](images/backend/frontend_localhost.png)
 
 ### Tilt CI/CD
-TODO - add images
+Tilt CI/CD deploys the helm charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image:
+
+![Tilt Demo Rust Test](images/backend/tilt_demo_rust_test.png)
 
 # Summary
 TODO
