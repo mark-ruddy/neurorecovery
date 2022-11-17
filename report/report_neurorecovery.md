@@ -191,9 +191,8 @@ The finalistation phase will be to improve the app where possible and add any de
 - Adding thorough app documentation to a README.md in the code repo, which would describe exact instructions on how to deploy the app etc.
 
 # Design
-## Modelling
-### Frontend Structure
-#### App Sections
+## Frontend Design
+### App Sections
 In the app's navigation menu, the following sections will be present for users to select between:
 
 - Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present.
@@ -202,7 +201,7 @@ In the app's navigation menu, the following sections will be present for users t
 
 TODO - add image
 
-#### User Interaction and Experience(UI/UX)
+### User Interaction and Experience(UI/UX)
 The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provides navigation access and style consistency throughout the entire app.
 
 In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, an instant exercise section with [TODO]. This storyboard visually displays the concept:
@@ -215,28 +214,28 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 
 When users visit the app they will be placed by default in the instant exercise session section <TODO>
 
-#### Angular Material
+### Angular Material
 The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [15]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [16]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [17].
 
-#### Material
+### Material
 Material is a set of UI components and theming concepts developed by Google [TODO]. Google have specifically developed a plugin[TODO] for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. In Angular, Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [TODO].
 
 The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
 
-#### NeuroRecovery as a Single Page Application(SPA)
+### NeuroRecovery as a Single Page Application(SPA)
 Angular is used to create Single Page Applications(SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
 
 While SPAs do make frontend interaction instantaneous, backend interaction from the frontend becomes more complex. Since the user will be interacting with bundled Javscript code in their browser, communication with the backend involves crafting and sending a HTTP request to the backend server from the user's browser. In a non-SPA, the user is always making HTTP requests directly to the backend to receive each page, and any backend only interaction such as database updating can be handled then.
 
-### Backend Structure
-#### NoSQL Database Schema
+## Backend Structure
+### NoSQL Database Schema
 The database utilised for the NeuroRecovery app is MongoDB, which is categorised as a NoSQL database. This contrasts with SQL databases which represent relational data in rows of tables. NoSQL databases represent non-relational data as a collection of documents. An alternative definition from Microsoft is "The term NoSQL refers to data stores that do not use SQL for queries." [98].
 
 There is no traditional database schema defined for the data stored in MongoDB. Instead the data is represented by Rust Structs in the backend code, which are used when inserting, updating or retrieving data from a collection of documents.
 
 MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
 
-##### Users Collection Schema
+#### Users Collection Schema
 The users struct consists of optional extra infromation with a mandatory username and secure hashed password:
 
 ```
@@ -258,7 +257,7 @@ pub struct User {
 
 ![User Struct](images/backend/user_struct.png)
 
-#### Kubernetes Cluster
+### Kubernetes Cluster
 The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery`(Helm list charts in namespace neurorecovery) displays these three microservices:
 
 ```
@@ -306,28 +305,107 @@ Summary of the Kubernetes objects deployed to host the NeuroRecovery app:
 
 Checking the logs of the backend and frontend pods running container:
 
+```
+[~]$ k logs -n neurorecovery neurorecovery-frontend-chart-7d79877c94-zk7km 
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2022/11/17 13:57:57 [notice] 1#1: using the "epoll" event method
+2022/11/17 13:57:57 [notice] 1#1: nginx/1.23.2
+2022/11/17 13:57:57 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2022/11/17 13:57:57 [notice] 1#1: OS: Linux 6.0.8-300.fc37.x86_64
+2022/11/17 13:57:57 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/11/17 13:57:57 [notice] 1#1: start worker processes
+2022/11/17 13:57:57 [notice] 1#1: start worker process 29
+2022/11/17 13:57:57 [notice] 1#1: start worker process 30
+2022/11/17 13:57:57 [notice] 1#1: start worker process 31
+2022/11/17 13:57:57 [notice] 1#1: start worker process 32
+2022/11/17 13:57:57 [notice] 1#1: start worker process 33
+2022/11/17 13:57:57 [notice] 1#1: start worker process 34
+2022/11/17 13:57:57 [notice] 1#1: start worker process 35
+2022/11/17 13:57:57 [notice] 1#1: start worker process 36
+2022/11/17 13:57:57 [notice] 1#1: start worker process 37
+2022/11/17 13:57:57 [notice] 1#1: start worker process 38
+2022/11/17 13:57:57 [notice] 1#1: start worker process 39
+2022/11/17 13:57:57 [notice] 1#1: start worker process 40
+[~]$ k logs -n neurorecovery neurorecovery-backend-chart-5fb666c56f-9bs2q 
+[2022-11-17T14:01:05Z INFO  backend] neurorecovery backend serving at: 0.0.0.0:8080
+[~]$ 
+```
 
+![Kubectl Logs Pod](images/backend/kubectl_logs_pods.png)
 
 - Deployments: A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes.
 
-Example of deleting the frontend pod, being unable to access the frontend, and then it automatically returning the the Angular server is running successfully:
+Example of deleting the frontend pod while it is serving on `http://localhost:80`, there is no downtime and the HTTP requests continue to work as the deployment creates a new frontend pod:
 
+```
+[~]$ curl localhost:80 | tail -n 5    
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  7204  100  7204    0     0  17.7M      0 --:--:-- --:--:-- --:--:-- 7035k
+<body class="mat-typography">
+  <app-root></app-root>
+<script src="runtime.aaedba49815d2ab0.js" type="module"></script><script src="polyfills.1a4a779d95e3f377.js" type="module"></script><script src="main.6ba2ddb10fe8c064.js" type="module"></script>
+
+</body></html>%                                                                                                                                               
+[~]$ kubectl get pods -n neurorecovery
+NAME                                            READY   STATUS    RESTARTS   AGE
+mongodb-68c5cf6564-lwqjm                        1/1     Running   0          11m
+neurorecovery-frontend-chart-7d79877c94-zk7km   1/1     Running   0          11m
+neurorecovery-backend-chart-5fb666c56f-9bs2q    1/1     Running   0          8m24s
+[~]$ kubectl delete pod -n neurorecovery neurorecovery-frontend-chart-7d79877c94-zk7km 
+pod "neurorecovery-frontend-chart-7d79877c94-zk7km" deleted
+[~]$ 
+[~]$ curl localhost:80 | tail -n 5                                                    
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  7204  100  7204    0     0  15.4M      0 --:--:-- --:--:-- --:--:-- 7035k
+<body class="mat-typography">
+  <app-root></app-root>
+<script src="runtime.aaedba49815d2ab0.js" type="module"></script><script src="polyfills.1a4a779d95e3f377.js" type="module"></script><script src="main.6ba2ddb10fe8c064.js" type="module"></script>
+
+</body></html>%                                                                                                                                               
+[~]$ kubectl get pods -n neurorecovery                                                
+NAME                                            READY   STATUS    RESTARTS   AGE
+mongodb-68c5cf6564-lwqjm                        1/1     Running   0          12m
+neurorecovery-backend-chart-5fb666c56f-9bs2q    1/1     Running   0          8m41s
+neurorecovery-frontend-chart-7d79877c94-vgbph   1/1     Running   0          8s
+[~]$
+```
+
+![Deployment Pod Delete](images/backend/deployment_pod_delete.png)
 
 
 - ClusterIP Service: The MongoDB service exposes the MongoDB pod on a static ClusterIP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
 
-Accessing the MongoDB on the static ClusterIP:
+Accessing MongoDB on the static ClusterIP:
 
+```
+[~]$ mongo --host mongodb://10.43.252.173
+MongoDB shell version v4.4.4
+connecting to: mongodb://10.43.252.173:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("79ee559d-4fca-46bb-9ddb-f0b74b577833") }
+MongoDB server version: 6.0.3
+WARNING: shell and server versions do not match
+> 
+```
 
+![MongoDB Connection](images/backend/mongo_connection.png)
 
 - LoadBalancer Service: Both the backend and frontend are exposed on a LoadBalancer service, which are bound to a port on the Kubernetes host computer. The frontend binds to the default HTTP webserver port 80, and the backend binds to port 8080.
 
-TODO - add images
+Accessing the frontend server on `http://localhost:80`:
 
-#### Tilt CI/CD
-TODO - add images
+![Frontend Localhost](images/backend/frontend_localhost.png)
 
-## Design Rationale
+### Tilt CI/CD
+TODO - add images
 
 # Summary
 TODO
