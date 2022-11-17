@@ -341,7 +341,7 @@ Most CI/CD solutions are based around setting up a server which multiple develop
 ![Tilt Demo Rust Test](images/backend/tilt_demo_rust_test.png)
 
 # Summary
-In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for UL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops. 
+In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for LL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops.
 
 Patients will be able to access instant exercise sessions and scheduled exercise sessions, allowing them to choose to exercise with or without a therapists assistance at all times. This is intended to increase neuroplasticity in patients as they will be able to access exercises at all times.
 
