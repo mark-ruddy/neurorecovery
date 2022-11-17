@@ -1,7 +1,7 @@
-NOTES: the focus is on upper limb, but the app will support some leg work etc.
-
 # Abstract
-TODO - just use original abstract for now and come back to this at the end with more specifics
+Strokes affect people worldwide, and in up to 40% of cases stroke survivors suffer from permanent upper limb paralysis [2]. Rehabilitation with physical practice has been shown to lead to enhanced recovery of paralyzed limbs among stroke sufferers [3]. Rehabilitation with therapists can be expensive and difficult to travel to, so patients can not reach the full recovery possible in all cases.
+
+The NeuroRecovery app aims to solve this gap, by allowing patients to access exercise sessions at home on any device that supports a web browser, such as phones or laptops. It also aims to increase remote connectivity between patients and therapists, by scheduling of exercise sessions followed by a video call with the therapist.
 
 # Background
 ## Problem Statement
@@ -15,7 +15,7 @@ The NeuroRecovery app aims to enhance neuroplasticity related to motor function 
 
 ## Aims and Objectives
 ### Aims
-To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower-limb as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
+To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower-limb(LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
 
 #### Sessions
 To support scheduling of appointments and exercise sessions, which may be followed by a video call with a therapist in some cases. Sessions should have sane defaults so they can be created with minimal involvement on the patient or therapist's side, while also being configurable enough for sessions that require specific changes based on the patient's need. Sessions may be categorised into solo or therapist based, as one of the aims of the app is to be useful to patients when they do not have access to a therapist on that day or week.
@@ -42,9 +42,6 @@ The NeuroRecovery app's objectives are as follows:
 - Demonstrate the movement to the patient through a video
 - Storing of patient information, details of rehabilitation tasks and recovery outcomes
 - Providing neurofeedback in terms of changes in motor impairment to the patient
-
-## Summary of the report
-TODO - do this after majority of report done, will be a better summary
 
 # Research and Analysis
 ## Literature Review
@@ -159,9 +156,9 @@ The project management for the NeuroRecovery app will be set by phases. Phases i
 ### Setup Tilt CI/CD with Kubernetes Phase
 The goal of the setup phase is to have Tilt CI/CD running for the three microservices as early as possible in the apps development. The microservices at this point should have the minimum code required to deploy with basic interaction. The expected basic interaction of the backend server for example will be to have one HTTP endpoint developed which interacts with MongoDB.
 
-This basic interaction allows verification that the setup phase has been successful, once Tilt CI/CD is automatically deploying the microservices and they can interact with one another on the Kubernetes cluster.
+![Frontend To Backend](images/diagrams/frontend_to_backend.png)
 
-TODO - mermaid graph of this interaction
+This basic interaction allows verification that the setup phase has been successful, once Tilt CI/CD is automatically deploying the microservices and they can interact with one another on the Kubernetes cluster.
 
 The reasoning for focusing on having Tilt CI/CD running early in the project is to maximise the benefit that it provides for all of the future development.
 
@@ -183,6 +180,10 @@ Finally a set of automated tests will be written that will make mock HTTP reques
 
 ### Finalisation Phase
 When this stage is reached, the NeuroRecovery app will be functional. The deployment will be automatic through Tilt CI/CD, and both the frontend and backend are running successfully. A user should be able to visit the frontend and make actions that involve backend interaction, such as registering a new user account.
+
+The three microservices should have been developed and deployed on the Kubernetes Cluster as Helm Charts:
+
+![Three Microservices](images/diagrams/three_microservices.png)
 
 The finalistation phase will be to improve the app where possible and add any desired extra features:
 
@@ -280,12 +281,20 @@ Accessing the frontend server on `http://localhost:80`:
 ![Frontend Localhost](images/backend/frontend_localhost.png)
 
 ### Tilt CI/CD
-Tilt CI/CD deploys the helm charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image:
+Tilt CI/CD deploys the helm charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image below.
+
+Some alternatives for Tilt were considered for this project, including Jenkins [TODO] and TravisCI [TODO]. Tilt was chosen for its focus on Kubernetes and Helm Chart deployments, and its support for running on a local PC.
+
+Most CI/CD solutions are based around setting up a server which multiple developers interact with, which is desired when a group of developers must use the same CI/CD solution. For the NeuroRecovery app though, since it is currently developed by one developer, a CI/CD solution was required that could run on a local PC; which Tilt handles well.
 
 ![Tilt Demo Rust Test](images/backend/tilt_demo_rust_test.png)
 
 # Summary
-TODO
+In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for UL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops. 
+
+Patients will be able to access instant exercise sessions and scheduled exercise sessions, allowing them to choose to exercise with or without a therapists assistance at all times. This is intended to increase neuroplasticity in patients as they will be able to access exercises at all times.
+
+The overall plan for the project is set out in phases, setting up CI/CD first, then backend development of a Rust Axum server, then frontend development of an Angular Material server. Finally the finalistation phase will focus on improving the app where possible such as its appearance on mobile devices.
 
 # References
 1. Stroke Association: Stroke Statistics (2018). Retreived from https://www.stroke.org.uk/what-is-stroke/stroke-statistics
