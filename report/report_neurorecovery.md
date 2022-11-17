@@ -191,15 +191,18 @@ The finalistation phase will be to improve the app where possible and add any de
 - Adding thorough app documentation to a README.md in the code repo, which would describe exact instructions on how to deploy the app etc.
 
 # Design
-## Design Rationale
-### App Sections
+## Modelling
+### Frontend Structure
+#### App Sections
 In the app's navigation menu, the following sections will be present for users to select between:
 
 - Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present.
 - Scheduled Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar[TODO].
 - Update User Info: Section for a user to update their information. The user may be either a therapist or a patient, and the information requested will depend on this.
 
-### User Interaction and Experience(UI/UX)
+TODO - add image
+
+#### User Interaction and Experience(UI/UX)
 The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provides navigation access and style consistency throughout the entire app.
 
 In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. This may be a login form with a username and password field, an instant exercise section with [TODO]. This storyboard visually displays the concept:
@@ -212,21 +215,122 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 
 When users visit the app they will be placed by default in the instant exercise session section <TODO>
 
-### Angular Material
+#### Angular Material
 The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [15]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [16]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [17].
 
-### NeuroRecovery as a Single Page Application(SPA)
+#### Material
+Material is a set of UI components and theming concepts developed by Google [TODO]. Google have specifically developed a plugin[TODO] for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. In Angular, Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [TODO].
+
+The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
+
+#### NeuroRecovery as a Single Page Application(SPA)
 Angular is used to create Single Page Applications(SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
 
 While SPAs do make frontend interaction instantaneous, backend interaction from the frontend becomes more complex. Since the user will be interacting with bundled Javscript code in their browser, communication with the backend involves crafting and sending a HTTP request to the backend server from the user's browser. In a non-SPA, the user is always making HTTP requests directly to the backend to receive each page, and any backend only interaction such as database updating can be handled then.
 
-### Material
-Material is a set of UI components and theming concepts developed by Google [TODO]. Google have specifically developed a plugin[TODO] for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. The NeuroRecovery 
+### Backend Structure
+#### NoSQL Database Schema
+The database utilised for the NeuroRecovery app is MongoDB, which is categorised as a NoSQL database. This contrasts with SQL databases which represent relational data in rows of tables. NoSQL databases represent non-relational data as a collection of documents. An alternative definition from Microsoft is "The term NoSQL refers to data stores that do not use SQL for queries." [98].
 
-## Modelling
-TODO - maybe draw one model before developing app, then finish this section after developing with diagrams for the models and descriptions
+There is no traditional database schema defined for the data stored in MongoDB. Instead the data is represented by Rust Structs in the backend code, which are used when inserting, updating or retrieving data from a collection of documents.
+
+MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
+
+##### Users Collection Schema
+The users struct consists of optional extra infromation with a mandatory username and secure hashed password:
+
+```
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct UserInfo {
+    pub user_type: String,
+    pub age: u8,
+    pub gender: String,
+    pub injury_description: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct User {
+    pub email: String,
+    pub hashed_password: String,
+    pub info: Option<UserInfo>,
+}
+```
+
+![User Struct](images/backend/user_struct.png)
+
+#### Kubernetes Cluster
+The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery`(Helm list charts in namespace neurorecovery) displays these three microservices:
+
+```
+[~]$ helm ls -n neurorecovery 
+NAME                            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                                   APP VERSION
+mongodb                         neurorecovery   2               2022-11-17 11:21:05.991524504 +0000 UTC deployed        mongodb-13.4.4                          6.0.3      
+neurorecovery-backend-chart     neurorecovery   1               2022-11-17 12:20:18.600654951 +0000 UTC deployed        neurorecovery-backend-chart-0.1.0       1.16.0     
+neurorecovery-frontend-chart    neurorecovery   1               2022-11-17 11:39:41.275011588 +0000 UTC deployed        neurorecovery-frontend-chart-0.1.0      1.16.0     
+[~]$
+```
+
+![HelmLs NeuroRecovery](images/backend/helmls_neurorecovery.png)
+
+Helm manages collections of objects that run on the Kubernetes Cluster directly. To see these objects, the `kubectl get all -n neurorecovery` command will list all objects in the neurorecovery namespace:
+
+```
+[~]$ kubectl get all -n neurorecovery 
+NAME                                                READY   STATUS    RESTARTS   AGE
+pod/mongodb-68c5cf6564-vcx7f                        1/1     Running   0          98m
+pod/neurorecovery-frontend-chart-859979cb95-ggbbg   1/1     Running   0          73m
+pod/neurorecovery-backend-chart-6754d5547d-rvsnr    1/1     Running   0          33m
+
+NAME                                            TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+service/mongodb                                 ClusterIP      10.43.252.173   <none>          27017/TCP        98m
+service/neurorecovery-frontend-chart-balancer   LoadBalancer   10.43.54.119    <pending>       80:32691/TCP     73m
+service/neurorecovery-backend-chart-balancer    LoadBalancer   10.43.83.251    192.168.1.167   8080:32381/TCP   33m
+
+NAME                                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/mongodb                        1/1     1            1           98m
+deployment.apps/neurorecovery-frontend-chart   1/1     1            1           73m
+deployment.apps/neurorecovery-backend-chart    1/1     1            1           33m
+
+NAME                                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/mongodb-68c5cf6564                        1         1         1       98m
+replicaset.apps/neurorecovery-frontend-chart-859979cb95   1         1         1       73m
+replicaset.apps/neurorecovery-backend-chart-6754d5547d    1         1         1       33m
+[~]$
+```
+
+![KubectlLs NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
+
+Summary of the Kubernetes objects deployed to host the NeuroRecovery app:
+
+- Pods: A pod is the smallest unit in Kubernetes, it is a set of containers running together. In the NeuroRecovery app's case the three pods are at `1/1`, indicating that one container is successfully running in each. Each pod in this case is hosting a server each - the frontend is serving Angular, the backend is serving Rust Axum, and the database is serving MongoDB. These servers are exposed by the services which will be discussed.
+
+Checking the logs of the backend and frontend pods running container:
+
+
+
+- Deployments: A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes.
+
+Example of deleting the frontend pod, being unable to access the frontend, and then it automatically returning the the Angular server is running successfully:
+
+
+
+- ClusterIP Service: The MongoDB service exposes the MongoDB pod on a static ClusterIP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
+
+Accessing the MongoDB on the static ClusterIP:
+
+
+
+- LoadBalancer Service: Both the backend and frontend are exposed on a LoadBalancer service, which are bound to a port on the Kubernetes host computer. The frontend binds to the default HTTP webserver port 80, and the backend binds to port 8080.
+
+TODO - add images
+
+#### Tilt CI/CD
+TODO - add images
+
+## Design Rationale
 
 # Summary
+TODO
 
 # References
 1. Stroke Association: Stroke Statistics (2018). Retreived from https://www.stroke.org.uk/what-is-stroke/stroke-statistics
@@ -245,6 +349,8 @@ TODO - maybe draw one model before developing app, then finish this section afte
 15. Angular Material (2022). Retreived from https://material.angular.io/
 16. TypeScript (2022). Retreived from https://www.typescriptlang.org/
 17. 15 Top Amazing Websites Built With Angular Framework (2021). Retreived from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
+
+98. Non-relational data and NoSQL. Retreived from https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/non-relational-data
 
 ---------------------
 # Appendices
