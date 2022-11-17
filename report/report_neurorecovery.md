@@ -50,8 +50,10 @@ TODO - do this after majority of report done, will be a better summary
 ## Literature Review
 There are many different existing programs or apps to assist with post-stroke UL recovery. These apps use a wide range of technologies, including Virtual Reality(VR) and even adaption of gaming systems such as the Xbox towards recovery training [9].
 
-### mHealth
-An existing paper has explored feedback from US and Ethiopian rehabilitation clinicians for the development of an app called mHealth to assist with stroke recovery. Three app functionalities that received the perceived highest importance from respondantonts were: The rehabilitation team can modify the patients treatment plan, video-record arm function for later analysis and to automatically log and update performance in a number of factors [10]. This data will be important in deciding which features to include in the NeuroRecovery app[TODO - can you word stuff like this].
+### Developing an mHealth app for post-stroke upper limb rehabilitation
+An existing paper has explored feedback from US and Ethiopian rehabilitation clinicians for the development of an mHealth app to assist with stroke recovery. It is important to note that the paper cited was feedback-only, no specific mHealth app was developed. Another note is that the term mHealth(Mobile Health) is not specific to a single app, instead referring to the concept of a range of mobile apps related to healthcare [TODO].
+
+Three app functionalities that received the perceived highest importance from respondantonts were: The rehabilitation team can modify the patients treatment plan, video-record arm function for later analysis and to automatically log and update performance in a number of factors [10]. This data will be important in deciding which features to include in the NeuroRecovery app.
 
 Other features that are related to the NeuroRecovery app which were marked as "very important" but not as highly important as the previously mentioned features: Display content in languages relevant to the country or region, remind users to complete their rehabilitation exercises or go to an in-person appointment and to display appointments [10]. Some features that are not relevant to the NeuroRecovery app itself are omitted from this discussion, such as displaying patient health insurance information or to allow the patient or caregiver to pay through the app for healthcare services.
 
@@ -65,18 +67,33 @@ It is relevant for the NeuroRecovery app to consider the effects of exercise int
 
 The study found that between the standard and intensive care group, "There were no significant between-group differences in change over time in the clinical outcome scores" [12]. However, the intensive care group had slightly increased recovery in some areas, "This preliminary study is the first to show that more intensive rehabilitation (task-specific UL training) in the first month poststroke is associated with increased brain activation in putative motor and attention areas" [12].
 
-From the NeuroRecovery apps perspective, this implies that a focus should be made on having the patients complete the exercises consistently instead of a focus on exercise intensity. This is because an Android app should not be expected to fill the abilities of an intensive physical post-stroke care group, if a large recovery can be encouraged without intensive exercise the NeuroRecovery app may lean towards this solution.
+The study indicates that intensive care does increase neurorecovery in some areas, yet without any dramatic differences. The conclusion here is that the majority of the benefit can be achieved without deliberately intensive care. 
 
 ## Investigatory Process
 ### mHealth Considerations
 mHealth was discussed in the literature review section due to it being a useful source of clinician perceived requirements in a mobile app for post-stroke patients.
 
-The functionalities being reviewed by the clinicians for mHealth are quite broad, for example including a feature for displaying patient health insurance information. The NeuroRecovery app will focus on developing high quality features instead of a high quantity of features, so that they can be delivered in a reasonble time as a Minimum Viable Product (MVP). It may be enticing to aim for a large quantity of features in an app during its early stages, but this is likely to overload the developer(s) and result in slower development. Reaching an MVP is also highly important for receiving feedback on a product earlier, "To find and develop the right product that can help them become established and successful in the market, startups need to validate their minimum viable product (MVP) as quickly as possible until a product-market fit is attained" [13].
+As was previously discussed, the rating of certain features from the mHealth app study that are relevant to the NeuroRecovery will be taken into account. The highly rated feedback that will be developed for the NeuroRecovery app as a result of this:
+
+- Appointment Scheduling and Reminders: The NeuroRecovery app should handle scheduling of appointments and reminders for both the patient and the therapist.
+- Video-Record Exercises: Exercises performed by patient should have an option to be recorded, which a therapist can review at a later date.
+- Language Features: The apps support to display in multiple languages. The NeuroRecovery app will aim to support the UNs six official languages which are Arabic, Chinese, English, French, Russian and Spanish [TODO].
+
+The functionalities being reviewed by the clinicians for mHealth are quite broad, for example including a feature for displaying patient health insurance information. The NeuroRecovery app will focus on developing high quality features instead of a high quantity of features, so that they can be delivered in a reasonble time as a Minimum Viable Product (MVP). 
+
+It may be enticing to aim for a large quantity of features in an app during its early stages, but this is likely to overload the developer(s) and result in slower development. Reaching an MVP is also highly important for receiving feedback on a product earlier, "To find and develop the right product that can help them become established and successful in the market, startups need to validate their minimum viable product (MVP) as quickly as possible until a product-market fit is attained" [13].
 
 ### Italian Post-Stroke Checklist (PSC) Software Considerations
 As was highlighted in the literature review, the PSC survey carried out in the UK showed that the majority of patients had unmet mobility needs and unmet absence of secondary prevention needs after leaving treatment. Some of these patients who still have unmet needs post-treatment may wish to use the NeuroRecovery app, which will be more accessible and less expensive than returning to treatment.
 
-Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [11]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. In the case of an Android app, the Google Play Store is installed by default on all Android devices and will likely be the best place to hose the NeuroRecovery app [14].
+Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [11]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
+
+### Effect of Early Upper-Limb Training on Stroke Recovery Considerations
+As was discussed in the literature review, the intensity of upper-limb training does not cause dramatically improved recovery of patients.
+
+From the NeuroRecovery apps perspective, this implies that a focus should be made on having the patients complete the exercises consistently instead of a focus on exercise intensity. This is also because a webapp should not be expected to fill the abilities of an intensive physical post-stroke care group. Since a large recovery can be encouraged without intensive exercise the NeuroRecovery app intends to lean towards the solution of consistent non-intensive exercises.
+
+TODO - expand a bit on the actual exercises here
 
 ## Requirements Specification
 The requirements for the NeuroRecovery app will be described as user stories, which are informal descriptions of a software feature from the perspective of an end-user. 
@@ -175,8 +192,6 @@ The finalistation phase will be to improve the app where possible and add any de
 
 # Design
 ## Design Rationale
-TODO - add rationale for design before detailing design, compare alternatives etc.
-
 ### App Sections
 In the app's navigation menu, the following sections will be present for users to select between:
 
@@ -226,7 +241,7 @@ TODO - maybe draw one model before developing app, then finish this section afte
 11. Iosa M, Lupo A, Morone G, Baricich A, Picelli A, Panza G, Smania N, Cisari C, Sandrini G, Paolucci S. Post Soft Care: Italian implementation of a post-stroke checklist software for primary care and identification of unmet needs in community-dwelling patients. Neurol Sci. 2018 Jan;39(1):135-139. doi: 10.1007/s10072-017-3140-1. Epub 2017 Oct 30. PMID: 29086123.
 12. Hubbard IJ, Carey LM, Budd TW, et al. A Randomized Controlled Trial of the Effect of Early Upper-Limb Training on Stroke Recovery and Brain Activation. Neurorehabilitation and Neural Repair. 2015;29(8):703-713. doi:10.1177/1545968314562647
 13. Nirnaya Tripathi, Markku Oivo, Kari Liukkunen, Jouni Markkula, Startup ecosystem effect on minimum viable product development in software startups, Information and Software Technology, Volume 114, 2019, ISSN 0950-5849
-14. Google Play Store (2022). Retreived from https://play.google.com/store/apps
+//[TODO] 14. Google Play Store (2022). Retreived from https://play.google.com/store/apps
 15. Angular Material (2022). Retreived from https://material.angular.io/
 16. TypeScript (2022). Retreived from https://www.typescriptlang.org/
 17. 15 Top Amazing Websites Built With Angular Framework (2021). Retreived from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
