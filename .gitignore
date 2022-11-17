@@ -3,3 +3,4 @@ out/
 dist/
 target/
 .env
+lock**
