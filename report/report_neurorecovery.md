@@ -1,13 +1,13 @@
 # Abstract
-Strokes affect people worldwide, and in up to 40% of cases stroke survivors suffer from permanent upper limb paralysis [1]. Rehabilitation with physical practice has been shown to lead to enhanced recovery of paralyzed limbs among stroke sufferers [3]. Rehabilitation with therapists can be expensive and difficult to travel to, so patients can not reach the full recovery possible in all cases.
+Strokes affect people worldwide, and in up to 40% of cases stroke survivors suffer from permanent upper limb paralysis [1]. Rehabilitation with physical practice has been shown to lead to enhanced recovery of paralyzed limbs among stroke sufferers [2]. Rehabilitation with therapists can be expensive and difficult to travel to, so patients can not reach the full recovery possible in all cases.
 
 The NeuroRecovery app aims to solve this gap, by allowing patients to access exercise sessions at home on any device that supports a web browser, such as phones or laptops. It also aims to increase remote connectivity between patients and therapists, by scheduling of exercise sessions followed by a video call with the therapist.
 
 # Background
 ## Problem Statement
-Over 20 million people suffer from stroke annually. In the UK there are 1.3 million stroke survivors, with 39 thousand stroke survivors in Northern Ireland alone [2]. Up to 40% of stroke survivors suffer from permanent upper limb (UL) paralysis, which may affect their quality of life dramatically [1].
+Over 20 million people suffer from stroke annually. In the UK there are 1.3 million stroke survivors, with 39 thousand stroke survivors in Northern Ireland alone. Up to 40% of stroke survivors suffer from permanent upper limb (UL) paralysis, which may affect their quality of life dramatically [3].
 
-It has been clinically established that "using a rehabilitation protocol involving motor imagery (MI) practice in conjunction with physical practice (PP) of goal-directed rehabilitation tasks leads to enhanced functional recovery of paralyzed limbs among stroke sufferers." [3].
+It has been clinically established that "using a rehabilitation protocol involving motor imagery (MI) practice in conjunction with physical practice (PP) of goal-directed rehabilitation tasks leads to enhanced functional recovery of paralyzed limbs among stroke sufferers." [2].
 
 Generally stroke survivors will attend sessions with professional physiotherapists. However, attending physiotherapy sessions is expensive and limited to set dates. Additionally if exercises are performed with a physiotherapist's assistance, the patient may not apply his/her best effort in the rehabilitation tasks. This can result in inadequate neuroplasticity required for recovery of their motor function. 
 
@@ -295,9 +295,9 @@ Patients will be able to access instant exercise sessions and scheduled exercise
 The overall plan for the project is set out in phases, setting up CI/CD first, then backend development of a Rust Axum server, then frontend development of an Angular Material server. Finally the finalistation phase will focus on improving the app where possible such as its appearance on mobile devices.
 
 # References
-1. World Health Organisation: Global Report (2002). Retreived from http://www.who.int/whr/2002/en/index.html
-2. Stroke Association: Stroke Statistics (2018). Retreived from https://www.stroke.org.uk/what-is-stroke/stroke-statistics
-3. Prasad G, Herman P, Coyle D, McDonough S, Crosbie, J: Applying a brain-computer interface to support motor imagery practice in people with stroke for upper limb recovery: A feasibility study, Journal of NeuroEngineering and Rehabilitation, 7:60 (2010).
+1. World Health Organisation: Global Report (2002). Retreived from https://www.who.int/publications/i/item/9241562072
+2. Prasad G, Herman P, Coyle D, McDonough S, Crosbie, J: Applying a brain-computer interface to support motor imagery practice in people with stroke for upper limb recovery: A feasibility study, Journal of NeuroEngineering and Rehabilitation, 7:60 (2010).
+3. Stroke Association: Stroke Statistics (2018). Retreived from https://www.stroke.org.uk/what-is-stroke/stroke-statistics
 4. Marzolini S, Robertson AD, Oh P, Goodman JM, Corbett D, Du X, MacIntosh BJ. Aerobic Training and Mobilization Early Post-stroke: Cautions and Considerations. Front Neurol. 2019 Nov 15;10:1187. doi: 10.3389/fneur.2019.01187. PMID: 31803129; PMCID: PMC6872678.
 5. Shamsi T. Iqbal and Eric Horvitz. 2010. Notifications and awareness: a field study of alert usage and preferences. In Proceedings of the 2010 ACM conference on Computer supported cooperative work (CSCW '10). Association for Computing Machinery, New York, NY, USA, 27–30.
 6. Firebase is an app development platform that helps you build and grow apps and games users love (2022). Retreived from https://firebase.google.com/
