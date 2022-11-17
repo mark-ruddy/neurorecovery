@@ -1,5 +1,5 @@
 flowchart TD
     A[Three Microservices]
-    A-->B[Frontend Angular Server Chart]
-    A-->C[Axum HTTP Server Chart]
+    A-->B[Angular Server Chart]
+    A-->C[Rust Axum Server Chart]
     A-->D[MongoDB Chart]
