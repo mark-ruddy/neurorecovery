@@ -238,31 +238,14 @@ MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity ov
 #### Users Collection Schema
 The users struct consists of optional extra infromation with a mandatory username and secure hashed password:
 
-```
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
-pub struct UserInfo {
-    pub user_type: String,
-    pub age: u8,
-    pub gender: String,
-    pub injury_description: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
-pub struct User {
-    pub email: String,
-    pub hashed_password: String,
-    pub info: Option<UserInfo>,
-}
-```
-
 ![User Struct](images/backend/user_struct.png)
 
 ### Kubernetes Cluster
-The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery`(Helm list charts in namespace neurorecovery) displays these three microservices:
+The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery` (Helm list charts in namespace neurorecovery) displays these three microservices:
 
 ![HelmLs NeuroRecovery](images/backend/helmls_neurorecovery.png)
 
-Helm manages collections of objects that run on the Kubernetes Cluster directly. To see these objects, the `kubectl get all -n neurorecovery` command will list all objects in the neurorecovery namespace:
+Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the neurorecovery namespace:
 
 ![KubectlLs NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
 
@@ -283,7 +266,7 @@ Example of deleting the frontend pod while it is serving on `http://localhost:80
 ![Deployment Pod Delete](images/backend/deployment_pod_delete.png)
 
 #### ClusterIP Service
-The MongoDB service exposes the MongoDB pod on a static ClusterIP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
+A ClusterIP service exposes the MongoDB pod on a static IP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
 
 Accessing MongoDB on the static ClusterIP:
 
