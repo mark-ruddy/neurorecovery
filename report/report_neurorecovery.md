@@ -275,7 +275,7 @@ When users visit the app they will be placed by default in the instant exercise 
 The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [14]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [23]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [24].
 
 ### Material
-Material is a set of UI components and theming concepts developed by Google [25]. Google have specifically developed a Material package for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. In Angular, Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [26].
+Material is a set of UI components and theming concepts developed by Google [25]. Google have specifically developed a Material package for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [26].
 
 The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
 
