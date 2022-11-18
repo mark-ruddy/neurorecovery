@@ -31,7 +31,7 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
     + [Kubernetes Deployment User Story](#kubernetes-deployment-user-story)
     + [Tilt Continuous Integration and Continuous Delivery User Story](#tilt-continuous-integration-and-continuous-delivery-user-story)
   * [Project Management](#project-management)
-    + [Setup Tilt CI/CD with Kubernetes Phase](#setup-tilt-ci-cd-with-kubernetes-phase)
+    + [Setup Tilt CI/CD with Kubernetes Phase](#setup-tilt-cicd-with-kubernetes-phase)
     + [Frontend Development Phase](#frontend-development-phase)
     + [Backend Development Phase](#backend-development-phase)
     + [Finalisation Phase](#finalisation-phase)
