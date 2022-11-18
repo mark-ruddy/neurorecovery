@@ -64,7 +64,7 @@ It has been clinically established that "using a rehabilitation protocol involvi
 
 Generally stroke survivors will attend sessions with professional physiotherapists. However, attending physiotherapy sessions is expensive and limited to set dates. Additionally if exercises are performed with a physiotherapist's assistance, the patient may not apply his/her best effort in the rehabilitation tasks. This can result in inadequate neuroplasticity required for recovery of their motor function. 
 
-The NeuroRecovery app aims to enhance neuroplasticity related to motor function for patients, by providing an app to manage physical practice (PP) of rehabilitation tasks which is accessible at all times on the patients mobile phone.
+The NeuroRecovery app aims to enhance neuroplasticity related to motor function for patients, by providing an app to manage physical practice (PP) of rehabilitation tasks which is accessible at all times on the patients phone or other device.
 
 ## Aims and Objectives
 ### Aims
