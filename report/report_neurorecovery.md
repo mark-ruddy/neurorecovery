@@ -106,7 +106,7 @@ The NeuroRecovery app's objectives are as follows:
 There are many different existing programs or apps to assist with post-stroke UL recovery. These apps use a wide range of technologies, including Virtual Reality(VR) and even adaption of gaming systems such as the Xbox towards recovery training [7].
 
 ### Developing an mHealth app for post-stroke upper limb rehabilitation
-An existing paper has explored feedback from US and Ethiopian rehabilitation clinicians for the development of an mHealth app to assist with stroke recovery. It is important to note that the paper cited was feedback-only, no specific mHealth app was developed. Another note is that the term mHealth(Mobile Health) is not specific to a single app, instead referring to the concept of a range of mobile apps related to healthcare [8].
+An existing paper has explored feedback from US and Ethiopian rehabilitation clinicians for the development of an mHealth app to assist with stroke recovery [9]. It is important to note that the paper cited was feedback-only, no specific mHealth app was developed. Another note is that the term mHealth(Mobile Health) is not specific to a single app, instead referring to the concept of a range of mobile apps related to healthcare [8].
 
 Three app functionalities that received the perceived highest importance from respondantonts were: The rehabilitation team can modify the patients treatment plan, video-record arm function for later analysis and to automatically log and update performance in a number of factors [9]. This data will be important in deciding which features to include in the NeuroRecovery app.
 
