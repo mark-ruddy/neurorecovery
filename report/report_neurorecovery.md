@@ -143,6 +143,8 @@ As was highlighted in the literature review, the PSC survey carried out in the U
 
 Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [10]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
 
+The ability of the PSC to gather useful data from patients is also relevant to the NeuroRecovery app. An expected section of the NeuroRecovery app is to gather patient or therapist information through a web form. It may be relevant for the NeuroRecovery app to analyse this data in a similar form as the PSC.
+
 ### Effect of Early Upper-Limb Training on Stroke Recovery Considerations
 As was discussed in the literature review, the intensity of UL training does not cause dramatically improved recovery of patients.
 
