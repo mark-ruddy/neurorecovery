@@ -1,7 +1,7 @@
 # Abstract
 Strokes affect people worldwide, and in up to 40% of cases stroke survivors suffer from permanent upper limb paralysis [1]. Rehabilitation with physical practice has been shown to lead to enhanced recovery of paralyzed limbs among stroke sufferers [2]. Rehabilitation with therapists can be expensive and difficult to travel to, so patients can not reach the full recovery possible in all cases.
 
-The NeuroRecovery app aims to solve this gap, by allowing patients to access exercise sessions at home on any device that supports a web browser, such as phones or laptops. It also aims to increase remote connectivity between patients and therapists, by scheduling of exercise sessions followed by a video call with the therapist. This is expected to increase patients recovery from post-stroke upper-limb and lower-limb paralysis.
+The NeuroRecovery app aims to solve this gap, by allowing patients to access exercise sessions at home on any device that supports a web browser, such as phones or laptops. It also aims to increase remote connectivity between patients and therapists, by scheduling of exercise sessions followed by a video call with the therapist. This is expected to increase patients recovery from post-stroke upper and lower limb paralysis.
 
 - [Abstract](#abstract)
 - [Background](#background)
