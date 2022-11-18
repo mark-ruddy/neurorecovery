@@ -18,11 +18,11 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
 - [Research and Analysis](#research-and-analysis)
   * [Literature Review](#literature-review)
     + [Developing an mHealth app for post-stroke upper limb rehabilitation](#developing-an-mhealth-app-for-post-stroke-upper-limb-rehabilitation)
-    + [Italian Post-Stroke Checklist (PSC) Software](#italian-post-stroke-checklist--psc--software)
+    + [Italian Post-Stroke Checklist Software](#italian-post-stroke-checklist-software)
     + [Effect of Early Upper-Limb Training on Stroke Recovery](#effect-of-early-upper-limb-training-on-stroke-recovery)
   * [Investigatory Process](#investigatory-process)
     + [mHealth Considerations](#mhealth-considerations)
-    + [Italian Post-Stroke Checklist (PSC) Software Considerations](#italian-post-stroke-checklist--psc--software-considerations)
+    + [Italian Post-Stroke Checklist Software Considerations](#italian-post-stroke-checklist-software-considerations)
     + [Effect of Early Upper-Limb Training on Stroke Recovery Considerations](#effect-of-early-upper-limb-training-on-stroke-recovery-considerations)
   * [Requirements Specification](#requirements-specification)
     + [Angular Material Frontend User Story](#angular-material-frontend-user-story)
@@ -38,10 +38,10 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
 - [Design](#design)
   * [Frontend Design](#frontend-design)
     + [App Sections](#app-sections)
-    + [User Interaction and Experience(UI/UX)](#user-interaction-and-experience-ui-ux-)
+    + [User Interaction and Experience](#user-interaction-and-experience)
     + [Angular Material](#angular-material)
     + [Material](#material)
-    + [NeuroRecovery as a Single Page Application(SPA)](#neurorecovery-as-a-single-page-application-spa-)
+    + [NeuroRecovery as a Single Page Application](#neurorecovery-as-a-single-page-application)
   * [Backend Structure](#backend-structure)
     + [NoSQL Database Schema](#nosql-database-schema)
       - [Users Collection Schema](#users-collection-schema)
@@ -114,7 +114,7 @@ Three app functionalities that received the perceived highest importance from re
 
 Other features that are related to the NeuroRecovery app which were marked as "very important" but not as highly important as the previously mentioned features: Display content in languages relevant to the country or region, remind users to complete their rehabilitation exercises or go to an in-person appointment and to display appointments [8]. Some features that are not relevant to the NeuroRecovery app itself are omitted from this discussion, such as displaying patient health insurance information or to allow the patient or caregiver to pay through the app for healthcare services.
 
-### Italian Post-Stroke Checklist (PSC) Software
+### Italian Post-Stroke Checklist Software
 An Italian post-stroke checklist (PSC) software has overlap with the NeuroRecovery app, especially in relation to collecting stroke patient information and parsing it into usable data. In comparison to using a physical paper questionnaire, the researchers found that "the web version of PSC had two important advantages: (1) clinicians may have an easy access to the PSC wherever they are visiting the patient just using a PC, a tablet, or a smartphone with an internet connection and (2) the data are saved on a database for further analyses." [10]. 
 
 The findings of a PSC set of 42 post-stroke patients in the UK also highlights the unmet needs once they leave healthcare. 63.4% reported unmet absence of secondary prevention needs, and 56.1% reported unmet mobility needs [10]. The NeuroRecovery app is targeting these post-stroke patients, who have left treatment but have unmet needs in relation to mobility and secondary prevention.
@@ -140,7 +140,7 @@ The functionalities being reviewed by the clinicians for mHealth are quite broad
 
 It may be enticing to aim for a large quantity of features in an app during its early stages, but this is likely to overload the developer(s) and result in slower development. Reaching an MVP is also highly important for receiving feedback on a product earlier, "To find and develop the right product that can help them become established and successful in the market, start-ups need to validate their minimum viable product (MVP) as quickly as possible until a product-market fit is attained" [13].
 
-### Italian Post-Stroke Checklist (PSC) Software Considerations
+### Italian Post-Stroke Checklist Software Considerations
 As was highlighted in the literature review, the PSC survey carried out in the UK showed that the majority of patients had unmet mobility needs and unmet absence of secondary prevention needs after leaving treatment. Some of these patients who still have unmet needs post-treatment may wish to use the NeuroRecovery app, which will be more accessible and less expensive than returning to treatment.
 
 Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practitioners" [10]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
@@ -265,7 +265,7 @@ In the app's navigation menu, the following sections will be present for users t
 - Scheduled Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar [21][22].
 - Update User Info: Section for a user to update their information. The user may be either a therapist or a patient, and the information requested will depend on this.
 
-### User Interaction and Experience(UI/UX)
+### User Interaction and Experience
 The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provides navigation access and style consistency throughout the entire app.
 
 In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. For example this could be a login form with a username and password field. This storyboard visually displays this concept:
@@ -286,7 +286,7 @@ Material is a set of UI components and theming concepts developed by Google [25]
 
 The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to to develop a sidenav component for example.
 
-### NeuroRecovery as a Single Page Application(SPA)
+### NeuroRecovery as a Single Page Application
 Angular is used to create Single Page Applications (SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [27].
 
 This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
