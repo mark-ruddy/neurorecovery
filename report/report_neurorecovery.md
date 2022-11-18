@@ -68,7 +68,7 @@ The NeuroRecovery app aims to enhance neuroplasticity related to motor function 
 
 ## Aims and Objectives
 ### Aims
-To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower limb(LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
+To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower limb (LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
 
 #### Instant Sessions
 To provide instant exercise sessions to the patient without prior scheduling. For instant sessions, the patient will not have access to a therapist through a video call or otherwise. Clear instructions and demonstration videos will be shown to the patient who can then carry out the full exercise session.
@@ -144,14 +144,14 @@ As was highlighted in the literature review, the PSC survey carried out in the U
 Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [10]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
 
 ### Effect of Early Upper-Limb Training on Stroke Recovery Considerations
-As was discussed in the literature review, the intensity of upper-limb training does not cause dramatically improved recovery of patients.
+As was discussed in the literature review, the intensity of UL training does not cause dramatically improved recovery of patients.
 
 From the NeuroRecovery apps perspective, this implies that a focus should be made on having the patients complete the exercises consistently instead of a focus on exercise intensity. This is also because a webapp should not be expected to fill the abilities of an intensive physical post-stroke care group. Since a large recovery can be encouraged without intensive exercise the NeuroRecovery app intends to lean towards the solution of consistent non-intensive exercises.
 
 ## Requirements Specification
 The requirements for the NeuroRecovery app will be described as user stories, which are informal descriptions of a software feature from the perspective of an end-user. 
 
-The form used for user stories in this report will be a concise description followed by measurable and tangible acceptance criteria(AC) bullet points. Once development on a feature has completed, the AC will be reviewed and the user story closed if they have been fufilled.
+The form used for user stories in this report will be a concise description followed by measurable and tangible acceptance criteria (AC) bullet points. Once development on a feature has completed, the AC will be reviewed and the user story closed if they have been fufilled.
 
 The user stories are placed in this report in no particular order. As will be discussed in the Project Management section, the user stories will be developed alongside each other concurrently as they are dependent on each other:
 
@@ -194,10 +194,10 @@ Acceptance Criteria:
 - The Helm Charts can be deployed on a Kubernetes cluster successfully.
 - Required configurations such as a static cluster IP for the MongoDB server are exposed in the Helm Charts.
 
-### Tilt Continuous Integration and Continuous Delivery(CI/CD) User Story
+### Tilt Continuous Integration and Continuous Delivery User Story
 The developer should receive constant and automatic feedback on changes during development by a Continuous Integration system. Feedback will be in the form of successful or failed code builds, and also automated tests written for the backend. The entire app should be deployable with minimal involvement, by triggering a Continuous Delivery system.
 
-This Continuous Integration and Continuous Delivery(CI/CD) system will be accomplished with Tilt [18], which has great support for deploying Helm Charts on Kuberentes clusters.
+This Continuous Integration and Continuous Delivery (CI/CD) system will be accomplished with Tilt [18], which has great support for deploying Helm Charts on Kuberentes clusters.
 
 For example if the developer writes an update to a file in the backend source code, Tilt CI/CD will automatically recognise the change and re-build and re-deploy the backend server. The developer can then check the server once it has been deployed and review the change in a real deployment.
 
@@ -230,7 +230,7 @@ Backend development can now be started, with the goal of supporting all of the H
 
 The backend development phase will first involve adding suitable logging to the Rust Axum server. This will be accomplished with the standard log Rust crate [19], throughout the rest of the backend code logging statements will be added, allowing the developer to see when endpoints are called etc.
 
-Next the HTTP endpoints themselves will be developed. The endpoint code will be functions that will return API responses in JavaScript Object Notation(JSON). The majority of endpoints developed will have code in the endpoint function that querys the MongoDB database.
+Next the HTTP endpoints themselves will be developed. The endpoint code will be functions that will return API responses in JavaScript Object Notation (JSON). The majority of endpoints developed will have code in the endpoint function that querys the MongoDB database.
 
 Finally a set of automated tests will be written that will make mock HTTP requests against the endpoints to test their response. These automated tests will run as part of Tilt CI/CD, providing consistent feedback that the backend endpoints are working as expected after development changes.
 
@@ -278,7 +278,7 @@ Material is a set of UI components and theming concepts developed by Google [24]
 The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
 
 ### NeuroRecovery as a Single Page Application(SPA)
-Angular is used to create Single Page Applications(SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [26].
+Angular is used to create Single Page Applications (SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [26].
 
 This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
 
