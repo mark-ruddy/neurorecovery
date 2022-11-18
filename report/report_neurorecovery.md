@@ -64,7 +64,7 @@ Over 20 million people suffer from stroke annually. In the UK there are 1.3 mill
 
 It has been clinically established that "using a rehabilitation protocol involving motor imagery (MI) practice in conjunction with physical practice (PP) of goal-directed rehabilitation tasks leads to enhanced functional recovery of paralyzed limbs among stroke sufferers." [2].
 
-Generally stroke survivors will attend sessions with professional physiotherapists. However, attending physiotherapy sessions is expensive and limited to set dates. Additionally if exercises are performed with a physiotherapist's assistance, the patient may not apply his/her best effort in the rehabilitation tasks. This can result in inadequate neuroplasticity required for recovery of their motor function. 
+Generally stroke survivors will attend sessions with professional physiotherapists. However, attending physiotherapy sessions is expensive and limited to set dates. Additionally if exercises are performed with a physiotherapist's assistance, the patient may not apply his/her best effort in the rehabilitation tasks. This can result in inadequate neuroplasticity required for recovery of their motor function [2]. 
 
 The NeuroRecovery app aims to enhance neuroplasticity related to motor function for patients, by providing an app to manage physical practice (PP) of rehabilitation tasks which is accessible at all times on the patients phone or other device.
 
