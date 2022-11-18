@@ -352,6 +352,8 @@ Some alternatives for Tilt were considered for this project, including Jenkins [
 
 Most CI/CD solutions are based around setting up a server which multiple developers interact with, which is desired when a group of developers must use the same CI/CD solution. For the NeuroRecovery app though, since it is currently developed by one developer, a CI/CD solution was required that could run on a local PC; which Tilt handles well.
 
+Tilt dashboard running on local PC with the backend server automated test logs open:
+
 ![Tilt Demo](images/backend/tilt_demo_rust_test.png)
 
 # Summary
@@ -362,37 +364,37 @@ Patients will be able to access instant exercise sessions and scheduled exercise
 The overall plan for the project is set out in phases, setting up CI/CD first, then backend development of a Rust Axum server, then frontend development of an Angular Material server. Finally the finalistation phase will focus on improving the app where possible such as its appearance on mobile devices.
 
 # References
-1. World Health Organisation: Global Report (2002). Retrieved from https://www.who.int/publications/i/item/9241562072
+1. World Health Organisation: Global Report (2002). Retrieved from <https://www.who.int/publications/i/item/9241562072>
 2. Prasad G, Herman P, Coyle D, McDonough S, Crosbie, J: Applying a brain-computer interface to support motor imagery practice in people with stroke for upper limb recovery: A feasibility study, Journal of NeuroEngineering and Rehabilitation, 7:60 (2010).
-3. Stroke Association: Stroke Statistics (2018). Retrieved from https://www.stroke.org.uk/what-is-stroke/stroke-statistics
+3. Stroke Association: Stroke Statistics (2018). Retrieved from <https://www.stroke.org.uk/what-is-stroke/stroke-statistics>
 4. Marzolini S, Robertson AD, Oh P, Goodman JM, Corbett D, Du X, MacIntosh BJ. Aerobic Training and Mobilization Early Post-stroke: Cautions and Considerations. Front Neurol. 2019 Nov 15;10:1187. doi: 10.3389/fneur.2019.01187. PMID: 31803129; PMCID: PMC6872678.
 5. Shamsi T. Iqbal and Eric Horvitz. 2010. Notifications and awareness: a field study of alert usage and preferences. In Proceedings of the 2010 ACM conference on Computer supported cooperative work (CSCW '10). Association for Computing Machinery, New York, NY, USA, 27–30.
-6. Firebase is an app development platform that helps you build and grow apps and games users love (2022). Retrieved from https://firebase.google.com/
+6. Firebase is an app development platform that helps you build and grow apps and games users love (2022). Retrieved from <https://firebase.google.com/>
 7. K. Morrow, C. Docan, G. Burdea and A. Merians, "Low-cost Virtual Rehabilitation of the Hand for Patients Post-Stroke," 2006 International Workshop on Virtual Rehabilitation, 2006, pp. 6-10, doi: 10.1109/IWVR.2006.1707518.
 8. Hughes CML, Padilla A, Hintze A, et al. Developing an mHealth app for post-stroke upper limb rehabilitation: Feedback from US and Ethiopian rehabilitation clinicians. Health Informatics Journal. 2020;26(2):1104-1117. doi:10.1177/1460458219868356
-9. 15 Mhealth Apps That Are Disrupting Healthcare In 2022 (2022). Retrieved from https://www.ideamotive.co/blog/mhealth-apps-that-are-disrupting-healthcare
+9. 15 Mhealth Apps That Are Disrupting Healthcare In 2022 (2022). Retrieved from <https://www.ideamotive.co/blog/mhealth-apps-that-are-disrupting-healthcare>
 10. Iosa M, Lupo A, Morone G, Baricich A, Picelli A, Panza G, Smania N, Cisari C, Sandrini G, Paolucci S. Post Soft Care: Italian implementation of a post-stroke checklist software for primary care and identification of unmet needs in community-dwelling patients. Neurol Sci. 2018 Jan;39(1):135-139. doi: 10.1007/s10072-017-3140-1. Epub 2017 Oct 30. PMID: 29086123.
 11. Hubbard IJ, Carey LM, Budd TW, et al. A Randomized Controlled Trial of the Effect of Early Upper-Limb Training on Stroke Recovery and Brain Activation. Neurorehabilitation and Neural Repair. 2015;29(8):703-713. doi:10.1177/1545968314562647
-12. UN Official Languages (2022). Retrieved from https://www.un.org/en/our-work/official-languages
+12. UN Official Languages (2022). Retrieved from <https://www.un.org/en/our-work/official-languages>
 13. Nirnaya Tripathi, Markku Oivo, Kari Liukkunen, Jouni Markkula, Startup ecosystem effect on minimum viable product development in software startups, Information and Software Technology, Volume 114, 2019, ISSN 0950-5849
-14. Angular Material (2022). Retrieved from https://material.angular.io/
-15. MongoDB (2022). Retrieved from https://www.mongodb.com/
-16. Axum (2022). Retrieved from https://github.com/tokio-rs/axum
-17. Helm (2022). Retrieved from https://helm.sh/
-18. Kubernetes (2022). Retrieved from https://kubernetes.io/
-19. Tilt (2022). Retrieved from https://tilt.dev/
-20. Rust Log (2022). Retrieved from https://github.com/rust-lang/log
-21. Google Calendar (2022). Retrieved from https://calendar.google.com
-22. Outlook Calendar (2022). Retrieved from https://office.live.com/start/Calendar.aspx
-23. TypeScript (2022). Retrieved from https://www.typescriptlang.org/
-24. 15 Top Amazing Websites Built With Angular Framework (2021). Retrieved from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
-25. Material Design (2022). Retrieved from https://m3.material.io/
-26. Material MatSideNav (2022). Retrieved from https://material.angular.io/components/sidenav/api
+14. Angular Material (2022). Retrieved from <https://material.angular.io/>
+15. MongoDB (2022). Retrieved from <https://www.mongodb.com/>
+16. Axum (2022). Retrieved from <https://github.com/tokio-rs/axum>
+17. Helm (2022). Retrieved from <https://helm.sh/>
+18. Kubernetes (2022). Retrieved from <https://kubernetes.io/>
+19. Tilt (2022). Retrieved from <https://tilt.dev/>
+20. Rust Log (2022). Retrieved from <https://github.com/rust-lang/log>
+21. Google Calendar (2022). Retrieved from <https://calendar.google.com>
+22. Outlook Calendar (2022). Retrieved from <https://office.live.com/start/Calendar.aspx>
+23. TypeScript (2022). Retrieved from <https://www.typescriptlang.org/>
+24. 15 Top Amazing Websites Built With Angular Framework (2021). Retrieved from <https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html>
+25. Material Design (2022). Retrieved from <https://m3.material.io/>
+26. Material MatSideNav (2022). Retrieved from <https://material.angular.io/components/sidenav/api>
 27. Li, N. and Zhang, B., 2021, April. The Research on Single Page Application Front-end development Based on Vue. In Journal of Physics: Conference Series (Vol. 1883, No. 1, p. 012030). IOP Publishing.
-28. Non-relational data and NoSQL. Retrieved from https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/non-relational-data
+28. Non-relational data and NoSQL. Retrieved from <https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/non-relational-data>
 29. Ferreira, A.P. and Sinnott, R., 2019, December. A performance evaluation of containers running on managed kubernetes services. In 2019 IEEE International Conference on Cloud Computing Technology and Science (CloudCom) (pp. 199-208). IEEE.
-30. Jenkins (2022). Retrieved from https://www.jenkins.io/
-31. TravisCI (2022). Retrieved from https://www.travis-ci.com/
+30. Jenkins (2022). Retrieved from <https://www.jenkins.io/>
+31. TravisCI (2022). Retrieved from <https://www.travis-ci.com/>
 
 # Appendices
 ## Appendix C Code
