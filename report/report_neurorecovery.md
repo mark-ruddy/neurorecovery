@@ -70,7 +70,7 @@ The NeuroRecovery app aims to enhance neuroplasticity related to motor function 
 
 ## Aims and Objectives
 ### Aims
-To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower limb (LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
+To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower limb (LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
 
 #### Instant Sessions
 To provide instant exercise sessions to the patient without prior scheduling. For instant sessions, the patient will not have access to a therapist through a video call or otherwise. Clear instructions and demonstration videos will be shown to the patient who can then carry out the full exercise session.
@@ -110,19 +110,19 @@ There are many different existing programs or apps to assist with post-stroke UL
 ### Developing an mHealth app for post-stroke upper limb rehabilitation
 An existing paper has explored feedback from US and Ethiopian rehabilitation clinicians for the development of an mHealth app to assist with stroke recovery [8]. It is important to note that the paper cited was feedback-only, no specific mHealth app was developed. Another note is that the term mHealth(Mobile Health) is not specific to a single app, instead referring to the concept of a range of mobile apps related to healthcare [9].
 
-Three app functionalities that received the perceived highest importance from respondantonts were: The rehabilitation team can modify the patients treatment plan, video-record arm function for later analysis and to automatically log and update performance in a number of factors [8]. This data will be important in deciding which features to include in the NeuroRecovery app.
+Three app functionalities that received the perceived highest importance from respondents were: The rehabilitation team can modify the patients treatment plan, video-record arm function for later analysis and to automatically log and update performance in a number of factors [8]. This data will be important in deciding which features to include in the NeuroRecovery app.
 
 Other features that are related to the NeuroRecovery app which were marked as "very important" but not as highly important as the previously mentioned features: Display content in languages relevant to the country or region, remind users to complete their rehabilitation exercises or go to an in-person appointment and to display appointments [8]. Some features that are not relevant to the NeuroRecovery app itself are omitted from this discussion, such as displaying patient health insurance information or to allow the patient or caregiver to pay through the app for healthcare services.
 
 ### Italian Post-Stroke Checklist (PSC) Software
-An Italian post-stroke checklist (PSC) software has overlap with the NeuroRecovery app, especially in relation to collecting stroke patient information and parsing it into usable data. In comparison to using a physical paper questionaire, the researchers found that "the web version of PSC had two important advantages: (1) clinicians may have an easy access to the PSC wherever they are visiting the patient just using a PC, a tablet, or a smartphone with an internet connection and (2) the data are saved on a database for further analyses." [10]. 
+An Italian post-stroke checklist (PSC) software has overlap with the NeuroRecovery app, especially in relation to collecting stroke patient information and parsing it into usable data. In comparison to using a physical paper questionnaire, the researchers found that "the web version of PSC had two important advantages: (1) clinicians may have an easy access to the PSC wherever they are visiting the patient just using a PC, a tablet, or a smartphone with an internet connection and (2) the data are saved on a database for further analyses." [10]. 
 
-The findings of a PSC set of 42 post-stroke patients in the UK also highlights the unmet needs once they leave healthcare. 63.4% reported unmet abscene of secondary prevention needs, and 56.1% reported unmet mobility needs [10]. The NeuroRecovery app is targeting these post-stroke patients, who have left treatment but have unmet needs in relation to mobility and secondary prevention.
+The findings of a PSC set of 42 post-stroke patients in the UK also highlights the unmet needs once they leave healthcare. 63.4% reported unmet absence of secondary prevention needs, and 56.1% reported unmet mobility needs [10]. The NeuroRecovery app is targeting these post-stroke patients, who have left treatment but have unmet needs in relation to mobility and secondary prevention.
 
 ### Effect of Early Upper-Limb Training on Stroke Recovery
 It is relevant for the NeuroRecovery app to consider the effects of exercise intensity and timing on neuroplasticity in patients. The investigated study was organised as such, "The study recruited 23 participants. Of these, 12 were randomized to the standard-care group and had a mean age of 69.3 years, and 11 were randomized to the intensive training group and had a mean age of 61.7 years" [11].
 
-The study found that between the standard and intensive care group, "There were no significant between-group differences in change over time in the clinical outcome scores" [11]. However, the intensive care group had slightly increased recovery in some areas, "This preliminary study is the first to show that more intensive rehabilitation (task-specific UL training) in the first month poststroke is associated with increased brain activation in putative motor and attention areas" [11].
+The study found that between the standard and intensive care group, "There were no significant between-group differences in change over time in the clinical outcome scores" [11]. However, the intensive care group had slightly increased recovery in some areas, "This preliminary study is the first to show that more intensive rehabilitation (task-specific UL training) in the first month post-stroke is associated with increased brain activation in putative motor and attention areas" [11].
 
 The study indicates that intensive care does increase neurorecovery in some areas, yet without any dramatic differences. The conclusion here is that the majority of the benefit can be achieved without deliberately intensive care. 
 
@@ -134,16 +134,16 @@ As was previously discussed, the rating of certain features from the mHealth app
 
 - Appointment Scheduling and Reminders: The NeuroRecovery app should handle scheduling of appointments and reminders for both the patient and the therapist.
 - Video-Record Exercises: Exercises performed by patient should have an option to be recorded, which a therapist can review at a later date.
-- Language Features: The apps support to display in multiple languages. The NeuroRecovery app will aim to support the UNs six official languages which are Arabic, Chinese, English, French, Russian and Spanish [12].
+- Language Features: The apps support to display in multiple languages. The NeuroRecovery app will aim to support the United Nations (UNs) six official languages which are Arabic, Chinese, English, French, Russian and Spanish [12].
 
-The functionalities being reviewed by the clinicians for mHealth are quite broad, for example including a feature for displaying patient health insurance information. The NeuroRecovery app will focus on developing high quality features instead of a high quantity of features, so that they can be delivered in a reasonble time as a Minimum Viable Product (MVP). 
+The functionalities being reviewed by the clinicians for mHealth are quite broad, for example including a feature for displaying patient health insurance information. The NeuroRecovery app will focus on developing high quality features instead of a high quantity of features, so that they can be delivered in a reasonable time as a Minimum Viable Product (MVP). 
 
-It may be enticing to aim for a large quantity of features in an app during its early stages, but this is likely to overload the developer(s) and result in slower development. Reaching an MVP is also highly important for receiving feedback on a product earlier, "To find and develop the right product that can help them become established and successful in the market, startups need to validate their minimum viable product (MVP) as quickly as possible until a product-market fit is attained" [13].
+It may be enticing to aim for a large quantity of features in an app during its early stages, but this is likely to overload the developer(s) and result in slower development. Reaching an MVP is also highly important for receiving feedback on a product earlier, "To find and develop the right product that can help them become established and successful in the market, start-ups need to validate their minimum viable product (MVP) as quickly as possible until a product-market fit is attained" [13].
 
 ### Italian Post-Stroke Checklist (PSC) Software Considerations
 As was highlighted in the literature review, the PSC survey carried out in the UK showed that the majority of patients had unmet mobility needs and unmet absence of secondary prevention needs after leaving treatment. Some of these patients who still have unmet needs post-treatment may wish to use the NeuroRecovery app, which will be more accessible and less expensive than returning to treatment.
 
-Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practioners" [10]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
+Another consideration of the PSC is the advantages of it being available online, "The great advantage of using online PSC to unveil unmet needs was the administration to patients by general practitioners" [10]. The NeuroRecovery app should take this into account, and ensure that it is available online for both patients and therapists to easily access. This is expected to be accomplished by being available as a webapp that can be accessed through a URL by users.
 
 The ability of the PSC to gather useful data from patients is also relevant to the NeuroRecovery app. An expected section of the NeuroRecovery app is to gather patient or therapist information through a web form. It may be relevant for the NeuroRecovery app to analyse this data in a similar form as the PSC.
 
@@ -163,27 +163,30 @@ The user stories are placed in this report in no particular order. As will be di
 The frontend is expected to be aesthetically pleasing, clear and simple to navigate and be available as a cross-platform webapp. It should have code in it to handle communication with the backend where required.
 
 Acceptance Criteria:
+
 - Built as a cross-platform webapp
 - Built with Angular framework using Material styling [14]
 - Clear and simple to navigate
-- Contain all of the desired sections for the app, such as the instant exercise session section and the login form seciton
+- Contain all of the desired sections for the app, such as the instant exercise session section and the login form section
 - Backend communication such as when checking a users authentication credentials
 
 ### Rust Axum Backend User Story
 The backend server should handle user authentication and all communication with the MongoDB [15] database. It should be deployable as its own unit and is separate from the frontend and MongoDB.
 
 Acceptance Criteria:
+
 - Written in Rust using Axum framework [16].
 - Useful logging
 - Performant under a high load of requests.
 - Automated tests for all endpoints written.
-- Handles interaction with the MongoDB database, through data models represented as Rust structs.
+- Handles interaction with the MongoDB database, through data models represented as Rust Structs.
 - Exposes required functionality as HTTP endpoints that the frontend can call.
 
 ### MongoDB Data Storage User Story
 MongoDB should be available for the backend server to interact with. MongoDB should be configured securely so that only the authenticated backend server can interact with it.
 
 Acceptance Criteria:
+
 - Deployed as a Helm [17] Chart in the same kubernetes cluster as the backend server.
 - Accessible to the backend server on a static cluster IP. This IP must be set as static explicitly to avoid it changing dynamically for each deployment.
 - Configured securely so that only authenticated connections are allowed.
@@ -194,6 +197,7 @@ The app should be deployable on Kubernetes [18]. The app will consist of three s
 This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the microservices into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [18].
 
 Acceptance Criteria:
+
 - The three microservices that make up the app, the frontend, the backend and MongoDB are containerised and packed into Helm Charts.
 - The Helm Charts can be deployed on a Kubernetes cluster successfully.
 - Required configurations such as a static cluster IP for the MongoDB server are exposed in the Helm Charts.
@@ -206,6 +210,7 @@ This Continuous Integration and Continuous Delivery (CI/CD) system will be accom
 For example if the developer writes an update to a file in the backend source code, Tilt CI/CD will automatically recognise the change and re-build and re-deploy the backend server. The developer can then check the server once it has been deployed and review the change in a real deployment.
 
 Acceptance Criteria:
+
 - The developer can receive constant feedback using Tilt.
 - The app can be deployed using Tilt.
 - Automated tests are executed using Tilt.
@@ -274,12 +279,12 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 When users visit the app they will be placed by default in the instant exercise session section. From there they can choose to login, go to a different section, etc.
 
 ### Angular Material
-The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [14]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [23]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [24].
+The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [14]. The language used for Angular is TypeScript, a super-set of JavaScript with strong types which compiles down to JavaScript to run in the browser [23]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [24].
 
 ### Material
 Material is a set of UI components and theming concepts developed by Google [25]. Google have specifically developed a Material package for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [26].
 
-The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
+The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to to develop a sidenav component for example.
 
 ### NeuroRecovery as a Single Page Application(SPA)
 Angular is used to create Single Page Applications (SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [27].
@@ -297,7 +302,7 @@ There is no traditional database schema defined for the data stored in MongoDB. 
 MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
 
 #### Users Collection Schema
-The users struct consists of optional extra infromation with a mandatory username and secure hashed password:
+The users struct consists of optional extra information with a mandatory username and secure hashed password:
 
 ![User Struct](images/backend/user_struct.png)
 
@@ -306,7 +311,7 @@ The Kubernetes Cluster for the NeuroRecovery app consists of three microservices
 
 ![Helm Ls NeuroRecovery](images/backend/helmls_neurorecovery.png)
 
-Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the neurorecovery namespace:
+Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the `neurorecovery` namespace:
 
 ![Kubectl Ls NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
 
@@ -391,7 +396,7 @@ The overall plan for the project is set out in phases, setting up CI/CD first, t
 
 # Appendices
 ## Appendix C Code
-Source code is available to browse at github code repository: https://github.com/mark-ruddy/neurorecovery
+Source code is available to browse at github code repository: <https://github.com/mark-ruddy/neurorecovery>
 
 ## Appendix D Test Suite
-Test suite covers the Rust Axum server backend, code is present in the `main.rs` file available at: https://github.com/mark-ruddy/neurorecovery/blob/main/backend/src/main.rs
+Test suite covers the Rust Axum server backend, code is present in the `main.rs` file available at: <https://github.com/mark-ruddy/neurorecovery/blob/main/backend/src/main.rs>
