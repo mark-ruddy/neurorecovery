@@ -304,11 +304,11 @@ The users struct consists of optional extra infromation with a mandatory usernam
 ### Kubernetes Cluster
 The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery` command displays these three microservices:
 
-![HelmLs NeuroRecovery](images/backend/helmls_neurorecovery.png)
+![Helm Ls NeuroRecovery](images/backend/helmls_neurorecovery.png)
 
 Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the neurorecovery namespace:
 
-![KubectlLs NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
+![Kubectl Ls NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
 
 #### Kubernetes Objects Utilised
 
@@ -347,7 +347,7 @@ Some alternatives for Tilt were considered for this project, including Jenkins [
 
 Most CI/CD solutions are based around setting up a server which multiple developers interact with, which is desired when a group of developers must use the same CI/CD solution. For the NeuroRecovery app though, since it is currently developed by one developer, a CI/CD solution was required that could run on a local PC; which Tilt handles well.
 
-![Tilt Demo Rust Test](images/backend/tilt_demo_rust_test.png)
+![Tilt Demo](images/backend/tilt_demo_rust_test.png)
 
 # Summary
 In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for LL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops.
