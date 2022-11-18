@@ -219,7 +219,7 @@ Acceptance Criteria:
 The project management for the NeuroRecovery app will be set by phases. Phases in this report are intended to mean sets of related work to achieve a goal.
 
 ### Setup Tilt CI/CD with Kubernetes Phase
-The goal of the setup phase is to have Tilt CI/CD running for the three microservices as early as possible in the apps development. The microservices at this point should have the minimum code required to deploy with basic interaction. The expected basic interaction of the backend server for example will be to have one HTTP endpoint developed which interacts with MongoDB.
+The goal of the setup phase is to have Tilt CI/CD running for the three microservices as early as possible in the apps development. The microservices at this point should have the minimum code required to deploy with basic interaction. The expected basic interaction of the backend server for example will be to have one HTTP endpoint developed which interacts with MongoDB:
 
 ![Frontend To Backend](images/diagrams/frontend_to_backend.png)
 
