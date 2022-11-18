@@ -308,30 +308,30 @@ Helm manages collections of objects that run on the Kubernetes Cluster. To see t
 
 ![KubectlLs NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
 
-Summary of the Kubernetes objects deployed to host the NeuroRecovery app:
+#### Kubernetes Objects Utilised
 
-#### Pods
+##### Pods
 A pod is the smallest unit in Kubernetes, it is a set of containers running together. In the NeuroRecovery app's case the three pods are at `1/1`, indicating that one container is successfully running in each. Each pod in this case is hosting a server each - the frontend is serving Angular, the backend is serving Rust Axum, and the database is serving MongoDB. These servers are exposed by the services which will be discussed.
 
 Checking the logs of the backend and frontend pods running container:
 
 ![Kubectl Logs Pod](images/backend/kubectl_logs_pods.png)
 
-#### Deployments
+##### Deployments
 A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes [29].
 
 Example of deleting the frontend pod while it is serving on `http://localhost:80`, there is no downtime and the HTTP requests continue to work as the deployment creates a new frontend pod:
 
 ![Deployment Pod Delete](images/backend/deployment_pod_delete.png)
 
-#### ClusterIP Service
+##### ClusterIP Service
 A ClusterIP service exposes the MongoDB pod on a static IP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
 
 Accessing MongoDB on the static ClusterIP:
 
 ![MongoDB Connection](images/backend/mongo_connection.png)
 
-#### LoadBalancer Service
+##### LoadBalancer Service
 Both the backend and frontend are exposed on a LoadBalancer service, which are bound to a port on the Kubernetes host computer. The frontend binds to the default HTTP webserver port 80, and the backend binds to port 8080.
 
 Accessing the frontend server on `http://localhost:80`:
