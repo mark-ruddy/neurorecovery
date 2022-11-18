@@ -155,7 +155,7 @@ The requirements for the NeuroRecovery app will be described as user stories, wh
 
 The form used for user stories in this report will be a concise description followed by measurable and tangible acceptance criteria (AC) bullet points. Once development on a feature has completed, the AC will be reviewed and the user story closed if they have been fufilled.
 
-The user stories are placed in this report in no particular order. As will be discussed in the Project Management section, the user stories will be developed alongside each other concurrently as they are dependent on each other:
+The user stories are placed in this report in no particular order. As will be discussed in the Project Management section, the user stories will be developed alongside each other concurrently as they are dependent on each other.
 
 ### Angular Material Frontend User Story
 The frontend is expected to be aesthetically pleasing, clear and simple to navigate and be available as a cross-platform webapp. It should have code in it to handle communication with the backend where required.
@@ -175,21 +175,21 @@ Acceptance Criteria:
 - Useful logging
 - Performant under a high load of requests.
 - Automated tests for all endpoints written.
-- Handles interaction with MongoDB database, including the data models represented as Rust structs.
+- Handles interaction with the MongoDB database, through data models represented as Rust structs.
 - Exposes required functionality as HTTP endpoints that the frontend can call.
 
 ### MongoDB Data Storage User Story
 MongoDB should be available for the backend server to interact with. MongoDB should be configured securely so that only the authenticated backend server can interact with it.
 
 Acceptance Criteria:
-- Deployed as a helm chart in the same kubernetes cluster as the backend server.
+- Deployed as a Helm [17] Chart in the same kubernetes cluster as the backend server.
 - Accessible to the backend server on a static cluster IP. This IP must be set as static explicitly to avoid it changing dynamically for each deployment.
 - Configured securely so that only authenticated connections are allowed.
 
 ### Kubernetes Deployment User Story
-The app should be deployable on Kubernetes [17]. The app will consist of three separate microservices, the frontend, the backend and MongoDB. These microservices should be containerised and packed into helm charts, then deployed on a Kubernetes cluster.
+The app should be deployable on Kubernetes [18]. The app will consist of three separate microservices, the frontend, the backend and MongoDB. These microservices should be containerised and packed into Helm Charts, then deployed on a Kubernetes cluster.
 
-This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the ies into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [17].
+This provides a deployment structure that can be replicated on any Kubernetes cluster. Without packing the microservices into Helm Charts, deployments may involve manually deploying the app for every change. This manual deployment may be acceptable if the app was to be deployed once, but during development and testing the app will be deployed likely hundreds of times. The general benefits of Kubernetes also apply, such as auto-restarting of failed containers etc. [18].
 
 Acceptance Criteria:
 - The three microservices that make up the app, the frontend, the backend and MongoDB are containerised and packed into Helm Charts.
@@ -199,7 +199,7 @@ Acceptance Criteria:
 ### Tilt Continuous Integration and Continuous Delivery User Story
 The developer should receive constant and automatic feedback on changes during development by a Continuous Integration system. Feedback will be in the form of successful or failed code builds, and also automated tests written for the backend. The entire app should be deployable with minimal involvement, by triggering a Continuous Delivery system.
 
-This Continuous Integration and Continuous Delivery (CI/CD) system will be accomplished with Tilt [18], which has great support for deploying Helm Charts on Kuberentes clusters.
+This Continuous Integration and Continuous Delivery (CI/CD) system will be accomplished with Tilt [19], which has great support for deploying Helm Charts on Kuberentes clusters.
 
 For example if the developer writes an update to a file in the backend source code, Tilt CI/CD will automatically recognise the change and re-build and re-deploy the backend server. The developer can then check the server once it has been deployed and review the change in a real deployment.
 
@@ -230,7 +230,7 @@ Frontend development will be completed section by section. The initial focus wil
 ### Backend Development Phase
 Backend development can now be started, with the goal of supporting all of the HTTP endpoints that the frontend expects to exist.
 
-The backend development phase will first involve adding suitable logging to the Rust Axum server. This will be accomplished with the standard log Rust crate [19], throughout the rest of the backend code logging statements will be added, allowing the developer to see when endpoints are called etc.
+The backend development phase will first involve adding suitable logging to the Rust Axum server. This will be accomplished with the standard log Rust crate [20], throughout the rest of the backend code logging statements will be added, allowing the developer to see when endpoints are called etc.
 
 Next the HTTP endpoints themselves will be developed. The endpoint code will be functions that will return API responses in JavaScript Object Notation (JSON). The majority of endpoints developed will have code in the endpoint function that querys the MongoDB database.
 
@@ -255,7 +255,7 @@ The finalistation phase will be to improve the app where possible and add any de
 In the app's navigation menu, the following sections will be present for users to select between:
 
 - Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present.
-- Scheduled Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar [20][21].
+- Scheduled Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar [21][22].
 - Update User Info: Section for a user to update their information. The user may be either a therapist or a patient, and the information requested will depend on this.
 
 ### User Interaction and Experience(UI/UX)
@@ -272,15 +272,15 @@ The login form adheres to the UI/UX concept of the storyboard, with the toolbar 
 When users visit the app they will be placed by default in the instant exercise session section. From there they can choose to login, go to a different section, etc.
 
 ### Angular Material
-The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [14]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [22]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [23].
+The frontend is developed with the Angular framework using Google's material UI theme, referred to as "Angular Material" [14]. The language used for Angular is TypeScript, a superset of JavaScript with strong types which compiles down to JavaScript to run in the browser [23]. Angular is a well-established frontend framework, with extensive use by Google who developed it originally and other major companies such as PayPal, Forbes and Samsung [24].
 
 ### Material
-Material is a set of UI components and theming concepts developed by Google [24]. Google have specifically developed a Material package for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. In Angular, Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [25].
+Material is a set of UI components and theming concepts developed by Google [25]. Google have specifically developed a Material package for the Angular framework, and apps that use this plugin are commonly referred to "Angular Material" apps. In Angular, Material is utilised by a provided set of components which follow the theming and other behaviors such as animations. For example the collapsable menu in the NeuroRecovery app is a Material component called "MatSidenav" [26].
 
 The NeuroRecovery app utilises Material components to provide a consistent theme, responsiveness between desktop and mobile devices and increase development speed by not having to edevelop a sidenav component for example.
 
 ### NeuroRecovery as a Single Page Application(SPA)
-Angular is used to create Single Page Applications (SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [26].
+Angular is used to create Single Page Applications (SPAs). In web development, SPAs reduce the amount of HTTP requests and responses between the user and the server. The first request from the user is responded to with a bundle which includes the entire apps frontend content, including JavaScript code. The user can then interact with the SPA without making further requests, despite switching between simulated pages which can be referred to as sections. Overall, the SPA architecture allows for a more refined experience for the end user and faster development times for the developer [27].
 
 This concept is very visible in the NeuroRecovery app, the switching between the login form and the instant exercise section for example is seamless and instant, since both sections are already present in the user's browser without further HTTP requests.
 
@@ -288,7 +288,7 @@ While SPAs do make frontend interaction instantaneous, backend interaction from 
 
 ## Backend Structure
 ### NoSQL Database Schema
-The database utilised for the NeuroRecovery app is MongoDB, which is categorised as a NoSQL database. This contrasts with SQL databases which represent relational data in rows of tables. NoSQL databases represent non-relational data as a collection of documents. An alternative definition from Microsoft is "The term NoSQL refers to data stores that do not use SQL for queries." [27].
+The database utilised for the NeuroRecovery app is MongoDB, which is categorised as a NoSQL database. This contrasts with SQL databases which represent relational data in rows of tables. NoSQL databases represent non-relational data as a collection of documents. An alternative definition from Microsoft is "The term NoSQL refers to data stores that do not use SQL for queries." [28].
 
 There is no traditional database schema defined for the data stored in MongoDB. Instead the data is represented by Rust Structs in the backend code, which are used when inserting, updating or retrieving data from a collection of documents.
 
@@ -318,7 +318,7 @@ Checking the logs of the backend and frontend pods running container:
 ![Kubectl Logs Pod](images/backend/kubectl_logs_pods.png)
 
 #### Deployments
-A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes [28].
+A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes [29].
 
 Example of deleting the frontend pod while it is serving on `http://localhost:80`, there is no downtime and the HTTP requests continue to work as the deployment creates a new frontend pod:
 
@@ -339,9 +339,9 @@ Accessing the frontend server on `http://localhost:80`:
 ![Frontend Localhost](images/backend/frontend_localhost.png)
 
 ### Tilt CI/CD
-Tilt CI/CD deploys the helm charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image below.
+Tilt CI/CD deploys the Helm Charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image below.
 
-Some alternatives for Tilt were considered for this project, including Jenkins [29] and TravisCI [30]. Tilt was chosen over these options for its focus on Kubernetes and Helm Chart deployments, and its support for running on a local PC.
+Some alternatives for Tilt were considered for this project, including Jenkins [30] and TravisCI [31]. Tilt was chosen over these options for its focus on Kubernetes and Helm Chart deployments, and its support for running on a local PC.
 
 Most CI/CD solutions are based around setting up a server which multiple developers interact with, which is desired when a group of developers must use the same CI/CD solution. For the NeuroRecovery app though, since it is currently developed by one developer, a CI/CD solution was required that could run on a local PC; which Tilt handles well.
 
@@ -371,20 +371,21 @@ The overall plan for the project is set out in phases, setting up CI/CD first, t
 14. Angular Material (2022). Retrieved from https://material.angular.io/
 15. MongoDB (2022). Retrieved from https://www.mongodb.com/
 16. Axum (2022). Retrieved from https://github.com/tokio-rs/axum
-17. Kubernetes (2022). Retrieved from https://kubernetes.io/
-18. Tilt (2022). Retrieved from https://tilt.dev/
-19. Rust Log (2022). Retrieved from https://github.com/rust-lang/log
-20. Google Calendar (2022). Retrieved from https://calendar.google.com
-21. Outlook Calendar (2022). Retrieved from https://office.live.com/start/Calendar.aspx
-22. TypeScript (2022). Retrieved from https://www.typescriptlang.org/
-23. 15 Top Amazing Websites Built With Angular Framework (2021). Retrieved from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
-24. Material Design (2022). Retrieved from https://m3.material.io/
-25. Material MatSideNav (2022). Retrieved from https://material.angular.io/components/sidenav/api
-26. Li, N. and Zhang, B., 2021, April. The Research on Single Page Application Front-end development Based on Vue. In Journal of Physics: Conference Series (Vol. 1883, No. 1, p. 012030). IOP Publishing.
-27. Non-relational data and NoSQL. Retrieved from https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/non-relational-data
-28. Ferreira, A.P. and Sinnott, R., 2019, December. A performance evaluation of containers running on managed kubernetes services. In 2019 IEEE International Conference on Cloud Computing Technology and Science (CloudCom) (pp. 199-208). IEEE.
-29. Jenkins (2022). Retrieved from https://www.jenkins.io/
-30. TravisCI (2022). Retrieved from https://www.travis-ci.com/
+17. Helm (2022). Retrieved from https://helm.sh/
+18. Kubernetes (2022). Retrieved from https://kubernetes.io/
+19. Tilt (2022). Retrieved from https://tilt.dev/
+20. Rust Log (2022). Retrieved from https://github.com/rust-lang/log
+21. Google Calendar (2022). Retrieved from https://calendar.google.com
+22. Outlook Calendar (2022). Retrieved from https://office.live.com/start/Calendar.aspx
+23. TypeScript (2022). Retrieved from https://www.typescriptlang.org/
+24. 15 Top Amazing Websites Built With Angular Framework (2021). Retrieved from https://www.angularminds.com/blog/article/apps-and-websites-built-using-angularjs-development-services.html
+25. Material Design (2022). Retrieved from https://m3.material.io/
+26. Material MatSideNav (2022). Retrieved from https://material.angular.io/components/sidenav/api
+27. Li, N. and Zhang, B., 2021, April. The Research on Single Page Application Front-end development Based on Vue. In Journal of Physics: Conference Series (Vol. 1883, No. 1, p. 012030). IOP Publishing.
+28. Non-relational data and NoSQL. Retrieved from https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/non-relational-data
+29. Ferreira, A.P. and Sinnott, R., 2019, December. A performance evaluation of containers running on managed kubernetes services. In 2019 IEEE International Conference on Cloud Computing Technology and Science (CloudCom) (pp. 199-208). IEEE.
+30. Jenkins (2022). Retrieved from https://www.jenkins.io/
+31. TravisCI (2022). Retrieved from https://www.travis-ci.com/
 
 ---------------------
 # Appendices
