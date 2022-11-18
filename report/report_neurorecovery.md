@@ -75,10 +75,10 @@ To provide instant exercise sessions to the patient without prior scheduling. Fo
 
 This allows patients to complete a clear exercise goal of completing one solo session without the need for a therapist who will not always be available to the patient. This is intended to increase neuroplasticity recovery as the patient will have exercise sessions available at all times.
 
+Exercise sessions may require some tailoring based on the patient's data, such as reducing the intensity for patients who are elderly or have persistent hypertension, "There is a rationale for delaying moderate to higher intensity exercise in the elderly, as well as those with persistent hypertension and/or diabetes/hyperglycemia" [4].
+
 #### Scheduled Sessions
 To support scheduling of appointments and exercise sessions, which will be followed by a video call with a therapist in some cases. Sessions should have sane defaults so they can be created with minimal involvement on the patient or therapist's side, while also being configurable enough for sessions that require specific changes based on the patient's need.
-
-Exercise sessions may require some tailoring based on the patient's data, such as reducing the intensity for patients who are elderly or have persistent hypertension, "There is a rationale for delaying moderate to higher intensity exercise in the elderly, as well as those with persistent hypertension and/or diabetes/hyperglycemia" [4].
 
 #### Demonstration Videos
 The app will have demonstration videos for the patient to watch during an exercise session. These videos should be vetted to include the correct exercise with timings that match the exercise session.
