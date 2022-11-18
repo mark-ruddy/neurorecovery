@@ -8,7 +8,8 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
   * [Problem Statement](#problem-statement)
   * [Aims and Objectives](#aims-and-objectives)
     + [Aims](#aims)
-      - [Sessions](#sessions)
+      - [Instant Sessions](#instant-sessions)
+      - [Scheduled Sessions](#scheduled-sessions)
       - [Demonstration Videos](#demonstration-videos)
       - [Notifications](#notifications)
       - [UI/UX](#ui-ux)
@@ -28,7 +29,7 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
     + [Rust Axum Backend User Story](#rust-axum-backend-user-story)
     + [MongoDB Data Storage User Story](#mongodb-data-storage-user-story)
     + [Kubernetes Deployment User Story](#kubernetes-deployment-user-story)
-    + [Tilt Continuous Integration and Continuous Delivery(CI/CD) User Story](#tilt-continuous-integration-and-continuous-delivery-ci-cd--user-story)
+    + [Tilt Continuous Integration and Continuous Delivery User Story](#tilt-continuous-integration-and-continuous-delivery-user-story)
   * [Project Management](#project-management)
     + [Setup Tilt CI/CD with Kubernetes Phase](#setup-tilt-ci-cd-with-kubernetes-phase)
     + [Frontend Development Phase](#frontend-development-phase)
@@ -45,10 +46,11 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
     + [NoSQL Database Schema](#nosql-database-schema)
       - [Users Collection Schema](#users-collection-schema)
     + [Kubernetes Cluster](#kubernetes-cluster)
-      - [Pods](#pods)
-      - [Deployments](#deployments)
-      - [ClusterIP Service](#clusterip-service)
-      - [LoadBalancer Service](#loadbalancer-service)
+      - [Kubernetes Objects Utilised](#kubernetes-objects-utilised)
+        * [Pods](#pods)
+        * [Deployments](#deployments)
+        * [ClusterIP Service](#clusterip-service)
+        * [LoadBalancer Service](#loadbalancer-service)
     + [Tilt CI/CD](#tilt-ci-cd)
 - [Summary](#summary)
 - [References](#references)
@@ -387,7 +389,6 @@ The overall plan for the project is set out in phases, setting up CI/CD first, t
 30. Jenkins (2022). Retrieved from https://www.jenkins.io/
 31. TravisCI (2022). Retrieved from https://www.travis-ci.com/
 
----------------------
 # Appendices
 ## Appendix C Code
 Source code is available to browse at github code repository: https://github.com/mark-ruddy/neurorecovery
