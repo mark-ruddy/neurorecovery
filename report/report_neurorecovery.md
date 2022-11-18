@@ -68,10 +68,15 @@ The NeuroRecovery app aims to enhance neuroplasticity related to motor function 
 
 ## Aims and Objectives
 ### Aims
-To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower-limb(LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
+To provide management of PP rehabilitation tasks for stroke survivor patients with a webapp. The app will primarily focus on UL motor recovery, though it will provide supplementary sections for lower limb(LL) as well. This should be accomplished by providing demonstration videos, reminder notifications and consistent feedback to patients as they use the app. The app should be performanant and cross-platform, allowing patients and therapists to access it on all devices that support a web browser.
 
-#### Sessions
-To support scheduling of appointments and exercise sessions, which may be followed by a video call with a therapist in some cases. Sessions should have sane defaults so they can be created with minimal involvement on the patient or therapist's side, while also being configurable enough for sessions that require specific changes based on the patient's need. Sessions may be categorised into solo or therapist based, as one of the aims of the app is to be useful to patients when they do not have access to a therapist on that day or week.
+#### Instant Sessions
+To provide instant exercise sessions to the patient without prior scheduling. For instant sessions, the patient will not have access to a therapist through a video call or otherwise. Clear instructions and demonstration videos will be shown to the patient who can then carry out the full exercise session.
+
+This allows patients to complete a clear exercise goal of completing one solo session without the need for a therapist who will not always be available to the patient. This is intended to increase neuroplasticity recovery as the patient will have exercise sessions available at all times.
+
+#### Scheduled Sessions
+To support scheduling of appointments and exercise sessions, which will be followed by a video call with a therapist in some cases. Sessions should have sane defaults so they can be created with minimal involvement on the patient or therapist's side, while also being configurable enough for sessions that require specific changes based on the patient's need.
 
 Exercise sessions may require some tailoring based on the patient's data, such as reducing the intensity for patients who are elderly or have persistent hypertension, "There is a rationale for delaying moderate to higher intensity exercise in the elderly, as well as those with persistent hypertension and/or diabetes/hyperglycemia" [4].
 
