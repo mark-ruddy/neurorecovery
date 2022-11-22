@@ -36,10 +36,15 @@ export function minimumPasswordRequirementsValidator(): ValidatorFn {
 
 export const errorMessages: { [key: string]: string } = {
   invalidLogin: "Incorrect email or password",
+  mustBeValidEmail: "Must be a valid email",
   confirmPasswordNotMatching: "Passwords do not match",
   minimumPasswordLength: "Password must meet minimum length of 8",
 }
 
 export const snackbarMessages: { [key: string]: string } = {
   mustBeLoggedIn: "Must be logged in for that action",
+  successfulLogin: "Successful login",
+  failedLogin: "Login failed - Please try again",
+  successfulRegistration: "Successful registration",
+  failedRegistration: "Registration failed - Please try again",
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'frontend';
   loggedIn = false;
+  email = '';
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.loginService.email.subscribe(email => this.email = email);
+    this.loginService.loggedIn.subscribe(loggedIn => this.loggedIn = loggedIn);
+  }
 }

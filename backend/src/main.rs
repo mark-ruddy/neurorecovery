@@ -1,4 +1,8 @@
-use axum::{extract::Extension, routing::get, Router, Server};
+use axum::{
+    extract::Extension,
+    routing::{get, post},
+    Router, Server,
+};
 use clap::Parser;
 use dotenv::dotenv;
 use log::info;
@@ -62,6 +66,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 fn create_router(state: Arc<routes::State>) -> Router {
     Router::new()
         .route("/", get(routes::index))
+        .route("/register_user", post(routes::register_user))
+        .route("/login_user", post(routes::login_user))
         .layer(CorsLayer::permissive())
         .layer(Extension(state))
 }

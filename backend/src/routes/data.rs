@@ -70,7 +70,10 @@ pub async fn delete_user(db: &Database, user: User) -> Result<(), Box<dyn Error>
     Ok(())
 }
 
-pub async fn find_users_by_email(db: &Database, email: &str) -> Result<Vec<User>, Box<dyn Error>> {
+pub async fn find_users_by_email(
+    db: &Database,
+    email: &str,
+) -> Result<Option<Vec<User>>, Box<dyn Error>> {
     let coll = db.collection::<User>("users");
     let filter = doc! { "email": email };
     let mut cursor = coll.find(filter, None).await?;
@@ -79,5 +82,21 @@ pub async fn find_users_by_email(db: &Database, email: &str) -> Result<Vec<User>
     while let Some(user) = cursor.try_next().await? {
         users.push(user);
     }
-    Ok(users)
+    if users.len() == 0 {
+        return Ok(None);
+    }
+    Ok(Some(users))
+}
+
+pub async fn find_user_by_email(
+    db: &Database,
+    email: &str,
+) -> Result<Option<User>, Box<dyn Error>> {
+    let coll = db.collection::<User>("users");
+    let filter = doc! { "email": email };
+    let user = match coll.find_one(filter, None).await? {
+        Some(user) => user,
+        None => return Err(format!("No user for email {} found", email).into()),
+    };
+    Ok(Some(user))
 }
