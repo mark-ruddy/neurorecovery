@@ -9,12 +9,30 @@ import { LoginService } from './services/login.service';
 export class AppComponent implements OnInit {
   title = 'frontend';
   loggedIn = false;
+  sessionId = 'NONE';
   email = '';
 
   constructor(public loginService: LoginService) { }
 
+  refreshLoginStatus() {
+    if (localStorage.getItem('logged_in') == 'true') {
+      this.email = localStorage.getItem('email')!;
+      this.sessionId = localStorage.getItem('session_id')!;
+      this.loggedIn = true;
+    } else {
+      this.email = '';
+      this.sessionId = '';
+      this.loggedIn = false;
+    }
+  }
+
+  logout() {
+    this.loginService.logout();
+    this.refreshLoginStatus();
+  }
+
   ngOnInit(): void {
-    this.loginService.email.subscribe(email => this.email = email);
-    this.loginService.loggedIn.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.refreshLoginStatus();
+    // TODO: might need a timeout to call logout
   }
 }

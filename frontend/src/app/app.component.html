@@ -7,7 +7,7 @@
   <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
   <div *ngIf='loggedIn'>
     <span>Logged in as {{email}}</span>
-    <button class='login-button' (click)='loginService.logout()' type='button' color='basic' mat-flat-button>Logout</button>
+    <button class='login-button' (click)='logout()' type='button' color='basic' mat-flat-button>Logout</button>
   </div>
 </mat-toolbar>
 

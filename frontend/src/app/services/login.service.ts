@@ -1,32 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 import { BackendService } from './backend.service';
-import { UserRequest } from './backend.service';
-
-/*
-export interface LoginResponse {
-  valid: boolean,
-}
-*/
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  loggedIn = new BehaviorSubject(false);
-  email = new BehaviorSubject('');
-
   constructor(private backendService: BackendService) { }
 
   async loginWithCredentials(email: string, password: string): Promise<boolean> {
-    let valid = await this.backendService.loginUser({
+    let [valid, sessionId] = await this.backendService.loginUser({
       email: email,
       password: password,
     });
 
     if (valid) {
-      this.email.next(email);
-      this.loggedIn.next(true);
+      localStorage.setItem('email', email);
+      localStorage.setItem('logged_in', "true");
+      localStorage.setItem('session_id', sessionId);
       return true;
     } else {
       return false;
@@ -34,14 +25,15 @@ export class LoginService {
   }
 
   async register(email: string, password: string): Promise<boolean> {
-    let valid = await this.backendService.registerUser({
+    let [valid, sessionId] = await this.backendService.registerUser({
       email: email,
       password: password,
     });
 
     if (valid) {
-      this.email.next(email);
-      this.loggedIn.next(true);
+      localStorage.setItem('email', email);
+      localStorage.setItem('logged_in', 'true');
+      localStorage.setItem('session_id', sessionId);
       return true;
     } else {
       return false;
@@ -49,7 +41,8 @@ export class LoginService {
   }
 
   logout() {
-    this.email.next('');
-    this.loggedIn.next(false);
+    localStorage.setItem('email', '');
+    localStorage.setItem('logged_in', 'false')
+    localStorage.setItem('session_id', '');
   }
 }

@@ -152,6 +152,7 @@ dependencies = [
  "lazy_static",
  "log",
  "mongodb",
+ "rand",
  "rand_core",
  "reqwest",
  "serde",

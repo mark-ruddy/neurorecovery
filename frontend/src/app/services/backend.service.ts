@@ -17,7 +17,7 @@ export class BackendService {
 
   constructor() { }
 
-  async registerUser(userRequest: UserRequest): Promise<boolean> {
+  async registerUser(userRequest: UserRequest): Promise<[boolean, string]> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.registerUserEndpoint}`, {
       method: 'POST',
       headers: {
@@ -29,10 +29,10 @@ export class BackendService {
       throw new Error(resp.statusText);
     }
     let resp_json = await resp.json();
-    return resp_json.valid;
+    return [resp_json.valid, resp_json.session_id];
   }
 
-  async loginUser(userRequest: UserRequest): Promise<boolean> {
+  async loginUser(userRequest: UserRequest): Promise<[boolean, string]> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.loginUserEndpoint}`, {
       method: 'POST',
       headers: {
@@ -44,6 +44,6 @@ export class BackendService {
       throw new Error(resp.statusText);
     }
     let resp_json = await resp.json();
-    return resp_json.valid;
+    return [resp_json.valid, resp_json.session_id];
   }
 }

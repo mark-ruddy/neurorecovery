@@ -20,7 +20,9 @@ pub struct UserInfo {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct User {
     pub email: String,
-    pub hashed_password: String,
+    pub hash: String,
+    pub salt: String,
+    pub session_id: String,
     pub info: Option<UserInfo>,
 }
 
@@ -70,6 +72,7 @@ pub async fn insert_user(db: &Database, user: User) -> Result<(), Box<dyn Error>
     Ok(())
 }
 
+#[allow(dead_code)]
 pub async fn delete_user(db: &Database, user: User) -> Result<(), Box<dyn Error>> {
     let coll = db.collection::<User>("users");
     // is this filter needed??
@@ -78,6 +81,7 @@ pub async fn delete_user(db: &Database, user: User) -> Result<(), Box<dyn Error>
     Ok(())
 }
 
+#[allow(dead_code)]
 pub async fn find_users_by_email(
     db: &Database,
     email: &str,
@@ -104,7 +108,19 @@ pub async fn find_user_by_email(
     let filter = doc! { "email": email };
     let user = match coll.find_one(filter, None).await? {
         Some(user) => user,
-        None => return Err(format!("No user for email {} found", email).into()),
+        None => return Ok(None),
     };
     Ok(Some(user))
+}
+
+pub async fn update_user_session_id(
+    db: &Database,
+    email: &str,
+    session_id: &str,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<User>("users");
+    let session_id_doc = doc! { "$set": { "session_id": &session_id } };
+    let filter = doc! { "email": email };
+    coll.update_one(filter, session_id_doc, None).await?;
+    Ok(())
 }

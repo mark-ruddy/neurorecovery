@@ -154,7 +154,7 @@ mod tests {
         let db = get_mongodb(mongo);
         match routes::data::find_user_by_email(&db, &user_request.email)
             .await
-            .expect("Failed to find user by email")
+            .expect("Failure finding user by email")
         {
             Some(_) => (),
             None => panic!("User with email {} does not exist", &user_request.email),
@@ -177,5 +177,17 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
         let resp_json: routes::LoginResponse = resp.json().await;
         assert!(resp_json.valid);
+
+        // check that session ID provided in resp is in DB
+        let mongo = get_mongodb_client().await;
+        let db = get_mongodb(mongo);
+        let user = match routes::data::find_user_by_email(&db, &user_request.email)
+            .await
+            .expect("Failure finding user by email")
+        {
+            Some(user) => user,
+            None => panic!("User with email {} does not exist", &user_request.email),
+        };
+        assert_eq!(resp_json.session_id, user.session_id);
     }
 }
