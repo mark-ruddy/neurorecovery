@@ -13,3 +13,5 @@ pub fn hash_password(password: &str) -> Result<String, Box<dyn Error>> {
     };
     Ok(hashed_password)
 }
+
+// TODO: add features from podlabsec for secure passwords and session ID

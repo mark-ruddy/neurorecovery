@@ -17,13 +17,9 @@ mod routes;
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    /// First run - will initialise MongoDB collections etc.
-    #[clap(long)]
-    first_run: bool,
     /// Address to serve on
     #[clap(long, default_value = "127.0.0.1:8080")]
     addr: String,
-
     /// MongoDB connection URL
     #[clap(long, default_value = "mongodb://127.0.0.1:27017")]
     mongodb_url: String,
@@ -50,9 +46,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     )
     .await?;
     let db = mongodb_client.database(&args.mongodb_name);
-    if args.first_run {
-        routes::data::create_collections(&db).await?;
-    }
+    routes::data::create_collections(&db).await;
 
     let state = Arc::new(routes::State { db });
     let app = create_router(state);
@@ -75,7 +69,7 @@ fn create_router(state: Arc<routes::State>) -> Router {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use axum_test_helper::TestClient;
+    use axum_test_helper::{TestClient, TestResponse};
     use http::StatusCode;
     use mongodb::{Client, Database};
     use serial_test::serial;
@@ -130,5 +124,58 @@ mod tests {
         let resp = client.get("/").send().await;
         assert_eq!(resp.status(), StatusCode::OK);
         teardown().await;
+    }
+
+    async fn register_sample_user(
+        client: &TestClient,
+        user_request: &routes::UserRequest,
+    ) -> TestResponse {
+        let resp = client
+            .post("/register_user")
+            .json(&user_request)
+            .send()
+            .await;
+        resp
+    }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_register_user() {
+        let client = TestClient::new(setup_test_router().await);
+        let user_request = routes::UserRequest {
+            email: "registerTest@gmail.com".to_string(),
+            password: "longerThan8".to_string(),
+        };
+        let resp = register_sample_user(&client, &user_request).await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        // user should exist now
+        let mongo = get_mongodb_client().await;
+        let db = get_mongodb(mongo);
+        match routes::data::find_user_by_email(&db, &user_request.email)
+            .await
+            .expect("Failed to find user by email")
+        {
+            Some(_) => (),
+            None => panic!("User with email {} does not exist", &user_request.email),
+        }
+    }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_login_user() {
+        // register user first so that the user exists
+        let client = TestClient::new(setup_test_router().await);
+        let user_request = routes::UserRequest {
+            email: "loginTest@gmail.com".to_string(),
+            password: "longerThan8".to_string(),
+        };
+        let resp = register_sample_user(&client, &user_request).await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        let resp = client.post("/login_user").json(&user_request).send().await;
+        assert_eq!(resp.status(), StatusCode::OK);
+        let resp_json: routes::LoginResponse = resp.json().await;
+        assert!(resp_json.valid);
     }
 }

@@ -30,9 +30,9 @@
       </mat-form-field>
     </div>
     <button [disabled]='!registerForm.valid' class='dated-submit-button' type='submit' color='primary' mat-raised-button>Register</button>
-    <!-- div *ngIf='contractActivationInProgress' class='loading-bar-container'>
+    <div *ngIf='loginInProgress' class='loading-bar-container'>
     <mat-progress-bar mode='indeterminate'></mat-progress-bar>
-    </div> -->
+    </div>
     <h3 class='login-text'>Already have an account? <a class='login-link' routerLink='/login'>Login here</a></h3>
   </form>
 </div>

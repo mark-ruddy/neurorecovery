@@ -92,7 +92,7 @@ pub async fn login_user(
 
     if user.hashed_password != hashed_password {
         info!(
-            "Password provided doesn't match for user with email {}",
+            "Password provided don't match for user with email {}",
             &payload.email
         );
         return Err(StatusCode::BAD_REQUEST);

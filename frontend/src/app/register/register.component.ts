@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { GroupErrorMatcher, confirmPasswordValidator, errorMessages, minimumPasswordRequirementsValidator, snackbarMessages } from '../helpers/custom-validators';
 import { LoginService } from '../services/login.service';
 
@@ -13,6 +14,7 @@ export class RegisterComponent implements OnInit {
   errorMatcher = new GroupErrorMatcher();
   errors = errorMessages;
   loggedIn = false;
+  loginInProgress = false;
   email = '';
 
   registerForm = this.formBuilder.group({
@@ -23,7 +25,7 @@ export class RegisterComponent implements OnInit {
     validators: [confirmPasswordValidator()]
   });
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loginService.loggedIn.subscribe(loggedIn => this.loggedIn = loggedIn);
@@ -32,6 +34,7 @@ export class RegisterComponent implements OnInit {
 
   async onSubmit() {
     console.log(this.registerForm.value);
+    this.loginInProgress = true;
     if (this.registerForm.valid) {
       let success = await this.loginService.register(this.registerForm.value.email!, this.registerForm.value.password!);
       if (success) {
@@ -41,6 +44,7 @@ export class RegisterComponent implements OnInit {
           verticalPosition: 'top',
           horizontalPosition: 'center',
         });
+        this.router.navigate(['instant']);
       } else {
         this.snackBar.open(snackbarMessages['failedRegistration'], '', {
           duration: 3000,

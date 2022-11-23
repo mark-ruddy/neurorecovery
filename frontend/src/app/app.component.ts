@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   email = '';
 
-  constructor(private loginService: LoginService) { }
+  constructor(public loginService: LoginService) { }
 
   ngOnInit(): void {
     this.loginService.email.subscribe(email => this.email = email);

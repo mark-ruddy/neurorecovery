@@ -1,4 +1,5 @@
 use futures::TryStreamExt;
+use log::info;
 use mongodb::{
     bson::doc, bson::Document, options::ClientOptions, options::CreateCollectionOptions,
     options::Credential, Client, Database,
@@ -39,12 +40,19 @@ pub async fn init_mongo_client(
     Ok(Client::with_options(client_options)?)
 }
 
-pub async fn create_collections(db: &Database) -> Result<(), Box<dyn Error>> {
+pub async fn create_collections(db: &Database) {
     for coll_name in COLLECTIONS.iter() {
-        db.create_collection(coll_name, CreateCollectionOptions::builder().build())
-            .await?;
+        match db
+            .create_collection(coll_name, CreateCollectionOptions::builder().build())
+            .await
+        {
+            Ok(_) => info!("Collection created: {}", coll_name),
+            Err(e) => info!(
+                "Collection {} not created, may already exist: {}",
+                coll_name, e
+            ),
+        }
     }
-    Ok(())
 }
 
 #[allow(dead_code)]

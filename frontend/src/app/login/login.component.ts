@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { GroupErrorMatcher, errorMessages, snackbarMessages } from '../helpers/custom-validators';
 import { LoginService } from '../services/login.service';
 
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
   errorMatcher = new GroupErrorMatcher();
   errors = errorMessages;
   loggedIn = false;
+  loginInProgress = false;
   email = '';
 
   loginForm = this.formBuilder.group({
@@ -20,7 +22,7 @@ export class LoginComponent implements OnInit {
     password: this.formBuilder.control<string | null>(null, Validators.required),
   });
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loginService.loggedIn.subscribe(loggedIn => this.loggedIn = loggedIn);
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   async onSubmit() {
     console.log(this.loginForm.value);
+    this.loginInProgress = true;
     if (this.loginForm.valid) {
       let success = await this.loginService.loginWithCredentials(this.loginForm.value.email!, this.loginForm.value.password!);
       if (success) {
@@ -38,6 +41,7 @@ export class LoginComponent implements OnInit {
           verticalPosition: 'top',
           horizontalPosition: 'center',
         });
+        this.router.navigate(['instant']);
       } else {
         this.snackBar.open(snackbarMessages['failedLogin'], '', {
           duration: 3000,

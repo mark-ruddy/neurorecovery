@@ -5,7 +5,10 @@
   <a class='toolbar-title'><span>NeuroRecovery</span></a>
   <span class='toolbar-spacer'></span>
   <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
-  <button *ngIf='loggedIn' class='login-button' type='button' color='basic' mat-flat-button>Logged in {{email}}</button>
+  <div *ngIf='loggedIn'>
+    <span>Logged in as {{email}}</span>
+    <button class='login-button' (click)='loginService.logout()' type='button' color='basic' mat-flat-button>Logout</button>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container class='sidenav-container'>
