@@ -1,1 +1,48 @@
-<h1>INFO COMPONENT SHOULD BE IN CENTER</h1>
+<div class='general-form-container'>
+  <form [formGroup]='userTypeForm' class='general-form'>
+    <div class='form-input-container'>
+      <h2>User Type</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>User Type</mat-label>
+          <mat-select formControlName="userType" [(ngModel)]='userType' (ngModelChange)='onUserTypeChange($event)' required>
+              <mat-option [value]='userType' *ngFor='let userType of userTypes'>{{userType}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <form *ngIf='userType == "Therapist"' [formGroup]='therapistForm' (ngSubmit)='onSubmitTherapistForm()' class='general-form'>
+    <h1>Therapist Info Form</h1>
+    <div class='form-input-container last-input-container'>
+      <h2>Number of Patients</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Number of Patients</mat-label>
+          <input formControlName='numberOfPatients' matInput>
+          <mat-error>
+            {{ errors['mustBeInteger'] }}
+          </mat-error>
+      </mat-form-field>
+    </div>
+    <button [disabled]='!therapistForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
+    <div *ngIf='therapistFormInProgress' class='loading-bar-container'>
+      <mat-progress-bar mode='indeterminate'></mat-progress-bar>
+    </div>
+  </form>
+
+  <form *ngIf='userType == "Post-Stroke Patient"' [formGroup]='patientForm' (ngSubmit)='onSubmitPatientForm()' class='general-form'>
+    <h1>Patient Info Form</h1>
+    <div class='form-input-container last-input-container'>
+      <h2>Injury Side</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Injury Side</mat-label>
+          <mat-select formControlName='injurySide' required>
+              <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <button [disabled]='!patientForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
+    <div *ngIf='patientFormInProgress' class='loading-bar-container'>
+      <mat-progress-bar mode='indeterminate'></mat-progress-bar>
+    </div>
+  </form>
+</div>

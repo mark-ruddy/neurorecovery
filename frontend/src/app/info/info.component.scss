@@ -1,0 +1,38 @@
+@import '../../styles.scss';
+
+.general-form-container {
+  @include accent-background;
+}
+
+.general-form {
+  @include centered-container;
+}
+
+.horizontal-div-container {
+  display: flex;
+  gap: 4vh;
+}
+
+.form-input-container {
+  width: 50%;
+}
+
+.form-add-button {
+  margin-bottom: 0.8vh;
+}
+
+.form-input-wide {
+  width: 100%;
+}
+
+.loading-bar-container {
+  margin-top: 1.5vh;
+}
+
+.last-input-container {
+  margin-bottom: 1.5vh;
+}
+
+.invisible {
+  visibility: hidden;
+}

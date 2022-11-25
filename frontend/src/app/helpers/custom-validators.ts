@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn, FormArray, ValidationErrors, FormControl, FormGroupDirective, NgForm } from "@angular/forms";
+import { AbstractControl, ValidatorFn, FormArray, ValidationErrors, FormControl } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material/core";
 
 export class GroupErrorMatcher implements ErrorStateMatcher {
@@ -34,11 +34,22 @@ export function minimumPasswordRequirementsValidator(): ValidatorFn {
   }
 }
 
+export function isInteger(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let controlField = control as FormControl;
+    if (!Number.isInteger(Number(controlField.value))) {
+      return { mustBeInteger: true };
+    }
+    return null;
+  }
+}
+
 export const errorMessages: { [key: string]: string } = {
   invalidLogin: "Incorrect email or password",
   mustBeValidEmail: "Must be a valid email",
   confirmPasswordNotMatching: "Passwords do not match",
   minimumPasswordLength: "Password must meet minimum length of 8",
+  mustBeInteger: 'Must be a whole number',
 }
 
 export const snackbarMessages: { [key: string]: string } = {
