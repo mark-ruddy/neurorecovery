@@ -26,6 +26,26 @@ pub struct User {
     pub info: Option<UserInfo>,
 }
 
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct PatientForm {
+    pub full_name: String,
+    pub stroke_date: String,
+    pub injury_side: String,
+    pub additional_info: String,
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct TherapistForm {
+    pub full_name: String,
+    pub num_patients: u32,
+    pub expected_weekly_appointments: u32,
+    pub additional_info: String,
+    pub email: String,
+    pub session_id: String,
+}
+
 pub async fn init_mongo_client(
     conn_url: &str,
     app_name: &str,
@@ -66,6 +86,7 @@ pub async fn drop_collections(db: &Database) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+// USER
 pub async fn insert_user(db: &Database, user: User) -> Result<(), Box<dyn Error>> {
     let coll = db.collection::<User>("users");
     coll.insert_one(user, None).await?;
@@ -113,6 +134,19 @@ pub async fn find_user_by_email(
     Ok(Some(user))
 }
 
+pub async fn find_user_by_session_id(
+    db: &Database,
+    session_id: &str,
+) -> Result<Option<User>, Box<dyn Error>> {
+    let coll = db.collection::<User>("users");
+    let filter = doc! { "session_id": session_id };
+    let user = match coll.find_one(filter, None).await? {
+        Some(user) => user,
+        None => return Ok(None),
+    };
+    Ok(Some(user))
+}
+
 pub async fn update_user_session_id(
     db: &Database,
     email: &str,
@@ -122,5 +156,25 @@ pub async fn update_user_session_id(
     let session_id_doc = doc! { "$set": { "session_id": &session_id } };
     let filter = doc! { "email": email };
     coll.update_one(filter, session_id_doc, None).await?;
+    Ok(())
+}
+
+// PATIENT FORM
+pub async fn insert_patient_form(
+    db: &Database,
+    patient_form: PatientForm,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<PatientForm>("patient_forms");
+    coll.insert_one(patient_form, None).await?;
+    Ok(())
+}
+
+// THERAPIST FORM
+pub async fn insert_therapist_form(
+    db: &Database,
+    therapist_form: TherapistForm,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<TherapistForm>("therapist_forms");
+    coll.insert_one(therapist_form, None).await?;
     Ok(())
 }

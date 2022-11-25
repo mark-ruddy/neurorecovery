@@ -5,7 +5,7 @@
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>User Type</mat-label>
           <mat-select formControlName="userType" [(ngModel)]='userType' (ngModelChange)='onUserTypeChange($event)' required>
-              <mat-option [value]='userType' *ngFor='let userType of userTypes'>{{userType}}</mat-option>
+            <mat-option [value]='userType' *ngFor='let userType of userTypes'>{{userType}}</mat-option>
           </mat-select>
       </mat-form-field>
     </div>
@@ -13,14 +13,38 @@
 
   <form *ngIf='userType == "Therapist"' [formGroup]='therapistForm' (ngSubmit)='onSubmitTherapistForm()' class='general-form'>
     <h1>Therapist Info Form</h1>
-    <div class='form-input-container last-input-container'>
+    <div class='form-input-container'>
+      <h2>Full Name</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Full Name</mat-label>
+        <input formcontrolname='fullname' matinput>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
       <h2>Number of Patients</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>Number of Patients</mat-label>
           <input formControlName='numberOfPatients' matInput>
           <mat-error>
-            {{ errors['mustBeInteger'] }}
+            {{ errorMessages['mustBeInteger'] }}
           </mat-error>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
+      <h2>Expected Number of Weekly Appointments</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Expected Number of Weekly Appointments</mat-label>
+        <input formControlName='expectedNumberOfWeeklyAppointments' matInput>
+        <mat-error>
+            {{ errorMessages['mustBeInteger'] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class='form-input container last-input-container'>
+      <h2>Additional Info</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Additional Info</mat-label>
+        <textarea formControlName='additionalInfo' matInput></textarea>
       </mat-form-field>
     </div>
     <button [disabled]='!therapistForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
@@ -29,15 +53,48 @@
     </div>
   </form>
 
-  <form *ngIf='userType == "Post-Stroke Patient"' [formGroup]='patientForm' (ngSubmit)='onSubmitPatientForm()' class='general-form'>
+  <form *ngIf='userType == "Patient"' [formGroup]='patientForm' (ngSubmit)='onSubmitPatientForm()' class='general-form'>
     <h1>Patient Info Form</h1>
-    <div class='form-input-container last-input-container'>
+    <div class='form-input-container'>
+      <h2>Full Name</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Full Name</mat-label>
+        <input formcontrolname='fullname' matinput>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
       <h2>Injury Side</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>Injury Side</mat-label>
           <mat-select formControlName='injurySide' required>
-              <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
+            <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
           </mat-select>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
+      <h2>Stroke Date</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Stroke Date</mat-label>
+        <input type='date' formControlName='strokeDate' matInput>
+        <mat-error>
+            {{ errorMessages['dateCannotBeInFuture'] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
+      <h2>Injury Side</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Injury Side</mat-label>
+          <mat-select formControlName='injurySide' required>
+            <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container last-input-container'>
+      <h2>Additional Info</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Additional Info</mat-label>
+        <textarea formControlName='additionalInfo' matInput></textarea>
       </mat-form-field>
     </div>
     <button [disabled]='!patientForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>

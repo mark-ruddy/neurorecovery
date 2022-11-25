@@ -44,12 +44,26 @@ export function isInteger(): ValidatorFn {
   }
 }
 
+export function dateInPast(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let dateField = control as FormControl;
+    let asDate = new Date(dateField.value);
+    let now = new Date();
+    if (asDate > now) {
+      return { dateInFuture: true };
+    }
+    return null;
+  }
+}
+
 export const errorMessages: { [key: string]: string } = {
   invalidLogin: "Incorrect email or password",
   mustBeValidEmail: "Must be a valid email",
+  mustBeLoggedIn: "Must be logged in",
   confirmPasswordNotMatching: "Passwords do not match",
   minimumPasswordLength: "Password must meet minimum length of 8",
   mustBeInteger: 'Must be a whole number',
+  dateCannotBeInFuture: 'Date cannot be in the future',
 }
 
 export const snackbarMessages: { [key: string]: string } = {

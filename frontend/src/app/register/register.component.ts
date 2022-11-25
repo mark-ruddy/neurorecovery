@@ -13,7 +13,7 @@ import { AppComponent } from '../app.component';
 })
 export class RegisterComponent implements OnInit {
   errorMatcher = new GroupErrorMatcher();
-  errors = errorMessages;
+  errorMessages = errorMessages;
   loginInProgress = false;
 
   registerForm = this.formBuilder.group({

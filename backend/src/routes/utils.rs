@@ -2,7 +2,9 @@ use argon2::{
     password_hash::{rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
     Argon2,
 };
-use log::info;
+use http::StatusCode;
+use log::{error, info};
+use mongodb::Database;
 use rand::{distributions::Alphanumeric, Rng};
 use std::error::Error;
 
@@ -77,6 +79,27 @@ pub fn gen_session_id() -> String {
         .take(128)
         .map(char::from)
         .collect()
+}
+
+pub async fn check_session_id(
+    db: &Database,
+    session_id: &str,
+) -> Result<super::data::User, StatusCode> {
+    Ok(
+        match super::data::find_user_by_session_id(db, session_id).await {
+            Ok(user) => match user {
+                Some(user) => user,
+                None => {
+                    info!("Requested with invalid session_id");
+                    return Err(StatusCode::BAD_REQUEST);
+                }
+            },
+            Err(e) => {
+                error!("Failure finding user: {}", e);
+                return Err(StatusCode::INTERNAL_SERVER_ERROR);
+            }
+        },
+    )
 }
 
 #[cfg(test)]

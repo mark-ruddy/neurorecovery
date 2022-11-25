@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { errorMessages } from '../helpers/custom-validators';
 import { BackendService } from './backend.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private backendService: BackendService) { }
+  constructor(private backendService: BackendService, private snackBar: MatSnackBar) { }
 
   async loginWithCredentials(email: string, password: string): Promise<boolean> {
     let [valid, sessionId] = await this.backendService.loginUser({
@@ -38,6 +39,19 @@ export class LoginService {
     } else {
       return false;
     }
+  }
+
+  mustBeLoggedIn(): boolean {
+    if (localStorage.getItem('logged_in') == 'true') {
+      return true;
+    }
+    this.snackBar.open(errorMessages['mustBeLoggedIn'], '', {
+      duration: 3000,
+      panelClass: ['mat-toolbar', 'mat-warn'],
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+    return false;
   }
 
   logout() {

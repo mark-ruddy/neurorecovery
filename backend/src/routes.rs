@@ -140,3 +140,57 @@ pub async fn login_user(
         session_id,
     }))
 }
+
+pub async fn patient_form(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<data::PatientForm>,
+) -> Result<(), StatusCode> {
+    let user = match utils::check_session_id(&state.db, &payload.session_id).await {
+        Ok(user) => user,
+        Err(e) => return Err(e),
+    };
+
+    if user.email != payload.email.clone() {
+        info!(
+            "Patient form submission with non-matching email: {} != {}",
+            user.email, &payload.email
+        );
+        return Err(StatusCode::BAD_REQUEST);
+    }
+
+    match data::insert_patient_form(&state.db, payload).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure inserting patient form: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
+}
+
+pub async fn therapist_form(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<data::TherapistForm>,
+) -> Result<(), StatusCode> {
+    let user = match utils::check_session_id(&state.db, &payload.session_id).await {
+        Ok(user) => user,
+        Err(e) => return Err(e),
+    };
+
+    if user.email != payload.email.clone() {
+        info!(
+            "Therapist form submission with non-matching email: {} != {}",
+            user.email, &payload.email
+        );
+        return Err(StatusCode::BAD_REQUEST);
+    }
+
+    match data::insert_therapist_form(&state.db, payload).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure inserting therapist form: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
+}
