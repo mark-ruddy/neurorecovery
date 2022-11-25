@@ -1,12 +1,12 @@
 <div class='general-form-container'>
   <form [formGroup]='userTypeForm' class='general-form'>
-    <div class='form-input-container'>
+     <div class='form-input-container'>
       <h2>User Type</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>User Type</mat-label>
-          <mat-select formControlName="userType" [(ngModel)]='userType' (ngModelChange)='onUserTypeChange($event)' required>
-            <mat-option [value]='userType' *ngFor='let userType of userTypes'>{{userType}}</mat-option>
-          </mat-select>
+        <mat-select formControlName='userType' [(ngModel)]='userType' (ngModelChange)='onUserTypeChange($event)' required>
+          <mat-option [value]='userType' *ngFor='let userType of userTypes' matInput>{{userType}}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </form>
@@ -17,7 +17,7 @@
       <h2>Full Name</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>Full Name</mat-label>
-        <input formcontrolname='fullname' matinput>
+        <input formControlName='fullName' matInput>
       </mat-form-field>
     </div>
     <div class='form-input-container'>
@@ -59,7 +59,7 @@
       <h2>Full Name</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>Full Name</mat-label>
-        <input formcontrolname='fullname' matinput>
+        <input formControlName='fullName' matInput>
       </mat-form-field>
     </div>
     <div class='form-input-container'>
@@ -79,15 +79,6 @@
         <mat-error>
             {{ errorMessages['dateCannotBeInFuture'] }}
         </mat-error>
-      </mat-form-field>
-    </div>
-    <div class='form-input-container'>
-      <h2>Injury Side</h2>
-      <mat-form-field appearance='fill' class='form-input-wide'>
-        <mat-label>Injury Side</mat-label>
-          <mat-select formControlName='injurySide' required>
-            <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
-          </mat-select>
       </mat-form-field>
     </div>
     <div class='form-input-container last-input-container'>

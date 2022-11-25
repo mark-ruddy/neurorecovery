@@ -39,8 +39,8 @@ pub struct PatientForm {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct TherapistForm {
     pub full_name: String,
-    pub num_patients: u32,
-    pub expected_weekly_appointments: u32,
+    pub num_patients: String,
+    pub expected_weekly_appointments: String,
     pub additional_info: String,
     pub email: String,
     pub session_id: String,

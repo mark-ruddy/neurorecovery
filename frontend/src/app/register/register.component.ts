@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { GroupErrorMatcher, confirmPasswordValidator, errorMessages, minimumPasswordRequirementsValidator, snackbarMessages } from '../helpers/custom-validators';
+import { GroupErrorMatcher, confirmPasswordValidator, errorMessages, minimumPasswordRequirementsValidator, successMessages } from '../helpers/custom-validators';
 import { LoginService } from '../services/login.service';
 import { AppComponent } from '../app.component';
 
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       let success = await this.loginService.register(this.registerForm.value.email!, this.registerForm.value.password!);
       if (success) {
-        this.snackBar.open(snackbarMessages['successfulRegistration'], '', {
+        this.snackBar.open(successMessages['successfulRegistration'], '', {
           duration: 3000,
           panelClass: ['mat-toolbar'],
           verticalPosition: 'top',
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
         this.appComponent.refreshLoginStatus();
         this.router.navigate(['instant']);
       } else {
-        this.snackBar.open(snackbarMessages['failedRegistration'], '', {
+        this.snackBar.open(errorMessages['invalidRegistration'], '', {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-warn'],
           verticalPosition: 'top',

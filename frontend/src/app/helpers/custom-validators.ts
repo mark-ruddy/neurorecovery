@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn, FormArray, ValidationErrors, FormControl } from "@angular/forms";
+import { AbstractControl, ValidatorFn, ValidationErrors, FormControl } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material/core";
 
 export class GroupErrorMatcher implements ErrorStateMatcher {
@@ -58,18 +58,16 @@ export function dateInPast(): ValidatorFn {
 
 export const errorMessages: { [key: string]: string } = {
   invalidLogin: "Incorrect email or password",
+  invalidRegistration: "Registration failed - Please try again",
   mustBeValidEmail: "Must be a valid email",
-  mustBeLoggedIn: "Must be logged in",
+  mustBeLoggedIn: "You must be logged in for this action",
   confirmPasswordNotMatching: "Passwords do not match",
   minimumPasswordLength: "Password must meet minimum length of 8",
   mustBeInteger: 'Must be a whole number',
   dateCannotBeInFuture: 'Date cannot be in the future',
 }
 
-export const snackbarMessages: { [key: string]: string } = {
-  mustBeLoggedIn: "Must be logged in for that action",
-  successfulLogin: "Successful login",
-  failedLogin: "Login failed - Please try again",
+export const successMessages: { [key: string]: string } = {
   successfulRegistration: "Successful registration",
-  failedRegistration: "Registration failed - Please try again",
+  successfulFormSubmission: "Successful form submission",
 }

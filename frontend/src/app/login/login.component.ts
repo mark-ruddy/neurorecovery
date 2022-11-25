@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { GroupErrorMatcher, errorMessages, snackbarMessages } from '../helpers/custom-validators';
+import { GroupErrorMatcher, errorMessages, successMessages } from '../helpers/custom-validators';
 import { LoginService } from '../services/login.service';
 import { AppComponent } from '../app.component';
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       let success = await this.loginService.loginWithCredentials(this.loginForm.value.email!, this.loginForm.value.password!);
       if (success) {
-        this.snackBar.open(snackbarMessages['successfulLogin'], '', {
+        this.snackBar.open(successMessages['successfulLogin'], '', {
           duration: 3000,
           panelClass: ['mat-toolbar'],
           verticalPosition: 'top',
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         this.appComponent.refreshLoginStatus();
         this.router.navigate(['instant']);
       } else {
-        this.snackBar.open(snackbarMessages['failedLogin'], '', {
+        this.snackBar.open(errorMessages['failedLogin'], '', {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-warn'],
           verticalPosition: 'top',

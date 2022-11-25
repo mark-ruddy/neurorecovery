@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { errorMessages, isInteger, dateInPast } from '../helpers/custom-validators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { errorMessages, isInteger, dateInPast, successMessages } from '../helpers/custom-validators';
 import { BackendService, PatientForm, TherapistForm } from '../services/backend.service';
 import { LoginService } from '../services/login.service';
 
@@ -15,11 +17,13 @@ export class InfoComponent implements OnInit {
   therapistFormInProgress = false;
   patientFormInProgress = false;
 
+  // NOTE: can set userType to default to an option without user selection
+  // userType = 'Patient';
   userType = '';
   userTypes: string[] = ['Patient', 'Therapist'];
   injurySides: string[] = ['Right', 'Left', 'Both', 'Other'];
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private backendService: BackendService) { }
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private backendService: BackendService, private snackBar: MatSnackBar, private router: Router) { }
 
   userTypeForm = this.formBuilder.group({
     userType: this.formBuilder.control('', Validators.required),
@@ -46,11 +50,21 @@ export class InfoComponent implements OnInit {
     this.userType = userType;
   }
 
-  onSubmitPatientForm(): void {
+  successfulSubmitSnackbar() {
+    this.snackBar.open(successMessages['successfulFormSubmission'], '', {
+      duration: 3000,
+      panelClass: ['mat-toolbar'],
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  onSubmitPatientForm() {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
     }
 
+    this.patientFormInProgress = true;
     if (this.patientForm.valid) {
       let parsedForm = {
         full_name: this.patientForm.value.fullName,
@@ -61,14 +75,19 @@ export class InfoComponent implements OnInit {
         session_id: localStorage.getItem('session_id'),
       } as PatientForm;
       this.backendService.patientForm(parsedForm);
+      this.successfulSubmitSnackbar();
+      // TODO: develop the profile page which will have this info, and route there instead
+      this.router.navigate(['instant']);
     }
+    this.patientFormInProgress = false;
   }
 
-  onSubmitTherapistForm(): void {
+  onSubmitTherapistForm() {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
     }
 
+    this.therapistFormInProgress = true;
     if (this.therapistForm.valid) {
       let parsedForm = {
         full_name: this.therapistForm.value.fullName,
@@ -79,6 +98,10 @@ export class InfoComponent implements OnInit {
         session_id: localStorage.getItem('session_id'),
       } as TherapistForm;
       this.backendService.therapistForm(parsedForm);
+      this.successfulSubmitSnackbar();
+      // TODO: develop the profile page which will have this info, and route there instead
+      this.router.navigate(['instant']);
     }
+    this.therapistFormInProgress = false;
   }
 }
