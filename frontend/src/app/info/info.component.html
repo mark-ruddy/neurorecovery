@@ -11,6 +11,48 @@
     </div>
   </form>
 
+  <form *ngIf='userType == "Patient"' [formGroup]='patientForm' (ngSubmit)='onSubmitPatientForm()' class='general-form'>
+    <h1>Patient Info Form</h1>
+    <div class='form-input-container'>
+      <h2>Full Name</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Full Name</mat-label>
+        <input formControlName='fullName' matInput>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
+      <h2>Injury Side</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Injury Side</mat-label>
+          <mat-select formControlName='injurySide' required>
+            <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
+      <h2>Stroke Date</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Stroke Date</mat-label>
+        <input type='date' formControlName='strokeDate' matInput>
+        <mat-error>
+            {{ errorMessages['dateCannotBeInFuture'] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container last-input-container'>
+      <h2>Additional Info</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Additional Info</mat-label>
+        <textarea formControlName='additionalInfo' matInput></textarea>
+      </mat-form-field>
+    </div>
+    <button [disabled]='!patientForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
+    <div *ngIf='patientFormInProgress' class='loading-bar-container'>
+      <mat-progress-bar mode='indeterminate'></mat-progress-bar>
+    </div>
+  </form>
+
+
   <form *ngIf='userType == "Therapist"' [formGroup]='therapistForm' (ngSubmit)='onSubmitTherapistForm()' class='general-form'>
     <h1>Therapist Info Form</h1>
     <div class='form-input-container'>
@@ -49,47 +91,6 @@
     </div>
     <button [disabled]='!therapistForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
     <div *ngIf='therapistFormInProgress' class='loading-bar-container'>
-      <mat-progress-bar mode='indeterminate'></mat-progress-bar>
-    </div>
-  </form>
-
-  <form *ngIf='userType == "Patient"' [formGroup]='patientForm' (ngSubmit)='onSubmitPatientForm()' class='general-form'>
-    <h1>Patient Info Form</h1>
-    <div class='form-input-container'>
-      <h2>Full Name</h2>
-      <mat-form-field appearance='fill' class='form-input-wide'>
-        <mat-label>Full Name</mat-label>
-        <input formControlName='fullName' matInput>
-      </mat-form-field>
-    </div>
-    <div class='form-input-container'>
-      <h2>Injury Side</h2>
-      <mat-form-field appearance='fill' class='form-input-wide'>
-        <mat-label>Injury Side</mat-label>
-          <mat-select formControlName='injurySide' required>
-            <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
-          </mat-select>
-      </mat-form-field>
-    </div>
-    <div class='form-input-container'>
-      <h2>Stroke Date</h2>
-      <mat-form-field appearance='fill' class='form-input-wide'>
-        <mat-label>Stroke Date</mat-label>
-        <input type='date' formControlName='strokeDate' matInput>
-        <mat-error>
-            {{ errorMessages['dateCannotBeInFuture'] }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class='form-input-container last-input-container'>
-      <h2>Additional Info</h2>
-      <mat-form-field appearance='fill' class='form-input-wide'>
-        <mat-label>Additional Info</mat-label>
-        <textarea formControlName='additionalInfo' matInput></textarea>
-      </mat-form-field>
-    </div>
-    <button [disabled]='!patientForm.valid' type='submit' color='primary' mat-raised-button>Submit</button>
-    <div *ngIf='patientFormInProgress' class='loading-bar-container'>
       <mat-progress-bar mode='indeterminate'></mat-progress-bar>
     </div>
   </form>

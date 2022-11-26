@@ -5,6 +5,11 @@ export interface UserRequest {
   password: string,
 }
 
+export interface AuthenticatedRequest {
+  email: string,
+  session_id: string,
+}
+
 export interface PatientForm {
   full_name: string,
   stroke_date: string,
@@ -30,8 +35,11 @@ export class BackendService {
 
   public loginUserEndpoint = 'login_user';
   public registerUserEndpoint = 'register_user';
-  public patientFormEndpoint = 'patient_form';
-  public therapistFormEndpoint = 'therapist_form';
+  public postPatientFormEndpoint = 'post_patient_form';
+  public postTherapistFormEndpoint = 'post_therapist_form';
+  public getUserTypeEndpoint = 'get_user_type';
+  public getPatientFormEndpoint = 'get_patient_form';
+  public getTherapistFormEndpoint = 'get_therapist_form';
 
   constructor() { }
 
@@ -65,8 +73,8 @@ export class BackendService {
     return [resp_json.valid, resp_json.session_id];
   }
 
-  async patientForm(patientForm: PatientForm) {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.patientFormEndpoint}`, {
+  async postPatientForm(patientForm: PatientForm) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postPatientFormEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,8 +86,8 @@ export class BackendService {
     }
   }
 
-  async therapistForm(therapistForm: TherapistForm) {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.therapistFormEndpoint}`, {
+  async postTherapistForm(therapistForm: TherapistForm) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postTherapistFormEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,5 +97,47 @@ export class BackendService {
     if (!resp.ok) {
       throw new Error(resp.statusText);
     }
+  }
+
+  async getUserType(authenticatedRequest: AuthenticatedRequest): Promise<string> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getUserTypeEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.text()
+  }
+
+  async getPatientForm(authenticatedRequest: AuthenticatedRequest): Promise<PatientForm> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getPatientFormEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.json()
+  }
+
+  async getTherapistForm(authenticatedRequest: AuthenticatedRequest): Promise<TherapistForm> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getTherapistFormEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.json()
   }
 }

@@ -1,11 +1,12 @@
 @import '../../styles.scss';
 
-.register-form-container {
+.general-form-container {
   @include accent-background;
 }
 
-.register-form {
+.general-form {
   @include centered-container;
+  padding-top: 1vh;
 }
 
 .horizontal-div-container {
@@ -33,8 +34,8 @@
   margin-bottom: 1.5vh;
 }
 
-.login-text {
-  padding-top: 1vh;
+.invisible {
+  visibility: hidden;
 }
 
 .primary-link {

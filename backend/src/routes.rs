@@ -20,6 +20,12 @@ pub struct UserRequest {
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct AuthenticatedRequest {
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct LoginResponse {
     pub valid: bool,
     pub session_id: String,
@@ -141,21 +147,22 @@ pub async fn login_user(
     }))
 }
 
-pub async fn patient_form(
+pub async fn post_patient_form(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<data::PatientForm>,
 ) -> Result<(), StatusCode> {
-    let user = match utils::check_session_id(&state.db, &payload.session_id).await {
-        Ok(user) => user,
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
         Err(e) => return Err(e),
     };
 
-    if user.email != payload.email.clone() {
-        info!(
-            "Patient form submission with non-matching email: {} != {}",
-            user.email, &payload.email
-        );
-        return Err(StatusCode::BAD_REQUEST);
+    // Delete any existing user info as it will be overwritten
+    match data::delete_user_info_if_existing(&state.db, &payload.email).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure deleting existing user data: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
     }
 
     match data::insert_patient_form(&state.db, payload).await {
@@ -168,21 +175,22 @@ pub async fn patient_form(
     Ok(())
 }
 
-pub async fn therapist_form(
+pub async fn post_therapist_form(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<data::TherapistForm>,
 ) -> Result<(), StatusCode> {
-    let user = match utils::check_session_id(&state.db, &payload.session_id).await {
-        Ok(user) => user,
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
         Err(e) => return Err(e),
     };
 
-    if user.email != payload.email.clone() {
-        info!(
-            "Therapist form submission with non-matching email: {} != {}",
-            user.email, &payload.email
-        );
-        return Err(StatusCode::BAD_REQUEST);
+    // Delete any existing user info as it will be overwritten
+    match data::delete_user_info_if_existing(&state.db, &payload.email).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure deleting existing user data: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
     }
 
     match data::insert_therapist_form(&state.db, payload).await {
@@ -193,4 +201,72 @@ pub async fn therapist_form(
         }
     }
     Ok(())
+}
+
+pub async fn get_patient_form(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<AuthenticatedRequest>,
+) -> Result<Json<data::PatientForm>, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    let form = match data::get_patient_form(&state.db, &payload.email).await {
+        Ok(form) => match form {
+            Some(form) => form,
+            None => {
+                info!("Requested for patient form that doesn't exist");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        },
+        Err(e) => {
+            error!("Failure finding patient form: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    };
+    Ok(Json(form))
+}
+
+pub async fn get_therapist_form(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<AuthenticatedRequest>,
+) -> Result<Json<data::TherapistForm>, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    let form = match data::get_therapist_form(&state.db, &payload.email).await {
+        Ok(form) => match form {
+            Some(form) => form,
+            None => {
+                info!("Requested for therapist form that doesn't exist");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        },
+        Err(e) => {
+            error!("Failure finding therapist form: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    };
+    Ok(Json(form))
+}
+
+pub async fn get_user_type(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<AuthenticatedRequest>,
+) -> Result<String, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(user) => user,
+        Err(e) => return Err(e),
+    };
+
+    match data::get_user_type(&state.db, &payload.email).await {
+        Ok(user_type) => Ok(user_type),
+        Err(e) => {
+            error!("Failure identifying user type: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
 }

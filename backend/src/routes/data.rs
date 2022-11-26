@@ -159,7 +159,61 @@ pub async fn update_user_session_id(
     Ok(())
 }
 
-// PATIENT FORM
+// USER DATA FORMS
+pub async fn delete_user_info_if_existing(
+    db: &Database,
+    email: &str,
+) -> Result<(), Box<dyn Error>> {
+    let therapist_coll = db.collection::<TherapistForm>("therapist_forms");
+    let patient_coll = db.collection::<PatientForm>("patient_forms");
+    let filter = doc! { "email": email };
+
+    therapist_coll.delete_one(filter.clone(), None).await?;
+    patient_coll.delete_one(filter, None).await?;
+    Ok(())
+}
+
+pub async fn get_user_type(db: &Database, email: &str) -> Result<String, Box<dyn Error>> {
+    let therapist_coll = db.collection::<TherapistForm>("therapist_forms");
+    let patient_coll = db.collection::<PatientForm>("patient_forms");
+    let filter = doc! { "email": email };
+
+    match therapist_coll.find_one(filter.clone(), None).await? {
+        Some(_) => return Ok("Therapist".to_string()),
+        None => (),
+    };
+
+    match patient_coll.find_one(filter, None).await? {
+        Some(_) => return Ok("Patient".to_string()),
+        None => (),
+    };
+    Ok("".to_string())
+}
+
+pub async fn get_patient_form(
+    db: &Database,
+    email: &str,
+) -> Result<Option<PatientForm>, Box<dyn Error>> {
+    let patient_coll = db.collection::<PatientForm>("patient_forms");
+    let filter = doc! { "email": email };
+    match patient_coll.find_one(filter.clone(), None).await? {
+        Some(patient_form) => Ok(Some(patient_form)),
+        None => Ok(None),
+    }
+}
+
+pub async fn get_therapist_form(
+    db: &Database,
+    email: &str,
+) -> Result<Option<TherapistForm>, Box<dyn Error>> {
+    let therapist_coll = db.collection::<TherapistForm>("therapist_forms");
+    let filter = doc! { "email": email };
+    match therapist_coll.find_one(filter.clone(), None).await? {
+        Some(therapist_form) => Ok(Some(therapist_form)),
+        None => Ok(None),
+    }
+}
+
 pub async fn insert_patient_form(
     db: &Database,
     patient_form: PatientForm,
@@ -169,7 +223,6 @@ pub async fn insert_patient_form(
     Ok(())
 }
 
-// THERAPIST FORM
 pub async fn insert_therapist_form(
     db: &Database,
     therapist_form: TherapistForm,

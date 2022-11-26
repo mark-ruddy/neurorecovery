@@ -23,6 +23,7 @@ import { InstantComponent } from './instant/instant.component';
 import { ScheduledComponent } from './scheduled/scheduled.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UserComponent } from './user/user.component';
 
 export const modulesImports: any[] = [
   MatToolbarModule,
@@ -51,6 +52,7 @@ export const modulesImports: any[] = [
     ScheduledComponent,
     LoginComponent,
     RegisterComponent,
+    UserComponent,
   ],
   imports: modulesImports,
   providers: [],

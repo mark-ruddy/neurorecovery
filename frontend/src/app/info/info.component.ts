@@ -74,7 +74,7 @@ export class InfoComponent implements OnInit {
         email: localStorage.getItem('email'),
         session_id: localStorage.getItem('session_id'),
       } as PatientForm;
-      this.backendService.patientForm(parsedForm);
+      this.backendService.postPatientForm(parsedForm);
       this.successfulSubmitSnackbar();
       // TODO: develop the profile page which will have this info, and route there instead
       this.router.navigate(['instant']);
@@ -97,7 +97,7 @@ export class InfoComponent implements OnInit {
         email: localStorage.getItem('email'),
         session_id: localStorage.getItem('session_id'),
       } as TherapistForm;
-      this.backendService.therapistForm(parsedForm);
+      this.backendService.postTherapistForm(parsedForm);
       this.successfulSubmitSnackbar();
       // TODO: develop the profile page which will have this info, and route there instead
       this.router.navigate(['instant']);
