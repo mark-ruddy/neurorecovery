@@ -13,23 +13,23 @@
 <div *ngIf='userType == "Patient"' class='general-form-container'>
   <div class='general-form'>
     <h2>Hi Patient {{email}}, your NeuroRecovery profile details:</h2>
-    <ul>
-      <li>Name: {{patientForm.full_name}}</li>
-      <li>Stroke Date: {{patientForm.stroke_date}}</li>
-      <li>Injury Side: {{patientForm.injury_side}}</li>
-      <li>Additional Info: {{patientForm.additional_info}}</li>
-    </ul>
+    <mat-list role='list'>
+      <mat-list-item role='listitem'>Name: {{patientForm.full_name}}</mat-list-item>
+      <mat-list-item role='listitem'>Stroke Date: {{patientForm.stroke_date}}</mat-list-item>
+      <mat-list-item role='listitem'>Injury Side: {{patientForm.injury_side}}</mat-list-item>
+      <mat-list-item role='listitem'>Additional Info: {{patientForm.additional_info}}</mat-list-item>
+    </mat-list>
   </div>
 </div>
 
 <div *ngIf='userType == "Therapist"' class='general-form-container'>
   <div class='general-form'>
     <h2>Hi Therapist {{email}}, your NeuroRecovery profile details:</h2>
-    <ul>
-      <li>Name: {{therapistForm.full_name}}</li>
-      <li>Number of Patients: {{therapistForm.num_patients}}</li>
-      <li>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</li>
-      <li>Additional Info: {{therapistForm.additional_info}}</li>
-    </ul>
+    <mat-list role='list'>
+      <mat-list-item role='listitem'>Name: {{therapistForm.full_name}}</mat-list-item>
+      <mat-list-item role='listitem'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
+      <mat-list-item role='listitem'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
+      <mat-list-item role='listitem'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
+    </mat-list>
   </div>
 </div>
