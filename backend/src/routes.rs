@@ -27,7 +27,6 @@ pub struct AuthenticatedRequest {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct LoginResponse {
-    pub valid: bool,
     pub session_id: String,
 }
 
@@ -96,10 +95,7 @@ pub async fn register_user(
             return Err(StatusCode::INTERNAL_SERVER_ERROR);
         }
     }
-    Ok(Json(LoginResponse {
-        valid: true,
-        session_id,
-    }))
+    Ok(Json(LoginResponse { session_id }))
 }
 
 pub async fn login_user(
@@ -141,10 +137,7 @@ pub async fn login_user(
             return Err(StatusCode::INTERNAL_SERVER_ERROR);
         }
     }
-    Ok(Json(LoginResponse {
-        valid: true,
-        session_id,
-    }))
+    Ok(Json(LoginResponse { session_id }))
 }
 
 pub async fn post_patient_form(

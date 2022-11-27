@@ -84,11 +84,12 @@ mod tests {
     const MONGODB_USERNAME: &str = "root";
 
     #[ctor::ctor]
-    fn setup() {
+    fn init() {
         dotenv().ok();
         env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
     }
 
+    #[allow(dead_code)]
     async fn teardown() {
         let mongodb_client = get_mongodb_client().await;
         let db = get_mongodb(mongodb_client);
@@ -128,7 +129,6 @@ mod tests {
         let client = TestClient::new(setup_test_router().await);
         let resp = client.get("/").send().await;
         assert_eq!(resp.status(), StatusCode::OK);
-        teardown().await;
     }
 
     async fn register_sample_user(
@@ -148,7 +148,7 @@ mod tests {
     async fn test_register_user() {
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: "registerTest@gmail.com".to_string(),
+            email: "registerTest0@gmail.com".to_string(),
             password: "longerThan8".to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
@@ -172,7 +172,7 @@ mod tests {
         // register user first so that the user exists
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: "loginTest@gmail.com".to_string(),
+            email: "registerTest1@gmail.com".to_string(),
             password: "longerThan8".to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
@@ -181,7 +181,6 @@ mod tests {
         let resp = client.post("/login_user").json(&user_request).send().await;
         assert_eq!(resp.status(), StatusCode::OK);
         let resp_json: routes::LoginResponse = resp.json().await;
-        assert!(resp_json.valid);
 
         // check that session ID provided in resp is in DB
         let mongo = get_mongodb_client().await;
@@ -194,5 +193,90 @@ mod tests {
             None => panic!("User with email {} does not exist", &user_request.email),
         };
         assert_eq!(resp_json.session_id, user.session_id);
+    }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_patient_form() {
+        let client = TestClient::new(setup_test_router().await);
+        let email = "registerTest2@gmail.com".to_string();
+        let user_request = routes::UserRequest {
+            email: email.clone(),
+            password: "longerThan8".to_string(),
+        };
+        let register_resp = register_sample_user(&client, &user_request).await;
+        let register_resp_json: routes::LoginResponse = register_resp.json().await;
+
+        let patient_form = routes::data::PatientForm {
+            email: email.clone(),
+            session_id: register_resp_json.session_id.clone(),
+            additional_info: "unique".to_string(),
+            ..Default::default()
+        };
+
+        let resp = client
+            .post("/post_patient_form")
+            .json(&patient_form)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        // Form should now exist for this email
+        let authenticated_request = routes::AuthenticatedRequest {
+            email,
+            session_id: register_resp_json.session_id,
+        };
+
+        let patient_form_resp = client
+            .post("/get_patient_form")
+            .json(&authenticated_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+        let patient_form_resp_json: routes::data::PatientForm = patient_form_resp.json().await;
+        assert_eq!(patient_form_resp_json.additional_info, "unique");
+    }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_therapist_form() {
+        let client = TestClient::new(setup_test_router().await);
+        let email = "registerTest3@gmail.com".to_string();
+        let user_request = routes::UserRequest {
+            email: email.clone(),
+            password: "longerThan8".to_string(),
+        };
+        let register_resp = register_sample_user(&client, &user_request).await;
+        let register_resp_json: routes::LoginResponse = register_resp.json().await;
+
+        let therapist_form = routes::data::TherapistForm {
+            email: email.clone(),
+            session_id: register_resp_json.session_id.clone(),
+            additional_info: "unique".to_string(),
+            ..Default::default()
+        };
+
+        let resp = client
+            .post("/post_therapist_form")
+            .json(&therapist_form)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        // Form should now exist for this email
+        let authenticated_request = routes::AuthenticatedRequest {
+            email,
+            session_id: register_resp_json.session_id,
+        };
+
+        let therapist_form_resp = client
+            .post("/get_therapist_form")
+            .json(&authenticated_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+        let therapist_form_resp_json: routes::data::TherapistForm =
+            therapist_form_resp.json().await;
+        assert_eq!(therapist_form_resp_json.additional_info, "unique");
     }
 }

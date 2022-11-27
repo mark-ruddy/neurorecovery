@@ -10,35 +10,27 @@ export class LoginService {
   constructor(private backendService: BackendService, private snackBar: MatSnackBar) { }
 
   async loginWithCredentials(email: string, password: string): Promise<boolean> {
-    let [valid, sessionId] = await this.backendService.loginUser({
+    let sessionId = await this.backendService.loginUser({
       email: email,
       password: password,
     });
 
-    if (valid) {
-      localStorage.setItem('email', email);
-      localStorage.setItem('logged_in', "true");
-      localStorage.setItem('session_id', sessionId);
-      return true;
-    } else {
-      return false;
-    }
+    localStorage.setItem('email', email);
+    localStorage.setItem('logged_in', "true");
+    localStorage.setItem('session_id', sessionId);
+    return true;
   }
 
   async register(email: string, password: string): Promise<boolean> {
-    let [valid, sessionId] = await this.backendService.registerUser({
+    let sessionId = await this.backendService.registerUser({
       email: email,
       password: password,
     });
 
-    if (valid) {
-      localStorage.setItem('email', email);
-      localStorage.setItem('logged_in', 'true');
-      localStorage.setItem('session_id', sessionId);
-      return true;
-    } else {
-      return false;
-    }
+    localStorage.setItem('email', email);
+    localStorage.setItem('logged_in', 'true');
+    localStorage.setItem('session_id', sessionId);
+    return true;
   }
 
   mustBeLoggedIn(): boolean {
