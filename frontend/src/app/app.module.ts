@@ -16,6 +16,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+
 import { AppRoutingModule } from './app-routing.module';
 import { InfoComponent } from './info/info.component';
 import { AppComponent } from './app.component';
@@ -24,6 +29,8 @@ import { ScheduledComponent } from './scheduled/scheduled.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
+import { InstantUlComponent } from './instant-ul/instant-ul.component';
+import { InstantLlComponent } from './instant-ll/instant-ll.component';
 
 export const modulesImports: any[] = [
   MatToolbarModule,
@@ -38,6 +45,10 @@ export const modulesImports: any[] = [
   MatExpansionModule,
   MatDialogModule,
   MatSelectModule,
+  VgCoreModule,
+  VgControlsModule,
+  VgOverlayPlayModule,
+  VgBufferingModule,
   BrowserModule,
   BrowserAnimationsModule,
   ReactiveFormsModule,
@@ -53,6 +64,8 @@ export const modulesImports: any[] = [
     LoginComponent,
     RegisterComponent,
     UserComponent,
+    InstantUlComponent,
+    InstantLlComponent,
   ],
   imports: modulesImports,
   providers: [],

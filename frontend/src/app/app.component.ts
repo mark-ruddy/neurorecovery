@@ -7,7 +7,7 @@ import { LoginService } from './services/login.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+  title = 'NeuroRecovery';
   loggedIn = false;
   sessionId = 'NONE';
   email = '';
