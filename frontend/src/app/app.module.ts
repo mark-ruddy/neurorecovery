@@ -15,7 +15,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { InfoComponent } from './info/info.component';
@@ -39,7 +38,6 @@ export const modulesImports: any[] = [
   MatExpansionModule,
   MatDialogModule,
   MatSelectModule,
-  MatListModule,
   BrowserModule,
   BrowserAnimationsModule,
   ReactiveFormsModule,

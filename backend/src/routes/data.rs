@@ -93,11 +93,9 @@ pub async fn insert_user(db: &Database, user: User) -> Result<(), Box<dyn Error>
     Ok(())
 }
 
-#[allow(dead_code)]
-pub async fn delete_user(db: &Database, user: User) -> Result<(), Box<dyn Error>> {
+pub async fn delete_user(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
     let coll = db.collection::<User>("users");
-    // is this filter needed??
-    let filter = doc! { "user": user.email };
+    let filter = doc! { "email": email };
     coll.delete_one(filter, None).await?;
     Ok(())
 }

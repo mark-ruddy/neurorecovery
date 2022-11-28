@@ -76,8 +76,7 @@ export class InfoComponent implements OnInit {
       } as PatientForm;
       this.backendService.postPatientForm(parsedForm);
       this.successfulSubmitSnackbar();
-      // TODO: develop the profile page which will have this info, and route there instead
-      this.router.navigate(['instant']);
+      this.router.navigate(['user']);
     }
     this.patientFormInProgress = false;
   }
@@ -99,8 +98,7 @@ export class InfoComponent implements OnInit {
       } as TherapistForm;
       this.backendService.postTherapistForm(parsedForm);
       this.successfulSubmitSnackbar();
-      // TODO: develop the profile page which will have this info, and route there instead
-      this.router.navigate(['instant']);
+      this.router.navigate(['user']);
     }
     this.therapistFormInProgress = false;
   }

@@ -83,19 +83,21 @@ mod tests {
     const MONGODB_URL: &str = "mongodb://10.43.252.173:27017";
     const MONGODB_USERNAME: &str = "root";
 
+    const SAMPLE_EMAIL: &str = "newuser@gmail.com";
+    const SAMPLE_PASSWORD: &str = "longerThanEight";
+
     #[ctor::ctor]
     fn init() {
         dotenv().ok();
         env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
     }
 
-    #[allow(dead_code)]
-    async fn teardown() {
+    async fn teardown_registered_user() {
         let mongodb_client = get_mongodb_client().await;
         let db = get_mongodb(mongodb_client);
-        routes::data::drop_collections(&db)
+        routes::data::delete_user(&db, SAMPLE_EMAIL)
             .await
-            .expect("Could not drop MongoDB collections");
+            .expect("Could not delete user");
     }
 
     async fn get_mongodb_client() -> Client {
@@ -123,14 +125,6 @@ mod tests {
         create_router(shared_state)
     }
 
-    #[tokio::test]
-    #[serial]
-    async fn test_index() {
-        let client = TestClient::new(setup_test_router().await);
-        let resp = client.get("/").send().await;
-        assert_eq!(resp.status(), StatusCode::OK);
-    }
-
     async fn register_sample_user(
         client: &TestClient,
         user_request: &routes::UserRequest,
@@ -145,11 +139,19 @@ mod tests {
 
     #[tokio::test]
     #[serial]
+    async fn test_index() {
+        let client = TestClient::new(setup_test_router().await);
+        let resp = client.get("/").send().await;
+        assert_eq!(resp.status(), StatusCode::OK);
+    }
+
+    #[tokio::test]
+    #[serial]
     async fn test_register_user() {
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: "registerTest0@gmail.com".to_string(),
-            password: "longerThan8".to_string(),
+            email: SAMPLE_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
         assert_eq!(resp.status(), StatusCode::OK);
@@ -164,6 +166,7 @@ mod tests {
             Some(_) => (),
             None => panic!("User with email {} does not exist", &user_request.email),
         }
+        teardown_registered_user().await;
     }
 
     #[tokio::test]
@@ -172,8 +175,8 @@ mod tests {
         // register user first so that the user exists
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: "registerTest1@gmail.com".to_string(),
-            password: "longerThan8".to_string(),
+            email: SAMPLE_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
         assert_eq!(resp.status(), StatusCode::OK);
@@ -193,22 +196,22 @@ mod tests {
             None => panic!("User with email {} does not exist", &user_request.email),
         };
         assert_eq!(resp_json.session_id, user.session_id);
+        teardown_registered_user().await;
     }
 
     #[tokio::test]
     #[serial]
     async fn test_patient_form() {
         let client = TestClient::new(setup_test_router().await);
-        let email = "registerTest2@gmail.com".to_string();
         let user_request = routes::UserRequest {
-            email: email.clone(),
-            password: "longerThan8".to_string(),
+            email: SAMPLE_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
         };
         let register_resp = register_sample_user(&client, &user_request).await;
         let register_resp_json: routes::LoginResponse = register_resp.json().await;
 
         let patient_form = routes::data::PatientForm {
-            email: email.clone(),
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id.clone(),
             additional_info: "unique".to_string(),
             ..Default::default()
@@ -223,7 +226,7 @@ mod tests {
 
         // Form should now exist for this email
         let authenticated_request = routes::AuthenticatedRequest {
-            email,
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id,
         };
 
@@ -235,22 +238,22 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
         let patient_form_resp_json: routes::data::PatientForm = patient_form_resp.json().await;
         assert_eq!(patient_form_resp_json.additional_info, "unique");
+        teardown_registered_user().await;
     }
 
     #[tokio::test]
     #[serial]
     async fn test_therapist_form() {
         let client = TestClient::new(setup_test_router().await);
-        let email = "registerTest3@gmail.com".to_string();
         let user_request = routes::UserRequest {
-            email: email.clone(),
-            password: "longerThan8".to_string(),
+            email: SAMPLE_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
         };
         let register_resp = register_sample_user(&client, &user_request).await;
         let register_resp_json: routes::LoginResponse = register_resp.json().await;
 
         let therapist_form = routes::data::TherapistForm {
-            email: email.clone(),
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id.clone(),
             additional_info: "unique".to_string(),
             ..Default::default()
@@ -265,7 +268,7 @@ mod tests {
 
         // Form should now exist for this email
         let authenticated_request = routes::AuthenticatedRequest {
-            email,
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id,
         };
 
@@ -278,5 +281,6 @@ mod tests {
         let therapist_form_resp_json: routes::data::TherapistForm =
             therapist_form_resp.json().await;
         assert_eq!(therapist_form_resp_json.additional_info, "unique");
+        teardown_registered_user().await;
     }
 }
