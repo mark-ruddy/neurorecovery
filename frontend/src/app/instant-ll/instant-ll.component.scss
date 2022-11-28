@@ -1,0 +1,67 @@
+@import '../../styles.scss';
+
+.general-form-container {
+  @include accent-background;
+}
+
+.general-form {
+  @include centered-container;
+  width: 80%;
+}
+
+.horizontal-div-container {
+  display: flex;
+  gap: 4vh;
+}
+
+.form-input-container {
+  width: 100%;
+}
+
+.form-add-button {
+  margin-bottom: 0.8vh;
+}
+
+.form-input-wide {
+  width: 100%;
+}
+
+.loading-bar-container {
+  margin-top: 1.5vh;
+}
+
+.last-input-container {
+  margin-bottom: 1.5vh;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+// below video controls
+.below-controls-container {
+  display: flex;
+  margin-top: 1vh;
+  gap: 2vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-button {
+  width: 50%;
+}
+
+.below-controls-button {
+  width: 30%;
+}
+
+.play-pause-container {
+  display: flex;
+  margin-top: 1vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-text {
+  font-size: 120%;
+}

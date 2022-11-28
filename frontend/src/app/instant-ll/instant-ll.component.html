@@ -1,2 +1,34 @@
-<h2>instant-ll is not available currently</h2>
+<div class='general-form-container'>
+  <div class='general-form player-container'>
+    <vg-player class='player' (onPlayerReady)="this.exerciseService.onPlayerReady($event)">
+      <video [vgMedia]='$any(media)' #media id='singleVideo' preload='auto'>
+        <source src='assets/video/general_ll_exercises.mp4' type='video/mp4'>
+      </video>
+    </vg-player>
+    <div *ngIf='!this.exerciseService.started' class='below-controls-container'>
+      <button (click)='this.exerciseService.start()' color='primary' class='start-button' mat-raised-button>Start Session</button>
+    </div>
+
+    <div *ngIf='this.exerciseService.started' class='below-controls-container'>
+      <button (click)='this.exerciseService.back()' color='primary' class='below-controls-button' mat-raised-button>
+        <mat-icon aria-hidden='false' fontIcon='skip_previous'></mat-icon>Last Exercise
+      </button>
+      <button *ngIf='!this.exerciseService.onLastExercise' [disabled]='!this.exerciseService.timerFinished' (click)='this.exerciseService.next()' color='primary' class='below-controls-button' mat-raised-button>Next Exercise
+        <mat-icon aria-hidden='false' fontIcon='skip_next'></mat-icon>
+      </button>
+      <button *ngIf='this.exerciseService.onLastExercise' [disabled]='!this.exerciseService.timerFinished' (click)='this.exerciseService.next()' color='primary' class='below-controls-button' mat-raised-button>Finish Session
+        <mat-icon aria-hidden='false' fontIcon='skip_next'></mat-icon>
+      </button>
+    </div>
+    <div *ngIf='this.exerciseService.started' class='play-pause-container'>
+      <button (click)='this.exerciseService.playPause()' color='primary' class='below-controls-button' mat-raised-button>
+        <mat-icon *ngIf='this.exerciseService.api.getDefaultMedia().canPlay' aria-hidden='false' aria-label='play/pause' fontIcon='pause'></mat-icon>
+    </button>
+    </div>
+
+    <div *ngIf='this.exerciseService.started' class='below-controls-container'>
+      <span class='status-text'>Next exercise available in {{exerciseService.timerCurrent}}s</span>
+      <span class='status-text'>Exercise {{exerciseService.exerciseIndex + 1}}/{{exerciseService.exerciseTimes.length}} Playing</span>
+  </div>
+</div>
 

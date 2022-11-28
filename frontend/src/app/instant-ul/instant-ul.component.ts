@@ -1,11 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ExercisesService } from '../services/exercises.service';
 
-export interface TimeSet {
-  StartTime: number,
-  EndTime: number,
-}
-
 @Component({
   selector: 'app-instant-ul',
   templateUrl: './instant-ul.component.html',
