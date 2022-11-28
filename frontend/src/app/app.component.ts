@@ -33,6 +33,5 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshLoginStatus();
-    // TODO: might need a timeout to call logout
   }
 }

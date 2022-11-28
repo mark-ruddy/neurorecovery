@@ -34,7 +34,6 @@ export class UserComponent implements OnInit {
   constructor(private loginService: LoginService, private backendService: BackendService) { }
 
   async ngOnInit() {
-    // TODO: user must be logged in, then user must have a type from backend, then query for the type of user info back and display
     if (!this.loginService.mustBeLoggedIn()) {
       this.notLoggedIn = true;
       return;

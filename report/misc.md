@@ -1,4 +1,0 @@
-### Android Platform with Kotlin
-The app will run on Android, which is the most common mobile platform used by people in the UK [TODO]. There will not be Apple Iphone support in order to keep the app focused on one software stack during its early development and testing stage. This decision was made in order to reach a Minimal Viable Product(MVP) in a reasonable development time.
-
-The app will be programmed in Kotlin, a Java Virtual Machine(JVM) based language which is now recommended over Java for new Android apps by Google [TODO]. Kotlin improves on some of Java's commonly perceived drawbacks, such as code verbosity. Kotlin was chosen for the NeuroRecovery app due to it being the first-language for new Android apps which receives the best support in the form of documentation, API updates, etc.
