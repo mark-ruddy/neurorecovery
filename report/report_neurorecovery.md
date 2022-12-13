@@ -44,19 +44,24 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
     + [NeuroRecovery as a Single Page Application](#neurorecovery-as-a-single-page-application)
   * [Backend Structure](#backend-structure)
     + [NoSQL Database Schema](#nosql-database-schema)
-      - [Users Collection Schema](#users-collection-schema)
+      - [Schema Code](#schema-code)
     + [Kubernetes Cluster](#kubernetes-cluster)
       - [Kubernetes Objects Utilised](#kubernetes-objects-utilised)
         * [Pods](#pods)
         * [Deployments](#deployments)
         * [ClusterIP Service](#clusterip-service)
         * [LoadBalancer Service](#loadbalancer-service)
-    + [Tilt CI/CD](#tilt-ci-cd)
+    + [Tilt CI/CD](#tilt-cicd)
+    + [Testing Strategy](#testing-strategy)
+      - [Automated Tests](#automated-tests)
+      - [Manual Tests](#manual-tests)
 - [Summary](#summary)
 - [References](#references)
 - [Appendices](#appendices)
   * [Appendix C Code](#appendix-c-code)
   * [Appendix D Test Suite](#appendix-d-test-suite)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 # Background
 ## Problem Statement
@@ -299,53 +304,55 @@ The database utilised for the NeuroRecovery app is MongoDB, which is categorised
 
 There is no traditional database schema defined for the data stored in MongoDB. Instead the data is represented by Rust Structs in the backend code, which are used when inserting, updating or retrieving data from a collection of documents.
 
-MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
+MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database. As seen in the Entity Relationship Diagram (Figure 5), the NeuroRecovery app is not expected to handle large amounts of relations as the majority of logic is in the frontend app.
+
+![Figure 5. Entity Relationship Diagram](images/diagrams/erd.png)
 
 #### Schema Code
 The NeuroRecovery app schema describes three different collections. User represents a patient or therapist's account, which includes a secure hashed password. Two 
 
-The users struct consists of optional extra information with a mandatory username and secure hashed password (Figure 5):
+The users struct consists of optional extra information with a mandatory username and secure hashed password (Figure 6):
 
-![Figure 5. User Struct](images/backend/user_struct.png)
+![Figure 6. User Struct](images/backend/user_struct.png)
 
 ### Kubernetes Cluster
-The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery` command displays these three microservices (Figure 6):
+The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery` command displays these three microservices (Figure 7):
 
-![Figure 6. Helm Ls NeuroRecovery](images/backend/helmls_neurorecovery.png)
+![Figure 7. Helm Ls NeuroRecovery](images/backend/helmls_neurorecovery.png)
 
-Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the `neurorecovery` namespace (Figure 7):
+Helm manages collections of objects that run on the Kubernetes Cluster. To see the underlying objects, the `kubectl get all -n neurorecovery` command will list all objects in the `neurorecovery` namespace (Figure 8):
 
-![Figure 7. Kubectl Ls NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
+![Figure 8. Kubectl Ls NeuroRecovery](images/backend/kubectlls_neurorecovery.png)
 
 #### Kubernetes Objects Utilised
 
 ##### Pods
 A pod is the smallest unit in Kubernetes, it is a set of containers running together. In the NeuroRecovery app's case the three pods are at `1/1`, indicating that one container is successfully running in each. Each pod in this case is hosting a server each - the frontend is serving Angular, the backend is serving Rust Axum, and the database is serving MongoDB. These servers are exposed by the services which will be discussed.
 
-Checking the logs of the backend and frontend pods running container (Figure 8):
+Checking the logs of the backend and frontend pods running container (Figure 9):
 
-![Figure 8. Kubectl Logs Pod](images/backend/kubectl_logs_pods.png)
+![Figure 9. Kubectl Logs Pod](images/backend/kubectl_logs_pods.png)
 
 ##### Deployments
 A deployment manages a pod. A pod can be deployed without a deployment, and if it was deleted or crashed, it would be gone. A pod deployed by a deployment though is under management, if the pod crashes it will be automatically replaced with a new equivalent pod. This is a core feature of Kubernetes Clusters, high availability even during crashes [29].
 
-For example, on deleting the frontend pod while it is serving on `http://localhost:80`, there is no downtime and the HTTP requests continue to work as the deployment creates a new frontend pod (Figure 9):
+For example, on deleting the frontend pod while it is serving on `http://localhost:80`, there is no downtime and the HTTP requests continue to work as the deployment creates a new frontend pod (Figure 10):
 
-![Figure 9. Deployment Pod Delete](images/backend/deployment_pod_delete.png)
+![Figure 10. Deployment Pod Delete](images/backend/deployment_pod_delete.png)
 
 ##### ClusterIP Service
 A ClusterIP service exposes the MongoDB pod on a static IP of `10.43.252.173`. A ClusterIP is only accessible from within the Kubernetes Cluster, which is a good security practice when only In-Cluster access is required. Services are used in Kubernetes since pods are temporary and can crash or be deleted, if the replacement pod returns the service will still be running.
 
-Accessing MongoDB on the static ClusterIP (Figure 10):
+Accessing MongoDB on the static ClusterIP (Figure 11):
 
-![Figure 10. MongoDB Connection](images/backend/mongo_connection.png)
+![Figure 11. MongoDB Connection](images/backend/mongo_connection.png)
 
 ##### LoadBalancer Service
 Both the backend and frontend are exposed on a LoadBalancer service, which are bound to a port on the Kubernetes host computer. The frontend binds to the default HTTP webserver port 80, and the backend binds to port 8080.
 
-Accessing the frontend server on `http://localhost:80` (Figure 11):
+Accessing the frontend server on `http://localhost:80` (Figure 12):
 
-![Figure 11. Frontend Localhost](images/backend/frontend_localhost.png)
+![Figure 12. Frontend Localhost](images/backend/frontend_localhost.png)
 
 ### Tilt CI/CD
 Tilt CI/CD deploys the Helm Charts of the three microservices to the cluster. It has also been configured to execute the unit tests for the Rust Axum backend server as seen in the dashboard image below.
@@ -354,9 +361,9 @@ Some alternatives for Tilt were considered for this project, including Jenkins [
 
 Most CI/CD solutions are based around setting up a server which multiple developers interact with, which is desired when a group of developers must use the same CI/CD solution. For the NeuroRecovery app though, since it is currently developed by one developer, a CI/CD solution was required that could run on a local PC; which Tilt handles well.
 
-Tilt dashboard running on local PC with the backend server automated test logs open (Figure 12):
+Tilt dashboard running on local PC with the backend server automated test logs open (Figure 13):
 
-![Figure 12. Tilt Demo](images/backend/tilt_demo_rust_test.png)
+![Figure 13. Tilt Demo](images/backend/tilt_demo_rust_test.png)
 
 ### Testing Strategy
 The testing strategy for the NeuroRecovery app is a mix of automated and manual tests. Testing should confirm that the app works as expected.
@@ -368,12 +375,18 @@ Compiling and running successfully in the Kubernetes cluster is a form of test i
 
 The backend has automated test code written specifically for it though. This is due to the heavy amount of business logic embedded in each HTTP endpoint.
 
-In the `test_patient_form` test, a new user is registered with a specific email. The test then sends a POST request to the `/post_patient_form` endpoint using that user's email and session ID, which should store the form in MongoDB. The test then sends another POST request to `/get_patient_form` with that user's details. If the form exists, the test will finish successfully (Figure 13). If this test runs successfully, the developer can be certain that the backend implementation for storing and retrieving patient forms is working correctly.
+In the `test_patient_form` test, a new user is registered with a specific email. The test then sends a POST request to the `/post_patient_form` endpoint using that user's email and session ID, which should store the form in MongoDB. The test then sends another POST request to `/get_patient_form` with that user's details. If the form exists, the test will finish successfully (Figure 14). If this test runs successfully, the developer can be certain that the backend implementation for storing and retrieving patient forms is working correctly.
 
-![Figure 13. Test Patient Form Code](images/backend/test_patient_form.png)
+![Figure 14. Test Patient Form Code](images/backend/test_patient_form.png)
 
 #### Manual Tests
-TODO
+The manual tests will confirm that the app is working as expected from an end users perspective. While automated testing can deliver a high degree of confidence, opening the app up and manually using it confirms if it is working or not. 
+
+Manual tests include but are not limited to:
+
+- Clicking through each link or button on the page. Checking that they redirect to the expected section and that the section is visible and aesthetically pleasing;
+- Registering a new user and viewing the changes on the frontend that occur, the login button is expected to change to a logout button;
+- Attempting to complete actions such as submitting a patient form without be logged in. The app should prevent this and display an error message informing the user that they must be logged in.
 
 # Summary
 In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for LL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops.
