@@ -1,4 +1,7 @@
 # NeuroRecovery
+## Report Generation
+`mdpdf report_neurorecovery.md`
+
 ## Deployment with Tilt CI/CD
 The NeuroRecovery app is tested and deployed with [Tilt CI/CD](https://tilt.dev/).  
 

@@ -61,7 +61,7 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
   * [Appendix C Code](#appendix-c-code)
   * [Appendix D Test Suite](#appendix-d-test-suite)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+\newpage
 
 # Background
 ## Problem Statement
