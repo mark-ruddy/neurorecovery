@@ -7,15 +7,7 @@ use mongodb::{
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
-const COLLECTIONS: [&str; 1] = ["users"];
-
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
-pub struct UserInfo {
-    pub user_type: String,
-    pub age: u8,
-    pub gender: String,
-    pub injury_description: Option<String>,
-}
+const COLLECTIONS: [&str; 3] = ["users", "patient_forms", "therapist_forms"];
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct User {
@@ -23,7 +15,6 @@ pub struct User {
     pub hash: String,
     pub salt: String,
     pub session_id: String,
-    pub info: Option<UserInfo>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

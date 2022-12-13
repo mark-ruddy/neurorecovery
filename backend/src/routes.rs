@@ -85,7 +85,6 @@ pub async fn register_user(
         hash,
         salt,
         session_id: session_id.clone(),
-        info: None,
     };
 
     match data::insert_user(&state.db, user).await {

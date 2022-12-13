@@ -301,7 +301,9 @@ There is no traditional database schema defined for the data stored in MongoDB. 
 
 MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
 
-#### Users Collection Schema
+#### Schema Code
+The NeuroRecovery app schema describes three different collections. User represents a patient or therapist's account, which includes a secure hashed password. Two 
+
 The users struct consists of optional extra information with a mandatory username and secure hashed password (Figure 5):
 
 ![Figure 5. User Struct](images/backend/user_struct.png)
@@ -355,6 +357,23 @@ Most CI/CD solutions are based around setting up a server which multiple develop
 Tilt dashboard running on local PC with the backend server automated test logs open (Figure 12):
 
 ![Figure 12. Tilt Demo](images/backend/tilt_demo_rust_test.png)
+
+### Testing Strategy
+The testing strategy for the NeuroRecovery app is a mix of automated and manual tests. Testing should confirm that the app works as expected.
+
+#### Automated Tests
+The automated tests are ran by Tilt CI/CD. The goal of the automated testing is to have a high degree of confidence that the app works as expected after making code changes.
+
+Compiling and running successfully in the Kubernetes cluster is a form of test in itself, this proves that the code is syntactically correct. For the frontend and MongoDB deployments, being able to compile and run successfully is considered sufficient automated testing.
+
+The backend has automated test code written specifically for it though. This is due to the heavy amount of business logic embedded in each HTTP endpoint.
+
+In the `test_patient_form` test, a new user is registered with a specific email. The test then sends a POST request to the `/post_patient_form` endpoint using that user's email and session ID, which should store the form in MongoDB. The test then sends another POST request to `/get_patient_form` with that user's details. If the form exists, the test will finish successfully (Figure 13). If this test runs successfully, the developer can be certain that the backend implementation for storing and retrieving patient forms is working correctly.
+
+![Figure 13. Test Patient Form Code](images/backend/test_patient_form.png)
+
+#### Manual Tests
+TODO
 
 # Summary
 In summary the NeuroRecovery app aims to assist patients to recover from post-stroke UL paralysis, with supplementary sections for LL paralysis. It will accomplish this through a webapp that users can access on any device that supports a web browser, such as phones or laptops.
