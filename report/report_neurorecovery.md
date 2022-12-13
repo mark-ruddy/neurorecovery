@@ -261,18 +261,18 @@ The finalistation phase will be to improve the app where possible and add follow
 ### App Sections
 In the app's navigation menu, the following sections will be present for users to select between:
 
-- Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present.
-- Schedule Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar [21][22].
+- Instant Exercise Session: Users can choose to start an exercise session immediately. This will allow users to complete a video-assisted exercise session without a therapist being present;
+- Schedule Exercise Session: Users can schedule an exercise session for a specific time and date with a therapist. The scheduling will be integrated with Google or Outlook calendar [21][22];
 - Update User Info: Section for a user to update their information. The user may be either a therapist or a patient, and the information requested will depend on this.
 
 ### User Interaction and Experience
 The NeuroRecovery apps User Interaction and Experience(UI/UX) is intended to be straightforward for the user to navigate and interact with. The core of the UI/UX for this app is the toolbar at the top of the screen and the collapsable menu at the left of the screen. These two elements will be present in all sections, which provide navigation access and style consistency throughout the entire app.
 
-In the center-right of the screen, the area not taken up by the toolbar or collapsable menu, is where the content of each section will be displayed. For example this could be a login form with a username and password field. The storyboard below visually displays this concept (Figure 3).
+The area of the screen that the content of each page appears in is referred to as the "section". For example when the user clicks the login button, a login form with a username and password field will be visible in the section. The storyboard below visually displays this concept (Figure 3).
 
 ![Figure 3. Menu Navigation Storyboard](images/storyboards/menu_navigation.png)
 
-The login form adheres to the UI/UX concept of the storyboard, with the toolbar and collapsable menu present and the login form section content in the center-right (Figure 4).
+The login form adheres to the UI/UX concept of the storyboard, with the toolbar and collapsable menu still visible while the user is in the login section (Figure 4).
 
 ![Figure 4. Login Form](images/frontend/login.png)
 
