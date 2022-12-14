@@ -61,8 +61,6 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
   * [Appendix C Code](#appendix-c-code)
   * [Appendix D Test Suite](#appendix-d-test-suite)
 
-\newpage
-
 # Background
 ## Problem Statement
 Globally over 20 million people suffer from stroke annually. In the UK there are 1.3 million stroke survivors, with 39 thousand stroke survivors in Northern Ireland alone. Up to 40% of stroke survivors suffer from permanent upper limb (UL) paralysis, which may affect their quality of life dramatically [3].
@@ -313,7 +311,7 @@ The NeuroRecovery app schema describes three different collections. User represe
 
 The users struct consists of optional extra information with a mandatory username and secure hashed password (Figure 6):
 
-![Figure 6. User Struct](images/backend/user_struct.png)
+![Figure 6. User Struct](images/backend/mongodb_structs.png)
 
 ### Kubernetes Cluster
 The Kubernetes Cluster for the NeuroRecovery app consists of three microservices as discussed previously. The output of the `helm ls -n neurorecovery` command displays these three microservices (Figure 7):

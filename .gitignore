@@ -1,6 +1,5 @@
 cache/
 out/
-dist/
 target/
 .env
 lock**

@@ -1,6 +1,8 @@
 # NeuroRecovery
 ## Report Generation
-`mdpdf report_neurorecovery.md`
+1. `pandoc report_neurorecovery.md -o dist/report_neurorecovery.docx`
+2. Manually add first page from template in libreoffice
+3. Export as pdf to `dist/report_neurorecovery.pdf` - this is report generated
 
 ## Deployment with Tilt CI/CD
 The NeuroRecovery app is tested and deployed with [Tilt CI/CD](https://tilt.dev/).  
