@@ -43,6 +43,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "argon_hash_password"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "48752d18be5c691642372f76f23c69175e7a26dc65a3011663fdd24713389211"
+dependencies = [
+ "argon2",
+ "rand",
+ "rand_core",
+]
+
+[[package]]
 name = "async-trait"
 version = "0.1.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -139,7 +150,7 @@ dependencies = [
 name = "backend"
 version = "0.1.0"
 dependencies = [
- "argon2",
+ "argon_hash_password",
  "axum",
  "axum-test-helper",
  "clap",
@@ -152,8 +163,6 @@ dependencies = [
  "lazy_static",
  "log",
  "mongodb",
- "rand",
- "rand_core",
  "reqwest",
  "serde",
  "serde_json",

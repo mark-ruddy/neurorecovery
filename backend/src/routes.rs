@@ -1,3 +1,6 @@
+use argon_hash_password::{
+    check_password_matches_hash, create_hash_and_salt, gen_session_id, verify_password_len,
+};
 use axum::{extract::Extension, Json};
 use email_address::EmailAddress;
 use http::StatusCode;
@@ -57,7 +60,7 @@ pub async fn register_user(
     }
 
     // Verify that password meets minimum requirements
-    match utils::verify_password(&payload.password) {
+    match verify_password_len(&payload.password) {
         true => (),
         false => return Err(StatusCode::BAD_REQUEST),
     }
@@ -71,7 +74,7 @@ pub async fn register_user(
         return Err(StatusCode::BAD_REQUEST);
     }
 
-    let (hash, salt) = match utils::argon_create_hash_and_salt(&payload.password) {
+    let (hash, salt) = match create_hash_and_salt(&payload.password) {
         Ok((hash, salt)) => (hash, salt),
         Err(e) => {
             error!("Failure hashing password: {}", e);
@@ -79,7 +82,7 @@ pub async fn register_user(
         }
     };
 
-    let session_id = utils::gen_session_id();
+    let session_id = gen_session_id();
     let user = data::User {
         email: payload.email.clone(),
         hash,
@@ -115,7 +118,7 @@ pub async fn login_user(
         }
     };
 
-    match utils::argon_check_password_matches(&payload.password, &user.hash, &user.salt) {
+    match check_password_matches_hash(&payload.password, &user.hash, &user.salt) {
         Ok(check) => {
             if !check {
                 info!("Password hash for user {} does not match", &payload.email);
@@ -128,7 +131,7 @@ pub async fn login_user(
         }
     };
 
-    let session_id = utils::gen_session_id();
+    let session_id = gen_session_id();
     match data::update_user_session_id(&state.db, &payload.email, &session_id).await {
         Ok(_) => (),
         Err(e) => {
