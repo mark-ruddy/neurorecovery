@@ -11,9 +11,12 @@ export class InstantUlComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.exerciseService.exerciseTimes = [
-      { StartTime: 4, EndTime: 8 },
-      { StartTime: 10, EndTime: 16 },
-      { StartTime: 44, EndTime: 55 },
+      { StartTime: 46, EndTime: 84 },
+      { StartTime: 90, EndTime: 121 },
+      { StartTime: 127, EndTime: 148 },
+      { StartTime: 156, EndTime: 179 },
+      { StartTime: 215, EndTime: 238 },
+      { StartTime: 240, EndTime: 269 },
     ];
   }
 

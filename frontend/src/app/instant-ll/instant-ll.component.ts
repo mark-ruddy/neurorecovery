@@ -12,9 +12,13 @@ export class InstantLlComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.exerciseService.exerciseTimes = [
-      { StartTime: 4, EndTime: 8 },
-      { StartTime: 10, EndTime: 16 },
-      { StartTime: 44, EndTime: 55 },
+      { StartTime: 46, EndTime: 80 },
+      { StartTime: 88, EndTime: 111 },
+      { StartTime: 116, EndTime: 157 },
+      { StartTime: 159, EndTime: 178 },
+      { StartTime: 187, EndTime: 231 },
+      { StartTime: 240, EndTime: 284 },
+      { StartTime: 330, EndTime: 357 },
     ];
   }
 
