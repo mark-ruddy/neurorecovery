@@ -18,7 +18,7 @@ local_resource('Test Backend', cmd='cargo test --manifest-path=backend/Cargo.tom
 ## buildah must be installed, usually bundled with podman 'sudo dnf install podman'
 custom_build(
   'neurorecovery-backend',
-  'buildah bud --build-arg NEURORECOVERY_MONGODB_PASS=%s -t $EXPECTED_REF backend && buildah push $EXPECTED_REF $EXPECTED_REF' % (os.getenv('NEURORECOVERY_MONGODB_PASS')),
+  'buildah bud --build-arg NEURORECOVERY_MONGODB_PASS=%s -t $EXPECTED_REF backend && buildah push $EXPECTED_REF' % (os.getenv('NEURORECOVERY_MONGODB_PASS')),
   ['./neurorecovery_backend'],
   skips_local_docker=True,
 )
@@ -35,7 +35,7 @@ helm_resource(
 
 custom_build(
   'neurorecovery-frontend',
-  'buildah bud -t $EXPECTED_REF frontend && buildah push $EXPECTED_REF $EXPECTED_REF',
+  'buildah bud -t $EXPECTED_REF frontend && buildah push $EXPECTED_REF',
   ['./neurorecovery_frontend'],
   skips_local_docker=True,
 )

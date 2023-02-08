@@ -31,7 +31,8 @@ export interface TherapistForm {
 })
 export class BackendService {
   // NOTE: In production this URL should be the host server address
-  public backendBaseUrl = 'http://localhost:8080';
+  // public backendBaseUrl = 'http://localhost:8080';
+  public backendBaseUrl = 'http://20.0.220.160:8080';
 
   public loginUserEndpoint = 'login_user';
   public registerUserEndpoint = 'register_user';
