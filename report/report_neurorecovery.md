@@ -3,6 +3,7 @@ Strokes affect people worldwide, and in up to 40% of cases stroke survivors suff
 
 The NeuroRecovery app aims to solve this gap, by allowing patients to access exercise sessions at home on any device that supports a web browser, such as phones or laptops. It also aims to increase remote connectivity between patients and therapists, by scheduling of exercise sessions followed by a video call with the therapist. This is expected to increase patients recovery from post-stroke upper and lower limb paralysis.
 
+# Table of Contents
 - [Abstract](#abstract)
 - [Background](#background)
   * [Problem Statement](#problem-statement)
@@ -12,7 +13,7 @@ The NeuroRecovery app aims to solve this gap, by allowing patients to access exe
       - [Scheduled Sessions](#scheduled-sessions)
       - [Demonstration Videos](#demonstration-videos)
       - [Notifications](#notifications)
-      - [UI/UX](#ui-ux)
+      - [UI/UX](#uiux)
       - [Patient Data Storage and Authentication](#patient-data-storage-and-authentication)
     + [Objectives](#objectives)
 - [Research and Analysis](#research-and-analysis)
@@ -302,7 +303,9 @@ The database utilised for the NeuroRecovery app is MongoDB, which is categorised
 
 There is no traditional database schema defined for the data stored in MongoDB. Instead the data is represented by Rust Structs in the backend code, which are used when inserting, updating or retrieving data from a collection of documents.
 
-MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database. As seen in the Entity Relationship Diagram (Figure 5), the NeuroRecovery app is not expected to handle large amounts of relations as the majority of logic is in the frontend app.
+MongoDB and NoSQL were chosen for the NeuroRecovery app due to its simplicity over SQL databases for development. The data is represented in the Rust backend code directly which involves less moving parts than having separate SQL files for schema applications to the database.
+
+The schema itself is denormalised, meaning that some duplicate information is stored in multiple collections to reduce the amount of read requests required. This is seen in the Entity Relationship Diagram (Figure 5), the users email is stored in the patient and therapist form collections as well as the users collection.
 
 ![Figure 5. Entity Relationship Diagram](images/diagrams/erd.png)
 
