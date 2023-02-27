@@ -26,6 +26,22 @@ export class AppComponent implements OnInit {
     }
   }
 
+  launchMatlab() {
+    fetch('http://localhost:5000/launch_matlab', {
+      method: 'GET'
+    })
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Non-200 code from launch_matlab/');
+        }
+        console.log('Successfully launched MATLAB!');
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch request:', error);
+      });
+  }
+
   logout() {
     this.loginService.logout();
     this.refreshLoginStatus();
