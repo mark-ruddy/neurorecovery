@@ -16,8 +16,7 @@ By completing the below steps the environment will be ready to deploy the applic
 - Start a Kubernetes cluster on your local machine such as [K3s](https://k3s.io/) which provides a Load Balancer by default. If using K3s, you may have to change the `traefik-config.yaml` to allow usage of port 80, see [Load Balance Rust](https://github.com/mark-ruddy/load_balance_rust) for more details.
 - Install `kubectl`, `helm`, `podman` and `buildah` locally, on Fedora this would be: `sudo dnf install kubernetes helm podman buildah`.
   - On other Linux distros(RHEL8, Ubuntu, etc.) view these links to install: [Podman/Buildah install](https://podman.io/getting-started/installation), [Kubectl binary install](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), [Helm binary install](https://helm.sh/docs/intro/install/)
-- Install [Foundry](https://book.getfoundry.sh/getting-started/installation) locally for contract compiliation and testing
-- Deploy an image registry on the Kubernetes cluster, see [setting up any Image Registry](https://docs.tilt.dev/personal_registry.html) from Tilt, an example of deploying a [registry from scratch](custom_image_registry.md).
+- Deploy an image registry on the Kubernetes cluster, see [setting up any Image Registry](https://docs.tilt.dev/personal_registry.html) from Tilt, an example of deploying a [registry from scratch](custom_image_registry.md). Ensure to apply cluster registry yaml file so Tilt identifies it.
 - Clone the repo into the deployment server: `git clone git@github.com:mark-ruddy/neurorecovery.git`
 - Add a `.env` file to the `backend` directory, `touch backend/.env` - add your own keys in this format:
 
