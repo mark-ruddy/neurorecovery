@@ -91,7 +91,7 @@ mod tests {
     const MONGODB_URL: &str = "mongodb://10.43.252.173:27017";
     const MONGODB_USERNAME: &str = "root";
 
-    const SAMPLE_EMAIL: &str = "newuser1@gmail.com";
+    const SAMPLE_EMAIL: &str = "sampleuser@gmail.com";
     const SAMPLE_PASSWORD: &str = "longerThanEight";
 
     #[ctor::ctor]
@@ -158,7 +158,7 @@ mod tests {
     async fn test_register_user() {
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: format!("{}a", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             password: SAMPLE_PASSWORD.to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
@@ -180,10 +180,11 @@ mod tests {
     #[tokio::test]
     #[serial]
     async fn test_login_user() {
+        teardown_registered_user().await;
         // register user first so that the user exists
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: format!("{}t", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             password: SAMPLE_PASSWORD.to_string(),
         };
         let resp = register_sample_user(&client, &user_request).await;
@@ -210,9 +211,10 @@ mod tests {
     #[tokio::test]
     #[serial]
     async fn test_patient_form() {
+        teardown_registered_user().await;
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: format!("{}y", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             password: SAMPLE_PASSWORD.to_string(),
         };
         let register_resp = register_sample_user(&client, &user_request).await;
@@ -234,7 +236,7 @@ mod tests {
 
         // Form should now exist for this email
         let authenticated_request = routes::AuthenticatedRequest {
-            email: format!("{}y", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id,
         };
 
@@ -252,9 +254,10 @@ mod tests {
     #[tokio::test]
     #[serial]
     async fn test_therapist_form() {
+        teardown_registered_user().await;
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: format!("{}x", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             password: SAMPLE_PASSWORD.to_string(),
         };
         let register_resp = register_sample_user(&client, &user_request).await;
@@ -276,7 +279,7 @@ mod tests {
 
         // Form should now exist for this email
         let authenticated_request = routes::AuthenticatedRequest {
-            email: format!("{}x", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id.clone(),
         };
 
@@ -286,6 +289,7 @@ mod tests {
             .send()
             .await;
         assert_eq!(resp.status(), StatusCode::OK);
+
         let therapist_form_resp_json: routes::data::TherapistForm =
             therapist_form_resp.json().await;
         assert_eq!(therapist_form_resp_json.additional_info, "unique");
@@ -295,9 +299,10 @@ mod tests {
     #[tokio::test]
     #[serial]
     async fn test_exercise_session() {
+        teardown_registered_user().await;
         let client = TestClient::new(setup_test_router().await);
         let user_request = routes::UserRequest {
-            email: format!("{}z", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             password: SAMPLE_PASSWORD.to_string(),
         };
         let register_resp = register_sample_user(&client, &user_request).await;
@@ -306,7 +311,10 @@ mod tests {
         let exercise_session = routes::data::ExerciseSession {
             email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id.clone(),
-            ..Default::default()
+            total_time_taken_secs: "60".to_string(),
+            kind: "instant_ll".to_string(),
+            datetime: "non".to_string(),
+            num_exercises_completed: "7".to_string(),
         };
 
         let resp = client
@@ -318,19 +326,24 @@ mod tests {
 
         // Form should now exist for this email
         let authenticated_request = routes::AuthenticatedRequest {
-            email: format!("{}z", SAMPLE_EMAIL),
+            email: SAMPLE_EMAIL.to_string(),
             session_id: register_resp_json.session_id,
         };
 
         let exercise_session_resp = client
-            .post("/get_exercise_session")
+            .post("/get_exercise_sessions")
             .json(&authenticated_request)
             .send()
             .await;
         assert_eq!(resp.status(), StatusCode::OK);
-        let exercise_session_resp_json: routes::data::TherapistForm =
+
+        // let body = exercise_session_resp.text().await;
+        // info!("body: {}", body);
+
+        let exercise_session_resp_json: Vec<routes::data::ExerciseSession> =
             exercise_session_resp.json().await;
-        assert_eq!(exercise_session_resp_json.additional_info, "unique");
+        assert_eq!(exercise_session_resp_json[0].total_time_taken_secs, "60");
+        assert_eq!(exercise_session_resp_json[0].num_exercises_completed, "7");
         teardown_registered_user().await;
     }
 }
