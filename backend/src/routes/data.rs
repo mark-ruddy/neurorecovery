@@ -1,4 +1,4 @@
-use futures::TryStreamExt;
+use futures::{StreamExt, TryStreamExt};
 use log::info;
 use mongodb::{
     bson::doc, bson::Document, options::ClientOptions, options::CreateCollectionOptions,
@@ -33,6 +33,16 @@ pub struct TherapistForm {
     pub num_patients: String,
     pub expected_weekly_appointments: String,
     pub additional_info: String,
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct ExerciseSession {
+    pub kind: String,
+    pub datetime: String,
+    pub total_time_taken_secs: String,
+    pub num_exercises_completed: String,
     pub email: String,
     pub session_id: String,
 }
@@ -184,9 +194,9 @@ pub async fn get_patient_form(
     db: &Database,
     email: &str,
 ) -> Result<Option<PatientForm>, Box<dyn Error>> {
-    let patient_coll = db.collection::<PatientForm>("patient_forms");
+    let coll = db.collection::<PatientForm>("patient_forms");
     let filter = doc! { "email": email };
-    match patient_coll.find_one(filter.clone(), None).await? {
+    match coll.find_one(filter.clone(), None).await? {
         Some(patient_form) => Ok(Some(patient_form)),
         None => Ok(None),
     }
@@ -196,12 +206,29 @@ pub async fn get_therapist_form(
     db: &Database,
     email: &str,
 ) -> Result<Option<TherapistForm>, Box<dyn Error>> {
-    let therapist_coll = db.collection::<TherapistForm>("therapist_forms");
+    let coll = db.collection::<TherapistForm>("therapist_forms");
     let filter = doc! { "email": email };
-    match therapist_coll.find_one(filter.clone(), None).await? {
+    match coll.find_one(filter.clone(), None).await? {
         Some(therapist_form) => Ok(Some(therapist_form)),
         None => Ok(None),
     }
+}
+
+pub async fn get_exercise_sessions(
+    db: &Database,
+    email: &str,
+) -> Result<Option<Vec<ExerciseSession>>, Box<dyn Error>> {
+    let coll = db.collection::<ExerciseSession>("exercise_sessions");
+    let filter = doc! { "email": email };
+    let mut cursor = coll.find(filter.clone(), None).await?;
+    let mut exercise_sessions = vec![];
+    while let Some(exercise_session) = cursor.next().await {
+        exercise_sessions.push(exercise_session?);
+    }
+    if exercise_sessions.len() == 0 {
+        return Ok(None);
+    }
+    Ok(Some(exercise_sessions))
 }
 
 pub async fn insert_patient_form(
@@ -219,5 +246,14 @@ pub async fn insert_therapist_form(
 ) -> Result<(), Box<dyn Error>> {
     let coll = db.collection::<TherapistForm>("therapist_forms");
     coll.insert_one(therapist_form, None).await?;
+    Ok(())
+}
+
+pub async fn insert_exercise_session(
+    db: &Database,
+    exercise_session: ExerciseSession,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<ExerciseSession>("exercise_sessions");
+    coll.insert_one(exercise_session, None).await?;
     Ok(())
 }

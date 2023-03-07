@@ -20,6 +20,7 @@ export class ExercisesService {
   preload: string = 'auto';
   api = new VgApiService;
   started = false;
+  startEpoch = 0;
 
   timePerExercise = 3;
   timerCurrent = 0;
@@ -31,12 +32,14 @@ export class ExercisesService {
   onLastExercise = false;
   highestCompletedExerciseIndex = 0;
 
-  // Possibly better way to do this
+  ngOnInit(): void { }
+
   resetState() {
     this.resetTimer();
     this.preload = 'auto';
     this.api = new VgApiService;
     this.started = false;
+    this.startEpoch = 0;
     this.timePerExercise = 3;
     this.timerCurrent = 0;
     this.timerFinished = true;
@@ -47,7 +50,12 @@ export class ExercisesService {
     this.highestCompletedExerciseIndex = 0;
   }
 
-  ngOnInit(): void {
+  start() {
+    this.started = true;
+    this.startEpoch = new Date().getTime();
+    this.resetTimer();
+    this.startTimer();
+    this.playCurrentExercise();
   }
 
   startTimer() {
@@ -76,23 +84,13 @@ export class ExercisesService {
 
   onPlayerReady(api: VgApiService) {
     this.api = api;
-
-    // Add subscribed bindings for the player here
     this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
       () => {
         if (this.api.getDefaultMedia().currentTime >= this.exerciseTimes[this.exerciseIndex].EndTime) {
-          // instead of pausing here rewind to the start of the exercise to simulate a looped video
           this.playCurrentExercise();
         }
       }
     );
-  }
-
-  start() {
-    this.started = true;
-    this.resetTimer();
-    this.startTimer();
-    this.playCurrentExercise();
   }
 
   playCurrentExercise() {
@@ -114,6 +112,9 @@ export class ExercisesService {
         this.onLastExercise = true;
       }
     } else {
+      // NOTE: exit point
+
+      // TODO: need some way to exfil data from here, probably need a backend endpoint that it hits after each exercise session to save it right?
       this.snackBar.open(successMessages['finishedExercises'], '', {
         duration: 3000,
         panelClass: ['mat-toolbar'],

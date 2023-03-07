@@ -198,6 +198,34 @@ pub async fn post_therapist_form(
     Ok(())
 }
 
+pub async fn post_exercise_session(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<data::ExerciseSession>,
+) -> Result<(), StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    // Delete any existing user info as it will be overwritten
+    match data::delete_user_info_if_existing(&state.db, &payload.email).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure deleting existing user data: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    match data::insert_exercise_session(&state.db, payload).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure inserting exercise session: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
+}
+
 pub async fn get_patient_form(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<AuthenticatedRequest>,
@@ -246,6 +274,31 @@ pub async fn get_therapist_form(
         }
     };
     Ok(Json(form))
+}
+
+pub async fn get_exercise_sessions(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<AuthenticatedRequest>,
+) -> Result<Json<Vec<data::ExerciseSession>>, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    let exercise_essions = match data::get_exercise_sessions(&state.db, &payload.email).await {
+        Ok(exercise_sessions) => match exercise_sessions {
+            Some(exercise_sessions) => exercise_sessions,
+            None => {
+                info!("No exercise sessions available for request");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        },
+        Err(e) => {
+            error!("Failure finding exercise sessions: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    };
+    Ok(Json(exercise_essions))
 }
 
 pub async fn get_user_type(
