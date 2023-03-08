@@ -1,7 +1,7 @@
 <div class='general-form-container'>
   <div class='general-form'>
     <h1>Profile Information</h1>
-    <ng-container *ngIf='notLoggedIn'>
+    <ng-container *ngIf='!loggedIn'>
         <h2>You must <a routerLink='/login' class='primary-link'>login</a> or <a routerLink='/register' class='primary-link'>register</a> to view profile details</h2>
     </ng-container>
 

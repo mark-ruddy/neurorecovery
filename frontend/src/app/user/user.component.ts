@@ -35,15 +35,15 @@ export class UserComponent implements OnInit {
 
   userType = '';
   email = '';
-  notLoggedIn = false;
+  loggedIn = false;
 
   constructor(private loginService: LoginService, private backendService: BackendService) { }
 
   async ngOnInit() {
     if (!this.loginService.mustBeLoggedIn()) {
-      this.notLoggedIn = true;
       return;
     }
+    this.loggedIn = true;
     this.email = localStorage.getItem('email')!;
 
     let authenticatedRequest = {

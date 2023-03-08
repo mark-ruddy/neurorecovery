@@ -1,1 +1,21 @@
-<p>scheduled works!</p>
+<div class='general-form-container'>
+  <div class='general-form'>
+  <ng-container *ngIf='!loggedIn'>
+      <h2>You must <a routerLink='/login' class='primary-link'>login</a> or <a routerLink='/register' class='primary-link'>register</a> to schedule an exercise session</h2>
+  </ng-container>
+
+  <form *ngIf='loggedIn' [formGroup]='contactForm' (ngSubmit)='onSubmit()'>
+    <h3>Enter the email of your patient or therapist below to schedule an exercise session with them.</h3>
+    <h3>A calendar file compatible with meeting tools suchs as Microsoft Teams will be sent to both you and them.</h3>
+    <mat-form-field appearance='fill' class='form-input-wide'>
+      <mat-label>Patient/Therapist Email</mat-label>
+      <input formControlName='contactEmail' type='email' matInput>
+    </mat-form-field>
+    <mat-form-field appearance='fill' class='form-input-wide'>
+      <mat-label>Date/Time for Session</mat-label>
+      <input formControlName='datetime' type='datetime-local' matInput>
+    </mat-form-field>
+    <button [disabled]='!contactForm.valid' type='submit' color='primary' mat-raised-button>Send Session Invitation</button>
+  </form>
+  </div>
+</div>

@@ -27,7 +27,7 @@ struct Args {
     #[clap(long, default_value = "root")]
     mongodb_username: String,
     /// MongoDB app and db name
-    #[clap(long, default_value = "klaytn_installments")]
+    #[clap(long, default_value = "neurorecovery")]
     mongodb_name: String,
 }
 

@@ -1,3 +1,8 @@
-- data gathering in video, with frontend->backend data storing
-- language localisation, with a dropdown selector that I can showcase in demo, can mention how it was a factor from that pre-checklist study
-- matlab integration
+// - matlab integration
+// - exercise data gathering, with frontend->backend data storing
+- Basic implementation of scheduled, maybe just the .ics file being sent or smth similar
+- Third exercise video section
+- Finish pptx
+
+Future:
+- language localisation, with a dropdown selector
