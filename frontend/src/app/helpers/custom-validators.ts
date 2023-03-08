@@ -63,12 +63,14 @@ export const errorMessages: { [key: string]: string } = {
   mustBeLoggedIn: "You must be logged in for this action",
   confirmPasswordNotMatching: "Passwords do not match",
   minimumPasswordLength: "Password must meet minimum length of 8",
-  mustBeInteger: 'Must be a whole number',
-  dateCannotBeInFuture: 'Date cannot be in the future',
+  mustBeInteger: "Must be a whole number",
+  dateCannotBeInFuture: "Date cannot be in the future",
+  matlabFailedLaunch: "Matlab failed to launch",
 }
 
 export const successMessages: { [key: string]: string } = {
   successfulRegistration: "Successful registration",
   successfulFormSubmission: "Successful form submission",
   finishedExercises: "Successfully finished exercise session",
+  matlabSuccessfulLaunch: "Matlab has been launched",
 }
