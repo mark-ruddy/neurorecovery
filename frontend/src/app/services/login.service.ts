@@ -46,6 +46,14 @@ export class LoginService {
     return false;
   }
 
+  isLoggedIn(): boolean {
+    if (localStorage.getItem('logged_in') == 'true') {
+      return true;
+    }
+    return false;
+  }
+
+
   logout() {
     localStorage.setItem('email', '');
     localStorage.setItem('logged_in', 'false')

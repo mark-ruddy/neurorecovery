@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { VgApiService } from '@videogular/ngx-videogular/core';
 import { successMessages } from '../helpers/custom-validators';
+import { BackendService, ExerciseSession } from './backend.service';
+import { LoginService } from './login.service';
 
 export interface TimeSet {
   StartTime: number,
@@ -15,7 +17,7 @@ export interface TimeSet {
 })
 export class ExercisesService {
 
-  constructor(private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private snackBar: MatSnackBar, private router: Router, private backendService: BackendService, private loginService: LoginService) { }
 
   preload: string = 'auto';
   api = new VgApiService;
@@ -31,6 +33,13 @@ export class ExercisesService {
   exerciseTimes = new Array<TimeSet>;
   onLastExercise = false;
   highestCompletedExerciseIndex = 0;
+
+  // external values
+  kind = "";
+  // exercise session values
+  datetime = "";
+  total_time_taken_secs = 0;
+  num_exercises_completed = 0;
 
   ngOnInit(): void { }
 
@@ -52,10 +61,18 @@ export class ExercisesService {
 
   start() {
     this.started = true;
+
     this.startEpoch = new Date().getTime();
+    this.datetime = new Date().toLocaleString();
+    this.num_exercises_completed = this.exerciseTimes.length;
+
     this.resetTimer();
     this.startTimer();
     this.playCurrentExercise();
+  }
+
+  fill_external_values(kind: string) {
+    this.kind = kind;
   }
 
   startTimer() {
@@ -112,17 +129,8 @@ export class ExercisesService {
         this.onLastExercise = true;
       }
     } else {
-      // NOTE: exit point
-
-      // TODO: need some way to exfil data from here, probably need a backend endpoint that it hits after each exercise session to save it right?
-      this.snackBar.open(successMessages['finishedExercises'], '', {
-        duration: 3000,
-        panelClass: ['mat-toolbar'],
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
-      });
-      this.resetState();
-      this.router.navigate(['instant']);
+      // Code execution reaches here when user finishes session
+      this.exit()
     }
   }
 
@@ -140,5 +148,29 @@ export class ExercisesService {
     if (this.api.getDefaultMedia().canPlay) {
       this.api.getDefaultMedia().play();
     }
+  }
+
+  exit() {
+    if (this.loginService.isLoggedIn()) {
+      // if user is logged in then send back details of completed session
+      this.total_time_taken_secs = (this.startEpoch - new Date().getTime()) / 1000;
+
+      this.backendService.postExerciseSession({
+        kind: this.kind,
+        datetime: this.datetime,
+        total_time_taken_secs: this.total_time_taken_secs,
+        num_exercises_completed: this.num_exercises_completed,
+        session_id: localStorage.getItem('session_id')!,
+      })
+    }
+
+    this.snackBar.open(successMessages['finishedExercises'], '', {
+      duration: 3000,
+      panelClass: ['mat-toolbar'],
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+    this.resetState();
+    this.router.navigate(['instant']);
   }
 }

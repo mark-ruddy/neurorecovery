@@ -10,7 +10,8 @@
   </div>
 </div>
 
-<div *ngIf='userType == "Patient"' class='general-form-container'>
+<!-- TODO: need better styling on page -->
+<div *ngIf='userType == "Patient" && patientForm != null' class='general-form-container'>
   <div class='general-form'>
     <mat-list role='list'>
       <mat-list-item><span matListItemTitle class='listitem-text'>Hi Patient {{email}}, your NeuroRecovery profile details:</span></mat-list-item>
@@ -22,7 +23,7 @@
   </div>
 </div>
 
-<div *ngIf='userType == "Therapist"' class='general-form-container'>
+<div *ngIf='userType == "Therapist" && therapistForm != null' class='general-form-container'>
   <div class='general-form'>
     <mat-list role='list'>
       <mat-list-item><span matListItemTitle class='listitem-text'>Hi Therapist {{email}}, your NeuroRecovery profile details:</span></mat-list-item>
@@ -31,5 +32,19 @@
       <mat-list-item role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
       <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
     </mat-list>
+  </div>
+</div>
+
+<!-- TODO - collapsable exercise list or something -->
+<div *ngIf='exerciseSessions != null' class='general-form-container'>
+  <div class='general-form'>
+    <ng-container *ngFor='let exerciseSession of exerciseSessions'>
+      <mat-list role='list'>
+        <mat-list-item role='listitem' class='listitem-text'>Kind: {{exerciseSession.kind}}</mat-list-item>
+        <mat-list-item role='listitem' class='listitem-text'>Datetime: {{exerciseSession.datetime}}</mat-list-item>
+        <mat-list-item role='listitem' class='listitem-text'>Total time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
+        <mat-list-item role='listitem' class='listitem-text'>Number of exercises completed: {{exerciseSession.num_exercises_completed}}</mat-list-item>
+      </mat-list>
+    </ng-container>
   </div>
 </div>

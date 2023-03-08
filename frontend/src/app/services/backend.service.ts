@@ -26,6 +26,14 @@ export interface TherapistForm {
   session_id: string,
 }
 
+export interface ExerciseSession {
+  kind: string,
+  datetime: string,
+  total_time_taken_secs: number,
+  num_exercises_completed: number,
+  session_id: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,9 +45,11 @@ export class BackendService {
   public registerUserEndpoint = 'register_user';
   public postPatientFormEndpoint = 'post_patient_form';
   public postTherapistFormEndpoint = 'post_therapist_form';
-  public getUserTypeEndpoint = 'get_user_type';
+  public postExerciseSessionEndpoint = 'post_exercise_session';
   public getPatientFormEndpoint = 'get_patient_form';
   public getTherapistFormEndpoint = 'get_therapist_form';
+  public getExerciseSessionsEndpoint = 'get_exercise_session';
+  public getUserTypeEndpoint = 'get_user_type';
 
   constructor() { }
 
@@ -99,18 +109,17 @@ export class BackendService {
     }
   }
 
-  async getUserType(authenticatedRequest: AuthenticatedRequest): Promise<string> {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.getUserTypeEndpoint}`, {
+  async postExerciseSession(exerciseSession: ExerciseSession) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postExerciseSessionEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(authenticatedRequest),
+      body: JSON.stringify(exerciseSession),
     })
     if (!resp.ok) {
       throw new Error(resp.statusText);
     }
-    return resp.text()
   }
 
   async getPatientForm(authenticatedRequest: AuthenticatedRequest): Promise<PatientForm> {
@@ -139,5 +148,33 @@ export class BackendService {
       throw new Error(resp.statusText);
     }
     return resp.json()
+  }
+
+  async getExerciseSessions(authenticatedRequest: AuthenticatedRequest): Promise<Array<ExerciseSession>> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getExerciseSessionsEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.json()
+  }
+
+  async getUserType(authenticatedRequest: AuthenticatedRequest): Promise<string> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getUserTypeEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.text()
   }
 }

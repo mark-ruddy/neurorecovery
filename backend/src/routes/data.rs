@@ -47,13 +47,6 @@ pub struct ExerciseSession {
     pub session_id: String,
 }
 
-/*
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
-pub struct ExerciseSessions {
-    sessions: Vec<ExerciseSession>,
-}
-*/
-
 pub async fn init_mongo_client(
     conn_url: &str,
     app_name: &str,
