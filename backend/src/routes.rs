@@ -207,15 +207,6 @@ pub async fn post_exercise_session(
         Err(e) => return Err(e),
     };
 
-    // Delete any existing user info as it will be overwritten
-    match data::delete_user_info_if_existing(&state.db, &payload.email).await {
-        Ok(()) => (),
-        Err(e) => {
-            error!("Failure deleting existing user data: {}", e);
-            return Err(StatusCode::INTERNAL_SERVER_ERROR);
-        }
-    }
-
     match data::insert_exercise_session(&state.db, payload).await {
         Ok(()) => (),
         Err(e) => {
