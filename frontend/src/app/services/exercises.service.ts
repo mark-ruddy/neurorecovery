@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { VgApiService } from '@videogular/ngx-videogular/core';
 import { successMessages } from '../helpers/custom-validators';
-import { BackendService, ExerciseSession } from './backend.service';
+import { BackendService } from './backend.service';
 import { LoginService } from './login.service';
 
 export interface TimeSet {
@@ -24,7 +24,7 @@ export class ExercisesService {
   started = false;
   startEpoch = 0;
 
-  timePerExercise = 3;
+  timePerExercise = 1;
   timerCurrent = 0;
   timerFinished = true;
   interval: any = null;
@@ -38,8 +38,8 @@ export class ExercisesService {
   kind = "";
   // exercise session values
   datetime = "";
-  total_time_taken_secs = 0;
-  num_exercises_completed = 0;
+  totalTimeTakenSecs = 0;
+  numExercisesCompleted = 0;
 
   ngOnInit(): void { }
 
@@ -64,7 +64,7 @@ export class ExercisesService {
 
     this.startEpoch = new Date().getTime();
     this.datetime = new Date().toLocaleString();
-    this.num_exercises_completed = this.exerciseTimes.length;
+    this.numExercisesCompleted = this.exerciseTimes.length;
 
     this.resetTimer();
     this.startTimer();
@@ -153,13 +153,15 @@ export class ExercisesService {
   exit() {
     if (this.loginService.isLoggedIn()) {
       // if user is logged in then send back details of completed session
-      this.total_time_taken_secs = (this.startEpoch - new Date().getTime()) / 1000;
+      this.totalTimeTakenSecs = (new Date().getTime() - this.startEpoch) / 1000;
+      this.totalTimeTakenSecs = Math.round(this.totalTimeTakenSecs);
 
       this.backendService.postExerciseSession({
         kind: this.kind,
         datetime: this.datetime,
-        total_time_taken_secs: this.total_time_taken_secs,
-        num_exercises_completed: this.num_exercises_completed,
+        total_time_taken_secs: this.totalTimeTakenSecs.toString(),
+        num_exercises_completed: this.numExercisesCompleted.toString(),
+        email: localStorage.getItem('email')!,
         session_id: localStorage.getItem('session_id')!,
       })
     }

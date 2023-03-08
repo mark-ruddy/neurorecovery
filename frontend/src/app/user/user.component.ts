@@ -11,12 +11,27 @@ import { PatientForm, TherapistForm } from '../services/backend.service';
 export class UserComponent implements OnInit {
   userDataFetchInProgress = false;
 
-  patientForm: PatientForm | null = null;
-  therapistForm: TherapistForm | null = null;
-  exerciseSessions: Array<ExerciseSession> | null = null;
+  patientForm: PatientForm = {
+    full_name: 'sample',
+    stroke_date: 'sample',
+    injury_side: 'sample',
+    additional_info: 'sample',
+    email: 'sample',
+    session_id: 'sample',
+  };
 
-  totalExerciseSessionsCompleted: number | null = null;
-  totalTimeSecsSpentExercising: number | null = null;
+  therapistForm: TherapistForm = {
+    full_name: 'sample',
+    num_patients: 0,
+    expected_weekly_appointments: 0,
+    additional_info: 'sample',
+    email: 'sample',
+    session_id: 'sample',
+  };
+  exerciseSessions: Array<ExerciseSession> = [];
+
+  totalExerciseSessionsCompleted: number = 0;
+  totalTimeSecsSpentExercising: number = 0;
 
   userType = '';
   email = '';
@@ -54,6 +69,10 @@ export class UserComponent implements OnInit {
     }
 
     this.exerciseSessions = await this.backendService.getExerciseSessions(authenticatedRequest);
+    if (this.exerciseSessions.length > 0) {
+      this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
+      this.exerciseSessions.forEach(exerciseSession => this.totalTimeSecsSpentExercising += parseInt(exerciseSession.total_time_taken_secs));
+    }
 
     this.userDataFetchInProgress = false;
   }

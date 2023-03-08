@@ -1,50 +1,70 @@
-<div *ngIf='notLoggedIn' class='general-form-container'>
+<div class='general-form-container'>
   <div class='general-form'>
-    <h2>You must <a routerLink='/login' class='primary-link'>login</a> or <a routerLink='/register' class='primary-link'>register</a> to view profile details</h2>
-  </div>
-</div>
-
-<div *ngIf='userType == ""' class='general-form-container'>
-  <div class='general-form'>
-    <h2>Hi {{email}} - <a routerLink='/info' class='primary-link'>Submit info</a> to view your profile details on this page</h2>
-  </div>
-</div>
-
-<!-- TODO: need better styling on page -->
-<div *ngIf='userType == "Patient" && patientForm != null' class='general-form-container'>
-  <div class='general-form'>
-    <mat-list role='list'>
-      <mat-list-item><span matListItemTitle class='listitem-text'>Hi Patient {{email}}, your NeuroRecovery profile details:</span></mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Name: {{patientForm.full_name}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Stroke Date: {{patientForm.stroke_date}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Injury Side: {{patientForm.injury_side}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{patientForm.additional_info}}</mat-list-item>
-    </mat-list>
-  </div>
-</div>
-
-<div *ngIf='userType == "Therapist" && therapistForm != null' class='general-form-container'>
-  <div class='general-form'>
-    <mat-list role='list'>
-      <mat-list-item><span matListItemTitle class='listitem-text'>Hi Therapist {{email}}, your NeuroRecovery profile details:</span></mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Name: {{therapistForm.full_name}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
-      <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
-    </mat-list>
-  </div>
-</div>
-
-<!-- TODO - collapsable exercise list or something -->
-<div *ngIf='exerciseSessions != null' class='general-form-container'>
-  <div class='general-form'>
-    <ng-container *ngFor='let exerciseSession of exerciseSessions'>
-      <mat-list role='list'>
-        <mat-list-item role='listitem' class='listitem-text'>Kind: {{exerciseSession.kind}}</mat-list-item>
-        <mat-list-item role='listitem' class='listitem-text'>Datetime: {{exerciseSession.datetime}}</mat-list-item>
-        <mat-list-item role='listitem' class='listitem-text'>Total time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
-        <mat-list-item role='listitem' class='listitem-text'>Number of exercises completed: {{exerciseSession.num_exercises_completed}}</mat-list-item>
-      </mat-list>
+    <h1>Profile Information</h1>
+    <ng-container *ngIf='notLoggedIn'>
+        <h2>You must <a routerLink='/login' class='primary-link'>login</a> or <a routerLink='/register' class='primary-link'>register</a> to view profile details</h2>
     </ng-container>
+
+    <ng-container *ngIf='userType == ""'>
+      <div class='general-form'>
+        <h2>Hi {{email}} - <a routerLink='/info' class='primary-link'>Submit info</a> to view your profile details on this page</h2>
+      </div>
+    </ng-container>
+
+    <!-- TODO: need better styling on page -->
+    <ng-container *ngIf='userType == "Patient"' class='margin-below margin'>
+      <mat-card>
+        <mat-card-header class='card-header'>Patient {{patientForm.full_name}} Info</mat-card-header>
+        <mat-card-content>
+          <mat-list role='list'>
+            <mat-list-item role='listitem' class='listitem-text'>Stroke Date: {{patientForm.stroke_date}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Injury Side: {{patientForm.injury_side}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{patientForm.additional_info}}</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <div *ngIf='userType == "Therapist"' class='margin-below margin'>
+      <mat-card>
+        <mat-card-header class='card-header'>Therapist {{therapistForm.full_name}} Info</mat-card-header>
+        <mat-card-content>
+          <mat-list role='list'>
+            <mat-list-item role='listitem' class='listitem-text'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <br>
+
+    <!-- TODO - collapsable exercise list or something -->
+    <div *ngIf='exerciseSessions!.length > 0' class='margin-above margin stretch'>
+      <mat-card>
+        <mat-card-header class='card-header'>Your Exercise Session Stats</mat-card-header>
+        <mat-card-content>
+          <mat-list role='list'>
+            <mat-list-item role='listitem' class='listitem-text'>Exercise sessions completed: {{totalExerciseSessionsCompleted}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Total time spent exercising: {{totalTimeSecsSpentExercising}}</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-expansion-panel *ngFor='let exerciseSession of exerciseSessions' class='margin-above' hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class='listitem-text'>
+            {{ exerciseSession.kind }}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ exerciseSession.datetime }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list role='list'>
+            <mat-list-item role='listitem' class='listitem-text'>Time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Number exercises completed: {{exerciseSession.num_exercises_completed}}</mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </div>
   </div>
 </div>

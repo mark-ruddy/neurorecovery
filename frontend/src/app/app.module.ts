@@ -15,6 +15,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
@@ -45,6 +46,7 @@ export const modulesImports: any[] = [
   MatExpansionModule,
   MatDialogModule,
   MatSelectModule,
+  MatCardModule,
   VgCoreModule,
   VgControlsModule,
   VgOverlayPlayModule,

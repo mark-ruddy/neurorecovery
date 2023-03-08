@@ -15,6 +15,7 @@ export interface PatientForm {
   stroke_date: string,
   injury_side: string,
   additional_info: string,
+  email: string,
   session_id: string,
 }
 
@@ -23,14 +24,16 @@ export interface TherapistForm {
   num_patients: number,
   expected_weekly_appointments: number,
   additional_info: string
+  email: string,
   session_id: string,
 }
 
 export interface ExerciseSession {
   kind: string,
   datetime: string,
-  total_time_taken_secs: number,
-  num_exercises_completed: number,
+  total_time_taken_secs: string,
+  num_exercises_completed: string,
+  email: string,
   session_id: string,
 }
 
@@ -48,7 +51,7 @@ export class BackendService {
   public postExerciseSessionEndpoint = 'post_exercise_session';
   public getPatientFormEndpoint = 'get_patient_form';
   public getTherapistFormEndpoint = 'get_therapist_form';
-  public getExerciseSessionsEndpoint = 'get_exercise_session';
+  public getExerciseSessionsEndpoint = 'get_exercise_sessions';
   public getUserTypeEndpoint = 'get_user_type';
 
   constructor() { }
@@ -84,6 +87,7 @@ export class BackendService {
   }
 
   async postPatientForm(patientForm: PatientForm) {
+    console.log("Got patient form: ", patientForm);
     let resp = await fetch(`${this.backendBaseUrl}/${this.postPatientFormEndpoint}`, {
       method: 'POST',
       headers: {
@@ -159,7 +163,13 @@ export class BackendService {
       body: JSON.stringify(authenticatedRequest),
     })
     if (!resp.ok) {
-      throw new Error(resp.statusText);
+      // NOTE: for exercises its expected to get 400 BAD_REQUEST for empty array
+      if (resp.status == 400) {
+        let noExerciseSessions: Array<ExerciseSession> = [];
+        return noExerciseSessions;
+      } else {
+        throw new Error(resp.statusText);
+      }
     }
     return resp.json()
   }

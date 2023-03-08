@@ -10,6 +10,7 @@ export class InstantUlComponent implements OnInit, OnDestroy {
   constructor(public exerciseService: ExercisesService) { }
 
   ngOnInit(): void {
+    this.exerciseService.fill_external_values("Instant Upper Limb");
     this.exerciseService.exerciseTimes = [
       { StartTime: 46, EndTime: 84 },
       { StartTime: 90, EndTime: 121 },

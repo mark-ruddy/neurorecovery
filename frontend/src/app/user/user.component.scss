@@ -1,48 +1,25 @@
 @import '../../styles.scss';
 
-.general-form-container {
-  @include accent-background;
+.margin {
+  margin: 0 auto;
 }
 
-.general-form {
-  @include centered-container;
-  padding-top: 1vh;
-}
-
-.horizontal-div-container {
-  display: flex;
-  gap: 4vh;
-}
-
-.form-input-container {
+.stretch {
   width: 100%;
 }
 
-.form-add-button {
-  margin-bottom: 0.8vh;
+.margin-above {
+  margin-top: 2vh;
 }
 
-.form-input-wide {
-  width: 100%;
-}
-
-.loading-bar-container {
-  margin-top: 1.5vh;
-}
-
-.last-input-container {
-  margin-bottom: 1.5vh;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.primary-link {
-  color: #c2185b;
-  text-decoration: none;
+.margin-below {
+  margin-bottom: 2vh;
 }
 
 .listitem-text {
-  font-size: 140%;
+  font-size: 110%;
+}
+
+.card-header {
+  font-size: 130%;
 }
