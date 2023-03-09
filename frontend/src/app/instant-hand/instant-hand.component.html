@@ -1,0 +1,34 @@
+<div class='general-form-container'>
+  <div class='general-form player-container'>
+    <vg-player class='player' (onPlayerReady)="this.exercisesService.onPlayerReady($event)">
+      <video [vgMedia]='$any(media)' #media id='singleVideo' preload='auto'>
+        <source src='assets/video/general_hand_exercises.mp4' type='video/mp4'>
+      </video>
+    </vg-player>
+    <div *ngIf='!this.exercisesService.started' class='below-controls-container'>
+      <button (click)='this.exercisesService.start()' color='primary' class='start-button' mat-raised-button>Start Session</button>
+    </div>
+
+    <div *ngIf='this.exercisesService.started' class='below-controls-container'>
+      <button (click)='this.exercisesService.back()' color='primary' class='below-controls-button' mat-raised-button>
+        <mat-icon aria-hidden='false' fontIcon='skip_previous'></mat-icon>Last Exercise
+      </button>
+      <button *ngIf='!this.exercisesService.onLastExercise' [disabled]='!this.exercisesService.timerFinished' (click)='this.exercisesService.next()' color='primary' class='below-controls-button' mat-raised-button>Next Exercise
+        <mat-icon aria-hidden='false' fontIcon='skip_next'></mat-icon>
+      </button>
+      <button *ngIf='this.exercisesService.onLastExercise' [disabled]='!this.exercisesService.timerFinished' (click)='this.exercisesService.next()' color='primary' class='below-controls-button' mat-raised-button>Finish Session
+        <mat-icon aria-hidden='false' fontIcon='skip_next'></mat-icon>
+      </button>
+    </div>
+    <div *ngIf='this.exercisesService.started' class='play-pause-container'>
+      <button (click)='this.exercisesService.playPause()' color='primary' class='below-controls-button' mat-raised-button>
+        <mat-icon *ngIf='this.exercisesService.api.getDefaultMedia().canPlay' aria-hidden='false' aria-label='play/pause' fontIcon='pause'></mat-icon>
+    </button>
+    </div>
+
+    <div *ngIf='this.exercisesService.started' class='below-controls-container'>
+      <span class='status-text'>Next exercise available in {{exercisesService.timerCurrent}}s</span>
+      <span class='status-text'>Exercise {{exercisesService.exerciseIndex + 1}}/{{exercisesService.exerciseTimes.length}} Playing</span>
+  </div>
+</div>
+

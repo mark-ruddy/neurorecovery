@@ -49,7 +49,7 @@ export class ExercisesService {
     this.api = new VgApiService;
     this.started = false;
     this.startEpoch = 0;
-    this.timePerExercise = 3;
+    this.timePerExercise = 1;
     this.timerCurrent = 0;
     this.timerFinished = true;
     this.interval = null;

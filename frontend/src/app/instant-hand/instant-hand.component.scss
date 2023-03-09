@@ -1,0 +1,28 @@
+@import '../../styles.scss';
+
+.below-controls-container {
+  display: flex;
+  margin-top: 1vh;
+  gap: 2vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-button {
+  width: 50%;
+}
+
+.below-controls-button {
+  width: 30%;
+}
+
+.play-pause-container {
+  display: flex;
+  margin-top: 1vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-text {
+  font-size: 120%;
+}

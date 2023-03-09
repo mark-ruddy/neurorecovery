@@ -1,8 +1,9 @@
 // - matlab integration
 // - exercise data gathering, with frontend->backend data storing
-- Basic implementation of scheduled, maybe just the .ics file being sent or smth similar
+// - Basic implementation of scheduled, 
 - Third exercise video section
 - Finish pptx
 
 Future:
+- backend implementation of scheduled, with the .ics file being sent or smth similar
 - language localisation, with a dropdown selector

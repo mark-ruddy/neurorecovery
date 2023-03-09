@@ -32,6 +32,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { InstantUlComponent } from './instant-ul/instant-ul.component';
 import { InstantLlComponent } from './instant-ll/instant-ll.component';
+import { InstantHandComponent } from './instant-hand/instant-hand.component';
 
 export const modulesImports: any[] = [
   MatToolbarModule,
@@ -68,6 +69,7 @@ export const modulesImports: any[] = [
     UserComponent,
     InstantUlComponent,
     InstantLlComponent,
+    InstantHandComponent,
   ],
   imports: modulesImports,
   providers: [],
