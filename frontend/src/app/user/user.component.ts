@@ -31,7 +31,8 @@ export class UserComponent implements OnInit {
   exerciseSessions: Array<ExerciseSession> = [];
 
   totalExerciseSessionsCompleted: number = 0;
-  totalTimeSecsSpentExercising: number = 0;
+  totalTimeSpentExercisingSecs: number = 0;
+  totalTimeSpentExercisingHumanReadable: string = '';
 
   userType = '';
   email = '';
@@ -71,8 +72,11 @@ export class UserComponent implements OnInit {
     this.exerciseSessions = await this.backendService.getExerciseSessions(authenticatedRequest);
     if (this.exerciseSessions.length > 0) {
       this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
-      this.exerciseSessions.forEach(exerciseSession => this.totalTimeSecsSpentExercising += parseInt(exerciseSession.total_time_taken_secs));
+      this.exerciseSessions.forEach(exerciseSession => this.totalTimeSpentExercisingSecs += parseInt(exerciseSession.total_time_taken_secs));
     }
+
+    // make totalTimeSpentExercisingHumanReadable from totalTimeSpentExercisingSecs as hours:minutes:seconds
+    this.totalTimeSpentExercisingHumanReadable = new Date(this.totalTimeSpentExercisingSecs * 1000).toISOString();
 
     this.userDataFetchInProgress = false;
   }
