@@ -73,4 +73,5 @@ export const successMessages: { [key: string]: string } = {
   successfulFormSubmission: "Successful form submission",
   finishedExercises: "Successfully finished exercise session",
   matlabSuccessfulLaunch: "Matlab has been launched",
+  calendarFileCreated: "Calendar file created",
 }

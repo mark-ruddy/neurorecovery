@@ -11,6 +11,10 @@
       <mat-label>Date/Time for Session</mat-label>
       <input formControlName='datetime' type='datetime-local' matInput>
     </mat-form-field>
+    <mat-form-field appearance='fill' class='form-input-wide'>
+      <mat-label>Estimated meeting length in minutes</mat-label>
+      <input formControlName='meetingLength' type='number' matInput>
+    </mat-form-field>
     <button [disabled]='!contactForm.valid' type='submit' color='primary' mat-raised-button>Send Session Invitation</button>
   </form>
   </div>

@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'info', component: InfoComponent },
   { path: 'instant', component: InstantComponent },
   { path: 'scheduled', component: ScheduledComponent },
+  { path: 'scheduled-results', component: ScheduledComponent },
 
   { path: 'instant-ul', component: InstantUlComponent },
   { path: 'instant-ll', component: InstantLlComponent },
