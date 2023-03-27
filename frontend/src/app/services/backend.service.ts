@@ -37,6 +37,13 @@ export interface ExerciseSession {
   session_id: string,
 }
 
+export interface EmailRequest {
+  email: string,
+  receiver_email: string,
+  ics_text: string,
+  session_id: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,6 +60,7 @@ export class BackendService {
   public getTherapistFormEndpoint = 'get_therapist_form';
   public getExerciseSessionsEndpoint = 'get_exercise_sessions';
   public getUserTypeEndpoint = 'get_user_type';
+  public sendEmailEndpoint = 'send_email';
 
   constructor() { }
 
@@ -186,5 +194,19 @@ export class BackendService {
       throw new Error(resp.statusText);
     }
     return resp.text()
+  }
+
+  async postSendEmail(emailRequest: EmailRequest) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.sendEmailEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailRequest),
+    });
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.text();
   }
 }

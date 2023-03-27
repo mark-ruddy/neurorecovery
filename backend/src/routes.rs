@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 pub mod data;
+pub mod email;
 pub mod utils;
 
 pub struct State {
@@ -25,6 +26,14 @@ pub struct UserRequest {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct AuthenticatedRequest {
     pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct EmailRequest {
+    pub email: String,
+    pub receiver_email: String,
+    pub ics_text: String,
     pub session_id: String,
 }
 
@@ -305,6 +314,24 @@ pub async fn get_user_type(
         Ok(user_type) => Ok(user_type),
         Err(e) => {
             error!("Failure identifying user type: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
+pub async fn send_email(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<EmailRequest>,
+) -> Result<(), StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    match email::send_email(&payload).await {
+        Ok(_) => Ok(()),
+        Err(e) => {
+            error!("Failure sending email: {}", e);
             return Err(StatusCode::INTERNAL_SERVER_ERROR);
         }
     }
