@@ -1,8 +1,12 @@
 use futures::{StreamExt, TryStreamExt};
 use log::info;
 use mongodb::{
-    bson::doc, bson::Document, options::ClientOptions, options::CreateCollectionOptions,
-    options::Credential, Client, Database,
+    bson::Document,
+    bson::{self, doc},
+    options::ClientOptions,
+    options::CreateCollectionOptions,
+    options::Credential,
+    Client, Database,
 };
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -45,6 +49,7 @@ pub struct TherapistForm {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct TherapistPatients {
     pub patients: Vec<String>,
+    pub patient_forms: Vec<PatientForm>,
     pub email: String,
     pub session_id: String,
 }
@@ -252,7 +257,6 @@ pub async fn get_therapist_form(
 }
 
 // THERAPIST'S PATIENTS
-#[allow(dead_code)]
 pub async fn insert_therapist_patients(
     db: &Database,
     therapist_patients: TherapistPatients,
@@ -262,10 +266,32 @@ pub async fn insert_therapist_patients(
     Ok(())
 }
 
-pub async fn add_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
+pub async fn add_therapist_patient(
+    db: &Database,
+    email: &str,
+    session_id: &str,
+) -> Result<(), Box<dyn Error>> {
+    match get_therapist_patients(db, email).await? {
+        Some(_) => (),
+        None => {
+            insert_therapist_patients(
+                db,
+                TherapistPatients {
+                    patients: vec![],
+                    patient_forms: vec![],
+                    email: email.to_string(),
+                    session_id: session_id.to_string(),
+                },
+            )
+            .await?
+        }
+    }
+
     let coll = db.collection::<TherapistPatients>("therapist_patients");
     let filter = doc! { "email": email };
     let update = doc! { "$push": { "patients": email } };
+    let form = get_patient_form(db, email).await?;
+    let update_form = doc! { "$push": { "patient_forms": bson::to_bson(&form)? } };
     coll.update_one(filter, update, None).await?;
     Ok(())
 }

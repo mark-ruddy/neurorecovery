@@ -66,6 +66,8 @@ export const errorMessages: { [key: string]: string } = {
   mustBeInteger: "Must be a whole number",
   dateCannotBeInFuture: "Date cannot be in the future",
   matlabFailedLaunch: "Matlab failed to launch",
+  failedAddingPatient: "Failed to add patient",
+  failedRemovingPatient: "Failed to remove patient",
 }
 
 export const successMessages: { [key: string]: string } = {
@@ -74,4 +76,6 @@ export const successMessages: { [key: string]: string } = {
   finishedExercises: "Successfully finished exercise session",
   matlabSuccessfulLaunch: "Matlab has been launched",
   calendarFileCreated: "Calendar file created",
+  removedPatient: "Successfully removed patient",
+  addedPatient: "Successfully added patient",
 }

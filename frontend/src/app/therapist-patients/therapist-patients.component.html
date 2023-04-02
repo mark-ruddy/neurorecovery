@@ -9,24 +9,28 @@
     </div>
   </form>
 
+  <h3 *ngIf='searchedPatients.length == 0 && searchJustRan'>No patients match the search term {{ mostRecentSearchTerm }}</h3>
+  <div *ngIf='searchedPatients.length != 0'>
+    <h3>Search Results</h3>
+    <div *ngFor='let patient of searchedPatients'>
+      <p>{{ patient }}</p>
+      <button mat-raised-button color='primary' (click)='onAddPatient(patient)'>Add</button>
+    </div>
+  </div>
+
   <hr>
+
   <div>
-    <h2>Patients</h2>
-    <div *ngIf='patients.length === 0'>
+    <h2>Your Patients</h2>
+    <div *ngIf='patients.length == 0'>
       <p>You have no patients yet.</p>
     </div>
     <div *ngIf='patients.length > 0'>
-      <table>
-        <tr>
-          <th>Email</th>
-        </tr>
-        <tr *ngFor='let patient of patients'>
-          <td>{{ patient }}</td>
-          <td>
-            <button mat-raised-button color='primary' (click)='onRemovePatient(patient)'>Remove</button>
-          </td>
-        </tr>
-      </table>
+      <div *ngFor='let patient of patients'>
+        <!-- TODO: get the patient info from the backend request and display it here -->
+        <p>{{ patient }}</p>
+        <button mat-raised-button color='primary' (click)='onRemovePatient(patient)'>Remove</button>
+      </div>
     </div>
   </div>
 </div>

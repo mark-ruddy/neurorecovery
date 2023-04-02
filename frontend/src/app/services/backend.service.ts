@@ -78,6 +78,7 @@ export class BackendService {
   public getTherapistFormEndpoint = 'get_therapist_form';
   public getTherapistPatientsEndpoint = 'get_therapist_patients';
   public postTherapistPatientEndpoint = 'post_therapist_patient';
+  public removeTherapistPatientEndpoint = 'remove_therapist_patient';
   public getExerciseSessionsEndpoint = 'get_exercise_sessions';
   public getUserTypeEndpoint = 'get_user_type';
   public sendEmailEndpoint = 'send_email';
@@ -203,6 +204,19 @@ export class BackendService {
 
   async postTherapistPatient(therapistPatient: TherapistPatientRequest) {
     let resp = await fetch(`${this.backendBaseUrl}/${this.postTherapistPatient}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(therapistPatient),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+  }
+
+  async removeTherapistPatient(therapistPatient: TherapistPatientRequest) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.removeTherapistPatient}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

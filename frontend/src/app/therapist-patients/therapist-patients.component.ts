@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { errorMessages, successMessages } from '../helpers/custom-validators';
 import { AuthenticatedRequest, BackendService } from '../services/backend.service';
-import { SearchPatientsRequest } from '../services/backend.service';
+import { SearchPatientsRequest, TherapistPatientRequest } from '../services/backend.service';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -13,8 +15,10 @@ export class TherapistPatientsComponent implements OnInit {
   userType = '';
   patients: string[] = [];
   searchedPatients: string[] = [];
+  searchJustRan = false;
+  mostRecentSearchTerm = '';
 
-  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private loginService: LoginService) { }
+  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private loginService: LoginService, private snackBar: MatSnackBar) { }
 
   searchPatientsForm = this.formBuilder.group({
     email: this.formBuilder.control('', Validators.required),
@@ -46,25 +50,73 @@ export class TherapistPatientsComponent implements OnInit {
       return;
     }
 
+    this.searchJustRan = false;
+    this.mostRecentSearchTerm = this.searchPatientsForm.value.email!;
     let searchPatientsRequest = {
-      patient_email_substring: this.searchPatientsForm.value.email,
+      patient_email_substring: this.mostRecentSearchTerm,
       email: localStorage.getItem('email'),
       session_id: localStorage.getItem('session_id'),
     } as SearchPatientsRequest;
 
     this.searchedPatients = await this.backendService.searchPatients(searchPatientsRequest)
+    this.searchJustRan = true;
   }
 
-  onRemotePatient() {
+  onAddPatient(email: string) {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
     }
 
-    let authenticatedRequest = {
+    let therapistPatientRequest = {
+      patient_email: email,
       email: localStorage.getItem('email'),
       session_id: localStorage.getItem('session_id'),
-    } as AuthenticatedRequest;
+    } as TherapistPatientRequest;
 
-    this.backendService.getTherapistPatients(authenticatedRequest);
+    try {
+      this.backendService.postTherapistPatient(therapistPatientRequest);
+      this.snackBar.open(successMessages['addedPatient'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+    } catch (e) {
+      this.snackBar.open(errorMessages['addedPatient'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-warn'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+    }
+  }
+
+  onRemovePatient(email: string) {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
+    let therapistPatientRequest = {
+      patient_email: email,
+      email: localStorage.getItem('email'),
+      session_id: localStorage.getItem('session_id'),
+    } as TherapistPatientRequest;
+
+    try {
+      this.backendService.removeTherapistPatient(therapistPatientRequest);
+      this.snackBar.open(successMessages['removedPatient'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+    } catch (e) {
+      this.snackBar.open(errorMessages['failedRemovingPatient'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-warn'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+    }
   }
 }
