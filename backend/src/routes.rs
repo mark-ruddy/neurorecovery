@@ -45,6 +45,13 @@ pub struct TherapistPatientRequest {
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct SearchPatientRequest {
+    pub patient_email_substring: String,
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct LoginResponse {
     pub session_id: String,
 }
@@ -410,6 +417,31 @@ pub async fn send_email(
         Ok(_) => Ok(()),
         Err(e) => {
             error!("Failure sending email: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
+pub async fn search_patients(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<SearchPatientRequest>,
+) -> Result<Json<Vec<data::User>>, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    match data::find_patients_by_email_substring(&state.db, &payload.patient_email_substring).await
+    {
+        Ok(patients) => match patients {
+            Some(patients) => Ok(Json(patients)),
+            None => {
+                info!("No patients available for request");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        },
+        Err(e) => {
+            error!("Failure searching patients: {}", e);
             return Err(StatusCode::INTERNAL_SERVER_ERROR);
         }
     }

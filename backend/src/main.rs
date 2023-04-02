@@ -84,6 +84,7 @@ fn create_router(state: Arc<routes::State>) -> Router {
         )
         .route("/get_user_type", post(routes::get_user_type))
         .route("/send_email", post(routes::send_email))
+        .route("/search_patients", post(routes::search_patients))
         .layer(CorsLayer::permissive())
         .layer(Extension(state))
 }

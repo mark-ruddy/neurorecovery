@@ -133,6 +133,26 @@ pub async fn find_users_by_email(
     Ok(Some(users))
 }
 
+pub async fn find_patients_by_email_substring(
+    db: &Database,
+    email: &str,
+) -> Result<Option<Vec<User>>, Box<dyn Error>> {
+    let coll = db.collection::<User>("users");
+    let filter = doc! { "email": { "$regex": format!(".*{}.*", email) } };
+    let mut cursor = coll.find(filter, None).await?;
+
+    let mut patients = vec![];
+    while let Some(user) = cursor.try_next().await? {
+        if get_user_type(db, &user.email).await? == "Patient" {
+            patients.push(user);
+        }
+    }
+    if patients.len() == 0 {
+        return Ok(None);
+    }
+    Ok(Some(patients))
+}
+
 pub async fn find_user_by_email(
     db: &Database,
     email: &str,
