@@ -435,4 +435,50 @@ mod tests {
         assert_eq!(exercise_session_resp_json[0].num_exercises_completed, "7");
         teardown_registered_user().await;
     }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_search_patients() {
+        teardown_registered_user().await;
+        let client = TestClient::new(setup_test_router().await);
+
+        // create a user that is a patient
+        let user_request = routes::UserRequest {
+            email: SAMPLE_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
+        };
+        let register_resp = register_sample_user(&client, &user_request).await;
+        let register_resp_json: routes::LoginResponse = register_resp.json().await;
+
+        let patient_form = routes::data::PatientForm {
+            email: SAMPLE_EMAIL.to_string(),
+            session_id: register_resp_json.session_id.clone(),
+            additional_info: "unique".to_string(),
+            ..Default::default()
+        };
+
+        let resp = client
+            .post("/post_patient_form")
+            .json(&patient_form)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        // find this patient by searching for a substring in their email
+        let search_request = routes::SearchPatientRequest {
+            email: SAMPLE_EMAIL.to_string(),
+            session_id: register_resp_json.session_id.clone(),
+            patient_email_substring: "test".to_string(),
+        };
+        let resp = client
+            .post("/search_patients")
+            .json(&search_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        let searched_users: Vec<routes::data::User> = resp.json().await;
+        assert_eq!(searched_users.len(), 1);
+        assert_eq!(searched_users[0].email, SAMPLE_EMAIL.to_string());
+    }
 }
