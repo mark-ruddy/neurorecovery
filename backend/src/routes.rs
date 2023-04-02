@@ -38,6 +38,13 @@ pub struct EmailRequest {
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct TherapistPatientRequest {
+    pub patient_email: String,
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct LoginResponse {
     pub session_id: String,
 }
@@ -274,6 +281,77 @@ pub async fn get_therapist_form(
         }
     };
     Ok(Json(form))
+}
+
+pub async fn get_therapist_patients(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<AuthenticatedRequest>,
+) -> Result<Json<data::TherapistPatients>, StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    match data::get_user_type(&state.db, &payload.email).await {
+        Ok(user_type) => {
+            if user_type != "Therapist" {
+                info!("Get therapist patients requested from a non-therapist");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        }
+        Err(e) => {
+            error!("Failure identifying user type: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    let patients = match data::get_therapist_patients(&state.db, &payload.email).await {
+        Ok(patients) => match patients {
+            Some(patients) => patients,
+            None => {
+                info!("No patients available for request");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        },
+        Err(e) => {
+            error!("Failure finding patients: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    };
+    Ok(Json(patients))
+}
+
+pub async fn post_therapist_patient(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<TherapistPatientRequest>,
+) -> Result<(), StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    // verify that this patient(user) exists
+    match data::get_user_type(&state.db, &payload.email).await {
+        Ok(user_type) => {
+            if user_type != "Patient" {
+                info!("Insert patient therapist requested from a non-patient");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        }
+        Err(e) => {
+            error!("Failure identifying user type: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    match data::add_therapist_patient(&state.db, &payload.patient_email).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure inserting therapist patient: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
 }
 
 pub async fn get_exercise_sessions(

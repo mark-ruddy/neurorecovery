@@ -7,7 +7,12 @@ use mongodb::{
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
-const COLLECTIONS: [&str; 3] = ["users", "patient_forms", "therapist_forms"];
+const COLLECTIONS: [&str; 4] = [
+    "users",
+    "patient_forms",
+    "therapist_forms",
+    "therapist_patients",
+];
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct User {
@@ -33,6 +38,13 @@ pub struct TherapistForm {
     pub num_patients: String,
     pub expected_weekly_appointments: String,
     pub additional_info: String,
+    pub email: String,
+    pub session_id: String,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct TherapistPatients {
+    pub patients: Vec<String>,
     pub email: String,
     pub session_id: String,
 }
@@ -210,6 +222,37 @@ pub async fn get_therapist_form(
     let filter = doc! { "email": email };
     match coll.find_one(filter.clone(), None).await? {
         Some(therapist_form) => Ok(Some(therapist_form)),
+        None => Ok(None),
+    }
+}
+
+// THERAPIST'S PATIENTS
+#[allow(dead_code)]
+pub async fn insert_therapist_patients(
+    db: &Database,
+    therapist_patients: TherapistPatients,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<TherapistPatients>("therapist_patients");
+    coll.insert_one(therapist_patients, None).await?;
+    Ok(())
+}
+
+pub async fn add_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<TherapistPatients>("therapist_patients");
+    let filter = doc! { "email": email };
+    let update = doc! { "$push": { "patients": email } };
+    coll.update_one(filter, update, None).await?;
+    Ok(())
+}
+
+pub async fn get_therapist_patients(
+    db: &Database,
+    email: &str,
+) -> Result<Option<TherapistPatients>, Box<dyn Error>> {
+    let coll = db.collection::<TherapistPatients>("therapist_patients");
+    let filter = doc! { "email": email };
+    match coll.find_one(filter.clone(), None).await? {
+        Some(therapist_patients) => Ok(Some(therapist_patients)),
         None => Ok(None),
     }
 }

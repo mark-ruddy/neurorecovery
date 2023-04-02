@@ -71,6 +71,14 @@ fn create_router(state: Arc<routes::State>) -> Router {
         .route("/get_patient_form", post(routes::get_patient_form))
         .route("/get_therapist_form", post(routes::get_therapist_form))
         .route(
+            "/get_therapist_patients",
+            post(routes::get_therapist_patients),
+        )
+        .route(
+            "/post_therapist_patient",
+            post(routes::post_therapist_patient),
+        )
+        .route(
             "/get_exercise_sessions",
             post(routes::get_exercise_sessions),
         )
@@ -295,6 +303,13 @@ mod tests {
             therapist_form_resp.json().await;
         assert_eq!(therapist_form_resp_json.additional_info, "unique");
         teardown_registered_user().await;
+    }
+
+    #[tokio::test]
+    #[serial]
+    async fn test_therapist_patients() {
+        teardown_registered_user().await;
+        let client = TestClient::new(setup_test_router().await);
     }
 
     #[tokio::test]
