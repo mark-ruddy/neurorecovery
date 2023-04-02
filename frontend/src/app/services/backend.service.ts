@@ -50,7 +50,7 @@ export interface TherapistPatientRequest {
   session_id: string,
 }
 
-export interface SearchPatientRequest {
+export interface SearchPatientsRequest {
   patient_email_substring: string,
   email: string,
   session_id: string,
@@ -60,10 +60,6 @@ export interface TherapistPatients {
   patients: string[],
   email: string,
   session_id: string,
-}
-
-export interface Patient {
-  email: string,
 }
 
 @Injectable({
@@ -265,7 +261,7 @@ export class BackendService {
     return resp.text();
   }
 
-  async searchPatients(searchPatientsRequest: SearchPatientRequest): Promise<Array<Patient>> {
+  async searchPatients(searchPatientsRequest: SearchPatientsRequest): Promise<string[]> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.searchPatientsEndpoint}`, {
       method: 'POST',
       headers: {

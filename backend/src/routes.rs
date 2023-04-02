@@ -361,6 +361,39 @@ pub async fn post_therapist_patient(
     Ok(())
 }
 
+pub async fn remove_therapist_patient(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<TherapistPatientRequest>,
+) -> Result<(), StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    // verify that this patient(user) exists
+    match data::get_user_type(&state.db, &payload.email).await {
+        Ok(user_type) => {
+            if user_type != "Patient" {
+                info!("Remove patient therapist requested from a non-patient");
+                return Err(StatusCode::BAD_REQUEST);
+            }
+        }
+        Err(e) => {
+            error!("Failure identifying user type: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    match data::remove_therapist_patient(&state.db, &payload.patient_email).await {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure removing therapist patient: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
+}
+
 pub async fn get_exercise_sessions(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<AuthenticatedRequest>,

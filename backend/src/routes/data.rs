@@ -270,6 +270,14 @@ pub async fn add_therapist_patient(db: &Database, email: &str) -> Result<(), Box
     Ok(())
 }
 
+pub async fn remove_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<TherapistPatients>("therapist_patients");
+    let filter = doc! { "email": email };
+    let update = doc! { "$pull": { "patients": email } };
+    coll.update_one(filter, update, None).await?;
+    Ok(())
+}
+
 pub async fn get_therapist_patients(
     db: &Database,
     email: &str,

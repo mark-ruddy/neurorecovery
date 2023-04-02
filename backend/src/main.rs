@@ -79,6 +79,10 @@ fn create_router(state: Arc<routes::State>) -> Router {
             post(routes::post_therapist_patient),
         )
         .route(
+            "/remove_therapist_patient",
+            post(routes::remove_therapist_patient),
+        )
+        .route(
             "/get_exercise_sessions",
             post(routes::get_exercise_sessions),
         )
@@ -383,6 +387,22 @@ mod tests {
         let therapist_patients: routes::data::TherapistPatients = resp.json().await;
         assert_eq!(therapist_patients.patients.len(), 1);
         assert_eq!(therapist_patients.patients[0], SAMPLE_EMAIL.to_string());
+
+        // check that therapist patient can be deleted
+        let resp = client
+            .post("/remove_therapist_patient")
+            .json(&therapist_patient_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        let resp = client
+            .post("/get_therapist_patients")
+            .json(&authenticated_request)
+            .send()
+            .await;
+        let therapist_patients: routes::data::TherapistPatients = resp.json().await;
+        assert_eq!(therapist_patients.patients.len(), 0);
     }
 
     #[tokio::test]

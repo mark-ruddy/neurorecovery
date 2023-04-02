@@ -1,1 +1,32 @@
-<p>therapist-patients works!</p>
+<div class='general-form-container'>
+  <form [formGroup]='searchPatientsForm' (ngSubmit)='onSubmitSearchPatientsForm()' class='general'>
+    <div class='form-input-container'>
+      <h2>Add a patient</h2>
+      <mat-form-field appearance='fill'>
+        <mat-label>Search for a patient</mat-label>
+        <input matInput formControlName='email' placeholder='Search for a patient by email to add'/>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <hr>
+  <div>
+    <h2>Patients</h2>
+    <div *ngIf='patients.length === 0'>
+      <p>You have no patients yet.</p>
+    </div>
+    <div *ngIf='patients.length > 0'>
+      <table>
+        <tr>
+          <th>Email</th>
+        </tr>
+        <tr *ngFor='let patient of patients'>
+          <td>{{ patient }}</td>
+          <td>
+            <button mat-raised-button color='primary' (click)='onRemovePatient(patient)'>Remove</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

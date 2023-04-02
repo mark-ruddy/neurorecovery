@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthenticatedRequest, BackendService } from '../services/backend.service';
+import { SearchPatientsRequest } from '../services/backend.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-therapist-patients',
@@ -8,14 +11,20 @@ import { AuthenticatedRequest, BackendService } from '../services/backend.servic
 })
 export class TherapistPatientsComponent implements OnInit {
   userType = '';
+  patients: string[] = [];
+  searchedPatients: string[] = [];
 
-  constructor(private backendService: BackendService) { }
+  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private loginService: LoginService) { }
 
-  getTherapistPatients(authenticatedRequest: AuthenticatedRequest) {
-    this.backendService.getTherapistPatients(authenticatedRequest);
-  }
+  searchPatientsForm = this.formBuilder.group({
+    email: this.formBuilder.control('', Validators.required),
+  });
 
   async ngOnInit() {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
     let authenticatedRequest = {
       email: localStorage.getItem('email'),
       session_id: localStorage.getItem('session_id'),
@@ -27,5 +36,35 @@ export class TherapistPatientsComponent implements OnInit {
       // User hasn't submitted a form yet
       return;
     }
+
+    let therapistPatients = await this.backendService.getTherapistPatients(authenticatedRequest);
+    this.patients = therapistPatients.patients;
+  }
+
+  async onSubmitSearchPatientsForm() {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
+    let searchPatientsRequest = {
+      patient_email_substring: this.searchPatientsForm.value.email,
+      email: localStorage.getItem('email'),
+      session_id: localStorage.getItem('session_id'),
+    } as SearchPatientsRequest;
+
+    this.searchedPatients = await this.backendService.searchPatients(searchPatientsRequest)
+  }
+
+  onRemotePatient() {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
+    let authenticatedRequest = {
+      email: localStorage.getItem('email'),
+      session_id: localStorage.getItem('session_id'),
+    } as AuthenticatedRequest;
+
+    this.backendService.getTherapistPatients(authenticatedRequest);
   }
 }
