@@ -44,6 +44,28 @@ export interface EmailRequest {
   session_id: string,
 }
 
+export interface TherapistPatientRequest {
+  patient_email: string,
+  email: string,
+  session_id: string,
+}
+
+export interface SearchPatientRequest {
+  patient_email_substring: string,
+  email: string,
+  session_id: string,
+}
+
+export interface TherapistPatients {
+  patients: string[],
+  email: string,
+  session_id: string,
+}
+
+export interface Patient {
+  email: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -58,9 +80,12 @@ export class BackendService {
   public postExerciseSessionEndpoint = 'post_exercise_session';
   public getPatientFormEndpoint = 'get_patient_form';
   public getTherapistFormEndpoint = 'get_therapist_form';
+  public getTherapistPatientsEndpoint = 'get_therapist_patients';
+  public postTherapistPatientEndpoint = 'post_therapist_patient';
   public getExerciseSessionsEndpoint = 'get_exercise_sessions';
   public getUserTypeEndpoint = 'get_user_type';
   public sendEmailEndpoint = 'send_email';
+  public searchPatientsEndpoint = 'search_patients';
 
   constructor() { }
 
@@ -162,6 +187,37 @@ export class BackendService {
     return resp.json()
   }
 
+  async getTherapistPatients(authenticatedRequest: AuthenticatedRequest): Promise<TherapistPatients> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getTherapistPatients}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authenticatedRequest),
+    })
+    if (!resp.ok) {
+      if (resp.status == 400) {
+        return { patients: [], email: authenticatedRequest.email, session_id: authenticatedRequest.session_id };
+      } else {
+        throw new Error(resp.statusText);
+      }
+    }
+    return resp.json()
+  }
+
+  async postTherapistPatient(therapistPatient: TherapistPatientRequest) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postTherapistPatient}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(therapistPatient),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+  }
+
   async getExerciseSessions(authenticatedRequest: AuthenticatedRequest): Promise<Array<ExerciseSession>> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.getExerciseSessionsEndpoint}`, {
       method: 'POST',
@@ -173,8 +229,7 @@ export class BackendService {
     if (!resp.ok) {
       // NOTE: for exercises its expected to get 400 BAD_REQUEST for empty array
       if (resp.status == 400) {
-        let noExerciseSessions: Array<ExerciseSession> = [];
-        return noExerciseSessions;
+        return [];
       } else {
         throw new Error(resp.statusText);
       }
@@ -208,5 +263,23 @@ export class BackendService {
       throw new Error(resp.statusText);
     }
     return resp.text();
+  }
+
+  async searchPatients(searchPatientsRequest: SearchPatientRequest): Promise<Array<Patient>> {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.searchPatientsEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(searchPatientsRequest),
+    });
+    if (!resp.ok) {
+      if (resp.status == 400) {
+        return [];
+      } else {
+        throw new Error(resp.statusText);
+      }
+    }
+    return resp.json();
   }
 }

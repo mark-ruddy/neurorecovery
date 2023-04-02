@@ -59,6 +59,11 @@ pub struct ExerciseSession {
     pub session_id: String,
 }
 
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct Patient {
+    email: String,
+}
+
 pub async fn init_mongo_client(
     conn_url: &str,
     app_name: &str,
@@ -136,7 +141,7 @@ pub async fn find_users_by_email(
 pub async fn find_patients_by_email_substring(
     db: &Database,
     email: &str,
-) -> Result<Option<Vec<User>>, Box<dyn Error>> {
+) -> Result<Option<Vec<Patient>>, Box<dyn Error>> {
     let coll = db.collection::<User>("users");
     let filter = doc! { "email": { "$regex": format!(".*{}.*", email) } };
     let mut cursor = coll.find(filter, None).await?;
@@ -144,7 +149,7 @@ pub async fn find_patients_by_email_substring(
     let mut patients = vec![];
     while let Some(user) = cursor.try_next().await? {
         if get_user_type(db, &user.email).await? == "Patient" {
-            patients.push(user);
+            patients.push(Patient { email: user.email });
         }
     }
     if patients.len() == 0 {

@@ -9,6 +9,7 @@ import { InstantComponent } from './instant/instant.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ScheduledComponent } from './scheduled/scheduled.component';
+import { TherapistPatientsComponent } from './therapist-patients/therapist-patients.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'instant', component: InstantComponent },
   { path: 'scheduled', component: ScheduledComponent },
   { path: 'scheduled-results', component: ScheduledComponent },
+  { path: 'therapist-patients', component: TherapistPatientsComponent },
 
   { path: 'instant-ul', component: InstantUlComponent },
   { path: 'instant-ll', component: InstantLlComponent },

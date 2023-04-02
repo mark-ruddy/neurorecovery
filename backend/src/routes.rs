@@ -425,7 +425,7 @@ pub async fn send_email(
 pub async fn search_patients(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<SearchPatientRequest>,
-) -> Result<Json<Vec<data::User>>, StatusCode> {
+) -> Result<Json<Vec<data::Patient>>, StatusCode> {
     match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
         Ok(_) => (),
         Err(e) => return Err(e),

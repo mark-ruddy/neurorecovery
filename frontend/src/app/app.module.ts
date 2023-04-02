@@ -34,6 +34,7 @@ import { InstantUlComponent } from './instant-ul/instant-ul.component';
 import { InstantLlComponent } from './instant-ll/instant-ll.component';
 import { InstantHandComponent } from './instant-hand/instant-hand.component';
 import { ScheduledResultComponent } from './scheduled-result/scheduled-result.component';
+import { TherapistPatientsComponent } from './therapist-patients/therapist-patients.component';
 
 export const modulesImports: any[] = [
   MatToolbarModule,
@@ -72,6 +73,7 @@ export const modulesImports: any[] = [
     InstantLlComponent,
     InstantHandComponent,
     ScheduledResultComponent,
+    TherapistPatientsComponent,
   ],
   imports: modulesImports,
   providers: [],

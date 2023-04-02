@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { errorMessages, successMessages } from './helpers/custom-validators';
+import { AuthenticatedRequest, BackendService } from './services/backend.service';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -13,8 +14,9 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   sessionId = 'NONE';
   email = '';
+  userType = '';
 
-  constructor(public loginService: LoginService, private snackBar: MatSnackBar) { }
+  constructor(public loginService: LoginService, private snackBar: MatSnackBar, private backendService: BackendService) { }
 
   refreshLoginStatus() {
     if (localStorage.getItem('logged_in') == 'true') {
@@ -67,7 +69,21 @@ export class AppComponent implements OnInit {
     this.refreshLoginStatus();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.refreshLoginStatus();
+
+    if (this.loggedIn) {
+      let authenticatedRequest = {
+        email: localStorage.getItem('email'),
+        session_id: localStorage.getItem('session_id'),
+      } as AuthenticatedRequest;
+
+      this.userType = await this.backendService.getUserType(authenticatedRequest);
+
+      if (this.userType != "Patient" && this.userType != "Therapist") {
+        // User hasn't submitted a form yet
+        return;
+      }
+    }
   }
 }

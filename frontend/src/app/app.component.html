@@ -7,6 +7,7 @@
   <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
   <div *ngIf='loggedIn'>
     <span class='login-text'><a routerLink='/user' class='email-link'>{{email}}</a></span>
+    <button *ngIf='userType == "Therapist"' routerLink='/therapist-patient' color='primary' mat-flat-button>Manage Patients</button>
     <button class='login-button' (click)='logout()' type='button' color='basic' mat-flat-button>Logout</button>
   </div>
 </mat-toolbar>
