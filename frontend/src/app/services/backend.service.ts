@@ -13,6 +13,7 @@ export interface AuthenticatedRequest {
 export interface PatientForm {
   full_name: string,
   stroke_date: string,
+  injury_type: string,
   injury_side: string,
   additional_info: string,
   email: string,

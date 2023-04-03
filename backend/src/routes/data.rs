@@ -30,6 +30,7 @@ pub struct User {
 pub struct PatientForm {
     pub full_name: String,
     pub stroke_date: String,
+    pub injury_type: String,
     pub injury_side: String,
     pub additional_info: String,
     pub email: String,

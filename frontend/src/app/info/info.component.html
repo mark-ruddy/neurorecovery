@@ -21,6 +21,15 @@
       </mat-form-field>
     </div>
     <div class='form-input-container'>
+      <h2>Injury Type</h2>
+      <mat-form-field appearance='fill' class='form-input-wide'>
+        <mat-label>Injury Type</mat-label>
+          <mat-select formControlName='injuryType' required>
+            <mat-option [value]='injuryType' *ngFor='let injuryType of injuryTypes'>{{injuryType}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <div class='form-input-container'>
       <h2>Injury Side</h2>
       <mat-form-field appearance='fill' class='form-input-wide'>
         <mat-label>Injury Side</mat-label>

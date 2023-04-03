@@ -21,6 +21,7 @@ export class InfoComponent implements OnInit {
   // userType = 'Patient';
   userType = '';
   userTypes: string[] = ['Patient', 'Therapist'];
+  injuryTypes: string[] = ['Upper Limb', 'Lower Limb', 'Both', 'Other'];
   injurySides: string[] = ['Right', 'Left', 'Both', 'Other'];
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private backendService: BackendService, private snackBar: MatSnackBar, private router: Router) { }
@@ -39,6 +40,7 @@ export class InfoComponent implements OnInit {
   patientForm = this.formBuilder.group({
     fullName: this.formBuilder.control('', Validators.required),
     strokeDate: this.formBuilder.control('', [Validators.required, dateInPast()]),
+    injuryType: this.formBuilder.control('', Validators.required),
     injurySide: this.formBuilder.control('', Validators.required),
     additionalInfo: this.formBuilder.control(''),
   })
@@ -69,6 +71,7 @@ export class InfoComponent implements OnInit {
       let parsedForm = {
         full_name: this.patientForm.value.fullName,
         stroke_date: this.patientForm.value.strokeDate,
+        injury_type: this.patientForm.value.injuryType,
         injury_side: this.patientForm.value.injurySide,
         additional_info: this.patientForm.value.additionalInfo,
         email: localStorage.getItem('email'),

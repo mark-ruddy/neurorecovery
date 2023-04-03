@@ -14,6 +14,7 @@ export class UserComponent implements OnInit {
   patientForm: PatientForm = {
     full_name: 'sample',
     stroke_date: 'sample',
+    injury_type: 'sample',
     injury_side: 'sample',
     additional_info: 'sample',
     email: 'sample',
