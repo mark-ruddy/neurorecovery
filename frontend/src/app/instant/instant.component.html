@@ -1,5 +1,17 @@
 <div class='buttons-container'>
-    <button routerLink='/instant-ul' color='primary' mat-raised-button>Start Upper Limb General Exercise Session</button>
-    <button routerLink='/instant-ll' color='primary' mat-raised-button>Start Lower Limb General Exercise Session</button>
+    <ng-container *ngIf="injuryType == 'Upper Limb'">
+        <h2>Recommended based on your {{ injuryType }} injury</h2>
+        <button routerLink='/instant-ul' color='primary' mat-raised-button>Start Upper Limb General Exercise Session</button>
+    </ng-container>
+    <ng-container *ngIf="injuryType == 'Lower Limb'">
+        <h2>Recommended based on your {{ injuryType }} injury</h2>
+        <button routerLink='/instant-ll' color='primary' mat-raised-button>Start Lower Limb General Exercise Session</button>
+    </ng-container>
+    <ng-container *ngIf="injuryType != 'Upper Limb'">
+        <button routerLink='/instant-ul' color='primary' mat-raised-button>Start Upper Limb General Exercise Session</button>
+    </ng-container>
+    <ng-container *ngIf="injuryType != 'Lower Limb'">
+        <button routerLink='/instant-ll' color='primary' mat-raised-button>Start Lower Limb General Exercise Session</button>
+    </ng-container>
     <button routerLink='/instant-hand' color='primary' mat-raised-button>Start Hand and Wrist General Exercise Session</button>
 </div>

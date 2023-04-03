@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatedRequest, BackendService, PatientForm, TherapistForm } from '../services/backend.service';
+import { AuthenticatedRequest, BackendService, PatientForm } from '../services/backend.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-instant',
@@ -8,23 +9,21 @@ import { AuthenticatedRequest, BackendService, PatientForm, TherapistForm } from
 })
 export class InstantComponent implements OnInit {
   userDataFetchInProgress = false;
-
   patientForm: PatientForm | null = null;
-
-  totalExerciseSessionsCompleted: number = 0;
-  totalTimeSpentExercisingSecs: number = 0;
-  totalTimeSpentExercisingHumanReadable: string = '';
-
+  injuryType = '';
   userType = '';
-  email = '';
   loggedIn = false;
 
-
-  constructor(private backendService: BackendService) { }
+  constructor(private loginService: LoginService, private backendService: BackendService) { }
 
   async ngOnInit() {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+    this.loggedIn = true;
+
     let authenticatedRequest = {
-      email: this.email,
+      email: localStorage.getItem('email'),
       session_id: localStorage.getItem('session_id'),
     } as AuthenticatedRequest;
 
@@ -41,6 +40,7 @@ export class InstantComponent implements OnInit {
 
     if (this.userType == "Patient") {
       this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
+      this.injuryType = this.patientForm.injury_type;
     }
   }
 }
