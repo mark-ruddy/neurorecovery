@@ -58,6 +58,7 @@ export interface SearchPatientsRequest {
 
 export interface TherapistPatients {
   patients: string[],
+  patient_forms: PatientForm[],
   email: string,
   session_id: string,
 }
@@ -194,7 +195,7 @@ export class BackendService {
     })
     if (!resp.ok) {
       if (resp.status == 400) {
-        return { patients: [], email: authenticatedRequest.email, session_id: authenticatedRequest.session_id };
+        return { patients: [], patient_forms: [], email: authenticatedRequest.email, session_id: authenticatedRequest.session_id };
       } else {
         throw new Error(resp.statusText);
       }

@@ -267,24 +267,21 @@ pub async fn insert_therapist_patients(
     Ok(())
 }
 
-pub async fn add_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
-    /*
-    match get_therapist_patients(db, email).await? {
-        Some(_) => (),
-        None => {
-            insert_therapist_patients(
-                db,
-                TherapistPatients {
-                    patients: vec![],
-                    patient_forms: vec![],
-                    email: email.to_string(),
-                    session_id: session_id.to_string(),
-                },
-            )
-            .await?
-        }
+pub async fn add_therapist_patient(
+    db: &Database,
+    email: &str,
+    session_id: &str,
+) -> Result<(), Box<dyn Error>> {
+    let can_get = get_therapist_patients(db, email).await?;
+    if can_get.is_none() {
+        let therapist_patients = TherapistPatients {
+            patients: Vec::new(),
+            patient_forms: Vec::new(),
+            email: email.to_string(),
+            session_id: session_id.to_string(),
+        };
+        insert_therapist_patients(db, therapist_patients).await?
     }
-    */
 
     let coll = db.collection::<TherapistPatients>("therapist_patients");
     let filter = doc! { "email": email };

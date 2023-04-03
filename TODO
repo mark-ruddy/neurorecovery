@@ -7,7 +7,7 @@
   - User with user_type Therapist has a new field added, "patients" which will be a comma deliminated list of patient emails registered to them. The backend will handle defaulting it out in most cases(e.g. for Patient user types)
   - If user_type Therapist, add a button beside their profile button to "my patients", which will direct to a component with a simple form for finding(like search form) and adding patients. 
   - Above/below the form on that component will be that therapists list of registered users, which either expand to their details or route to a new component dedicated for that users info etc.
-  - Therapist has access to a comp
+  - Therapist has access to patient details
 
 - Add specific exercise sessions for different stroke sides with recommendations
 

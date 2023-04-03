@@ -12,8 +12,9 @@
   <h3 *ngIf='searchedPatients.length == 0 && searchJustRan'>No patients match the search term {{ mostRecentSearchTerm }}</h3>
   <div *ngIf='searchedPatients.length != 0'>
     <h3>Search Results</h3>
-    <div *ngFor='let patient of searchedPatients'>
+    <div *ngFor='let patient of searchedPatients; let i = index'>
       <p>{{ patient }}</p>
+      <p>Has injury on this side: {{ patientForms[i].injury_side }}</p>
       <button mat-raised-button color='primary' (click)='onAddPatient(patient)'>Add</button>
     </div>
   </div>

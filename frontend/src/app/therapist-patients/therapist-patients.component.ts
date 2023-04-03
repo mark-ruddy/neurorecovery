@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { errorMessages, successMessages } from '../helpers/custom-validators';
-import { AuthenticatedRequest, BackendService } from '../services/backend.service';
+import { AuthenticatedRequest, BackendService, PatientForm } from '../services/backend.service';
 import { SearchPatientsRequest, TherapistPatientRequest } from '../services/backend.service';
 import { LoginService } from '../services/login.service';
 
@@ -14,6 +14,7 @@ import { LoginService } from '../services/login.service';
 export class TherapistPatientsComponent implements OnInit {
   userType = '';
   patients: string[] = [];
+  patientForms: PatientForm[] = [];
   searchedPatients: string[] = [];
   searchJustRan = false;
   mostRecentSearchTerm = '';
@@ -43,6 +44,7 @@ export class TherapistPatientsComponent implements OnInit {
 
     let therapistPatients = await this.backendService.getTherapistPatients(authenticatedRequest);
     this.patients = therapistPatients.patients;
+    this.patientForms = therapistPatients.patient_forms;
   }
 
   async onSubmitSearchPatientsForm() {

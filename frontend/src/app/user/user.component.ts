@@ -74,10 +74,7 @@ export class UserComponent implements OnInit {
       this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
       this.exerciseSessions.forEach(exerciseSession => this.totalTimeSpentExercisingSecs += parseInt(exerciseSession.total_time_taken_secs));
     }
-
-    // make totalTimeSpentExercisingHumanReadable from totalTimeSpentExercisingSecs as hours:minutes:seconds
     this.totalTimeSpentExercisingHumanReadable = new Date(this.totalTimeSpentExercisingSecs * 1000).toISOString();
-
     this.userDataFetchInProgress = false;
   }
 }

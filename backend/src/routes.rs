@@ -351,7 +351,8 @@ pub async fn post_therapist_patient(
         }
     }
 
-    match data::add_therapist_patient(&state.db, &payload.patient_email).await {
+    match data::add_therapist_patient(&state.db, &payload.patient_email, &payload.session_id).await
+    {
         Ok(_) => (),
         Err(e) => {
             error!("Failure inserting therapist patient: {}", e);
