@@ -95,10 +95,12 @@ fn create_router(state: Arc<routes::State>) -> Router {
 
 #[cfg(test)]
 mod tests {
+    use crate::routes::data::TherapistPatients;
+
     use super::*;
     use axum_test_helper::{TestClient, TestResponse};
     use http::StatusCode;
-    use mongodb::{Client, Database};
+    use mongodb::{bson::doc, Client, Database};
     use serial_test::serial;
 
     const MONGODB_NAME: &str = "neurorecovery_test";
@@ -121,6 +123,16 @@ mod tests {
         routes::data::delete_user(&db, SAMPLE_EMAIL)
             .await
             .expect("Could not delete user");
+        routes::data::delete_user(&db, SAMPLE_THERAPIST_EMAIL)
+            .await
+            .expect("Could not delete user");
+    }
+
+    async fn teardown_therapist_patients() {
+        let mongodb_client = get_mongodb_client().await;
+        let db = get_mongodb(mongodb_client);
+        let coll = db.collection::<TherapistPatients>("therapist_patients");
+        coll.delete_many(doc! {}, None).await.unwrap();
     }
 
     async fn get_mongodb_client() -> Client {
@@ -314,7 +326,9 @@ mod tests {
     #[tokio::test]
     #[serial]
     async fn test_therapist_patients() {
+        teardown_therapist_patients().await;
         teardown_registered_user().await;
+
         let client = TestClient::new(setup_test_router().await);
 
         // create a user that is a patient
@@ -403,6 +417,9 @@ mod tests {
             .await;
         let therapist_patients: routes::data::TherapistPatients = resp.json().await;
         assert_eq!(therapist_patients.patients.len(), 0);
+
+        teardown_therapist_patients().await;
+        teardown_registered_user().await;
     }
 
     #[tokio::test]
@@ -453,6 +470,7 @@ mod tests {
             exercise_session_resp.json().await;
         assert_eq!(exercise_session_resp_json[0].total_time_taken_secs, "60");
         assert_eq!(exercise_session_resp_json[0].num_exercises_completed, "7");
+
         teardown_registered_user().await;
     }
 
@@ -460,6 +478,8 @@ mod tests {
     #[serial]
     async fn test_search_patients() {
         teardown_registered_user().await;
+        teardown_therapist_patients().await;
+
         let client = TestClient::new(setup_test_router().await);
 
         // create a user that is a patient
@@ -484,12 +504,48 @@ mod tests {
             .await;
         assert_eq!(resp.status(), StatusCode::OK);
 
+        // create a user that is a therapist
+        let user_request = routes::UserRequest {
+            email: SAMPLE_THERAPIST_EMAIL.to_string(),
+            password: SAMPLE_PASSWORD.to_string(),
+        };
+        let register_resp = register_sample_user(&client, &user_request).await;
+        let register_resp_json: routes::LoginResponse = register_resp.json().await;
+
+        let therapist_form = routes::data::TherapistForm {
+            email: SAMPLE_THERAPIST_EMAIL.to_string(),
+            session_id: register_resp_json.session_id.clone(),
+            additional_info: "unique".to_string(),
+            ..Default::default()
+        };
+
+        let resp = client
+            .post("/post_therapist_form")
+            .json(&therapist_form)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        // link the therapist to the patient
+        let therapist_patient_request = routes::TherapistPatientRequest {
+            email: SAMPLE_THERAPIST_EMAIL.to_string(),
+            patient_email: SAMPLE_EMAIL.to_string(),
+            session_id: register_resp_json.session_id.clone(),
+        };
+        let resp = client
+            .post("/post_therapist_patient")
+            .json(&therapist_patient_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
         // find this patient by searching for a substring in their email
         let search_request = routes::SearchPatientRequest {
-            email: SAMPLE_EMAIL.to_string(),
+            email: SAMPLE_THERAPIST_EMAIL.to_string(),
             session_id: register_resp_json.session_id.clone(),
-            patient_email_substring: "test".to_string(),
+            patient_email_substring: "sampl".to_string(),
         };
+        println!("REAACEEDDD");
         let resp = client
             .post("/search_patients")
             .json(&search_request)
@@ -497,8 +553,19 @@ mod tests {
             .await;
         assert_eq!(resp.status(), StatusCode::OK);
 
-        let searched_users: Vec<routes::data::User> = resp.json().await;
-        assert_eq!(searched_users.len(), 1);
-        assert_eq!(searched_users[0].email, SAMPLE_EMAIL.to_string());
+        let searched_patients: Vec<routes::data::Patient> = resp.json().await;
+        assert_eq!(searched_patients.len(), 1);
+        assert_eq!(searched_patients[0].email, SAMPLE_EMAIL.to_string());
+
+        // delete therapist patient
+        let resp = client
+            .post("/remove_therapist_patient")
+            .json(&therapist_patient_request)
+            .send()
+            .await;
+        assert_eq!(resp.status(), StatusCode::OK);
+
+        teardown_therapist_patients().await;
+        teardown_registered_user().await;
     }
 }

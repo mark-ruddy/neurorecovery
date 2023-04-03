@@ -23,7 +23,7 @@ pub async fn check_authenticated_request(
 
     if user.email != email.clone() {
         info!(
-            "User type request with non-matching email: {} != {}",
+            "Authentication request with non-matching email: {} != {}",
             user.email, email
         );
         return Err(StatusCode::BAD_REQUEST);

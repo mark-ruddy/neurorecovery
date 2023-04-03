@@ -67,7 +67,7 @@ pub struct ExerciseSession {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct Patient {
-    email: String,
+    pub email: String,
 }
 
 pub async fn init_mongo_client(
@@ -271,6 +271,7 @@ pub async fn insert_therapist_patients(
 pub async fn add_therapist_patient(
     db: &Database,
     email: &str,
+    patient_email: &str,
     session_id: &str,
 ) -> Result<(), Box<dyn Error>> {
     let can_get = get_therapist_patients(db, email).await?;
@@ -286,20 +287,70 @@ pub async fn add_therapist_patient(
 
     let coll = db.collection::<TherapistPatients>("therapist_patients");
     let filter = doc! { "email": email };
-    let update = doc! { "$push": { "patients": email } };
+    let update = doc! { "$push": { "patients": patient_email } };
     coll.update_one(filter.clone(), update, None).await?;
 
-    let form = get_patient_form(db, email).await?;
+    let form = get_patient_form(db, patient_email).await?;
     let update_form = doc! { "$push": { "patient_forms": bson::to_bson(&form)? } };
     coll.update_one(filter, update_form, None).await?;
     Ok(())
 }
 
-pub async fn remove_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
+pub async fn get_therapist_patient_index(
+    db: &Database,
+    email: &str,
+    patient_email: &str,
+) -> Result<Option<i32>, Box<dyn std::error::Error>> {
     let coll = db.collection::<TherapistPatients>("therapist_patients");
+    let pipeline = vec![
+        doc! {
+            "$match": {
+                "email": email
+            }
+        },
+        doc! {
+            "$project": {
+                "matchedIndex": {
+                    "$indexOfArray": ["$patients", patient_email]
+                }
+            }
+        },
+    ];
+    let mut cursor = coll.aggregate(pipeline, None).await?;
+    if let Some(result) = cursor.next().await {
+        if let Ok(doc) = result {
+            match doc.get_i32("matchedIndex") {
+                Ok(index) => return Ok(Some(index)),
+                Err(e) => return Err(Box::new(e)),
+            }
+        }
+    }
+    Ok(None)
+}
+
+pub async fn remove_therapist_patient(
+    db: &Database,
+    email: &str,
+    patient_email: &str,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<TherapistPatients>("therapist_patients");
+
     let filter = doc! { "email": email };
-    let update = doc! { "$pull": { "patients": email } };
-    coll.update_one(filter, update, None).await?;
+    let update_email = doc! { "$pull": { "patients": patient_email } };
+    coll.update_one(filter, update_email, None).await?;
+    let i = get_therapist_patient_index(db, email, patient_email).await?;
+    if i.is_none() {
+        return Ok(());
+    } else {
+        let i = i.unwrap();
+        coll.update_one(
+            doc! {},
+            doc! {"$unset": {format!("myArray.{}", i): 1}},
+            None,
+        )
+        .await?;
+    }
+
     Ok(())
 }
 

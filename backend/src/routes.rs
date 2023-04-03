@@ -316,7 +316,7 @@ pub async fn get_therapist_patients(
         Ok(patients) => match patients {
             Some(patients) => patients,
             None => {
-                info!("No patients available for request");
+                info!("No patients available for get therapist patients request");
                 return Err(StatusCode::BAD_REQUEST);
             }
         },
@@ -338,7 +338,7 @@ pub async fn post_therapist_patient(
     };
 
     // verify that this patient(user) exists
-    match data::get_user_type(&state.db, &payload.email).await {
+    match data::get_user_type(&state.db, &payload.patient_email).await {
         Ok(user_type) => {
             if user_type != "Patient" {
                 info!("Insert patient therapist requested from a non-patient");
@@ -351,7 +351,13 @@ pub async fn post_therapist_patient(
         }
     }
 
-    match data::add_therapist_patient(&state.db, &payload.patient_email, &payload.session_id).await
+    match data::add_therapist_patient(
+        &state.db,
+        &payload.email,
+        &payload.patient_email,
+        &payload.session_id,
+    )
+    .await
     {
         Ok(_) => (),
         Err(e) => {
@@ -372,7 +378,7 @@ pub async fn remove_therapist_patient(
     };
 
     // verify that this patient(user) exists
-    match data::get_user_type(&state.db, &payload.email).await {
+    match data::get_user_type(&state.db, &payload.patient_email).await {
         Ok(user_type) => {
             if user_type != "Patient" {
                 info!("Remove patient therapist requested from a non-patient");
@@ -385,7 +391,7 @@ pub async fn remove_therapist_patient(
         }
     }
 
-    match data::remove_therapist_patient(&state.db, &payload.patient_email).await {
+    match data::remove_therapist_patient(&state.db, &payload.email, &payload.patient_email).await {
         Ok(()) => (),
         Err(e) => {
             error!("Failure removing therapist patient: {}", e);
@@ -470,7 +476,7 @@ pub async fn search_patients(
         Ok(patients) => match patients {
             Some(patients) => Ok(Json(patients)),
             None => {
-                info!("No patients available for request");
+                info!("No patients available for search request");
                 return Err(StatusCode::BAD_REQUEST);
             }
         },
