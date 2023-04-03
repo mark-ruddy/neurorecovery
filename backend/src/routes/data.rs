@@ -257,6 +257,7 @@ pub async fn get_therapist_form(
 }
 
 // THERAPIST'S PATIENTS
+#[allow(dead_code)]
 pub async fn insert_therapist_patients(
     db: &Database,
     therapist_patients: TherapistPatients,
@@ -266,11 +267,8 @@ pub async fn insert_therapist_patients(
     Ok(())
 }
 
-pub async fn add_therapist_patient(
-    db: &Database,
-    email: &str,
-    session_id: &str,
-) -> Result<(), Box<dyn Error>> {
+pub async fn add_therapist_patient(db: &Database, email: &str) -> Result<(), Box<dyn Error>> {
+    /*
     match get_therapist_patients(db, email).await? {
         Some(_) => (),
         None => {
@@ -286,13 +284,16 @@ pub async fn add_therapist_patient(
             .await?
         }
     }
+    */
 
     let coll = db.collection::<TherapistPatients>("therapist_patients");
     let filter = doc! { "email": email };
     let update = doc! { "$push": { "patients": email } };
+    coll.update_one(filter.clone(), update, None).await?;
+
     let form = get_patient_form(db, email).await?;
     let update_form = doc! { "$push": { "patient_forms": bson::to_bson(&form)? } };
-    coll.update_one(filter, update, None).await?;
+    coll.update_one(filter, update_form, None).await?;
     Ok(())
 }
 
