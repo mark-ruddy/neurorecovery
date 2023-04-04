@@ -41,6 +41,7 @@ export class RegisterComponent implements OnInit {
           horizontalPosition: 'center',
         });
         this.appComponent.refreshLoginStatus();
+        this.appComponent.refreshUserType();
         this.router.navigate(['instant']);
       } else {
         this.snackBar.open(errorMessages['invalidRegistration'], '', {

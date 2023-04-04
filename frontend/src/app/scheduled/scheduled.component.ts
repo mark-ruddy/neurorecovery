@@ -21,6 +21,9 @@ export class ScheduledComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private snackBar: MatSnackBar, private router: Router, private backendService: BackendService) { }
 
   ngOnInit(): void {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
     this.email = localStorage.getItem('email')!;
   }
 

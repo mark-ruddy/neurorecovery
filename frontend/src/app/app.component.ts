@@ -30,7 +30,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  launchMatlab() {
+  async refreshUserType() {
+    let authenticatedRequest = {
+      email: localStorage.getItem('email'),
+      session_id: localStorage.getItem('session_id'),
+    } as AuthenticatedRequest;
+    this.userType = await this.backendService.getUserType(authenticatedRequest);
+  }
+
+  launchLocalMatlab() {
     fetch('http://localhost:5000/launch_matlab', {
       method: 'GET'
     })
@@ -73,17 +81,7 @@ export class AppComponent implements OnInit {
     this.refreshLoginStatus();
 
     if (this.loggedIn) {
-      let authenticatedRequest = {
-        email: localStorage.getItem('email'),
-        session_id: localStorage.getItem('session_id'),
-      } as AuthenticatedRequest;
-
-      this.userType = await this.backendService.getUserType(authenticatedRequest);
-
-      if (this.userType != "Patient" && this.userType != "Therapist") {
-        // User hasn't submitted a form yet
-        return;
-      }
+      this.refreshUserType();
     }
   }
 }

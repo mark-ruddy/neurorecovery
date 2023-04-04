@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void { }
 
   async onSubmit() {
-    console.log(this.loginForm.value);
     this.loginInProgress = true;
     if (this.loginForm.valid) {
       let success = await this.loginService.loginWithCredentials(this.loginForm.value.email!, this.loginForm.value.password!);
@@ -38,6 +37,7 @@ export class LoginComponent implements OnInit {
           horizontalPosition: 'center',
         });
         this.appComponent.refreshLoginStatus();
+        this.appComponent.refreshUserType();
         this.router.navigate(['instant']);
       } else {
         this.snackBar.open(errorMessages['failedLogin'], '', {

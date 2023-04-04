@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { errorMessages, successMessages } from '../helpers/custom-validators';
-import { AuthenticatedRequest, BackendService, PatientForm } from '../services/backend.service';
+import { AuthenticatedRequest, BackendService, Patient, PatientForm } from '../services/backend.service';
 import { SearchPatientsRequest, TherapistPatientRequest } from '../services/backend.service';
 import { LoginService } from '../services/login.service';
 
@@ -15,11 +16,11 @@ export class TherapistPatientsComponent implements OnInit {
   userType = '';
   patients: string[] = [];
   patientForms: PatientForm[] = [];
-  searchedPatients: string[] = [];
+  searchedPatients: Patient[] = [];
   searchJustRan = false;
   mostRecentSearchTerm = '';
 
-  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private loginService: LoginService, private snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private loginService: LoginService, private snackBar: MatSnackBar, private router: Router) { }
 
   searchPatientsForm = this.formBuilder.group({
     email: this.formBuilder.control('', Validators.required),
@@ -37,8 +38,9 @@ export class TherapistPatientsComponent implements OnInit {
 
     this.userType = await this.backendService.getUserType(authenticatedRequest);
 
-    if (this.userType != "Patient" && this.userType != "Therapist") {
-      // User hasn't submitted a form yet
+    if (this.userType != "Therapist") {
+      // if the user is not a therapist, redirect them to info page
+      this.router.navigate(['/info']);
       return;
     }
 
@@ -91,6 +93,7 @@ export class TherapistPatientsComponent implements OnInit {
         horizontalPosition: 'center',
       });
     }
+    this.ngOnInit();
   }
 
   onRemovePatient(email: string) {
@@ -120,5 +123,6 @@ export class TherapistPatientsComponent implements OnInit {
         horizontalPosition: 'center',
       });
     }
+    this.ngOnInit();
   }
 }

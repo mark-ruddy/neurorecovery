@@ -17,30 +17,29 @@ export class InstantComponent implements OnInit {
   constructor(private loginService: LoginService, private backendService: BackendService) { }
 
   async ngOnInit() {
-    if (!this.loginService.mustBeLoggedIn()) {
-      return;
-    }
-    this.loggedIn = true;
+    if (this.loginService.isLoggedIn()) {
+      this.loggedIn = true;
 
-    let authenticatedRequest = {
-      email: localStorage.getItem('email'),
-      session_id: localStorage.getItem('session_id'),
-    } as AuthenticatedRequest;
+      let authenticatedRequest = {
+        email: localStorage.getItem('email'),
+        session_id: localStorage.getItem('session_id'),
+      } as AuthenticatedRequest;
 
-    this.userDataFetchInProgress = true;
+      this.userDataFetchInProgress = true;
 
-    this.userType = await this.backendService.getUserType(authenticatedRequest);
+      this.userType = await this.backendService.getUserType(authenticatedRequest);
 
-    /*
-    if (this.userType != "Patient" && this.userType != "Therapist") {
-      // User hasn't submitted a form yet
-      return;
-    }
-    */
+      /*
+      if (this.userType != "Patient" && this.userType != "Therapist") {
+        // User hasn't submitted a form yet
+        return;
+      }
+      */
 
-    if (this.userType == "Patient") {
-      this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
-      this.injuryType = this.patientForm.injury_type;
+      if (this.userType == "Patient") {
+        this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
+        this.injuryType = this.patientForm.injury_type;
+      }
     }
   }
 }

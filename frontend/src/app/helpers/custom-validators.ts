@@ -71,6 +71,7 @@ export const errorMessages: { [key: string]: string } = {
 }
 
 export const successMessages: { [key: string]: string } = {
+  successfulLogin: "Successful login",
   successfulRegistration: "Successful registration",
   successfulFormSubmission: "Successful form submission",
   finishedExercises: "Successfully finished exercise session",

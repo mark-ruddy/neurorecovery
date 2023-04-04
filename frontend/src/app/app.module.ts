@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
@@ -50,6 +51,7 @@ export const modulesImports: any[] = [
   MatDialogModule,
   MatSelectModule,
   MatCardModule,
+  MatDividerModule,
   VgCoreModule,
   VgControlsModule,
   VgOverlayPlayModule,

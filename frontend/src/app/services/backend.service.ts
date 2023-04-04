@@ -64,6 +64,10 @@ export interface TherapistPatients {
   session_id: string,
 }
 
+export interface Patient {
+  email: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -187,7 +191,7 @@ export class BackendService {
   }
 
   async getTherapistPatients(authenticatedRequest: AuthenticatedRequest): Promise<TherapistPatients> {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.getTherapistPatients}`, {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.getTherapistPatientsEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -205,7 +209,7 @@ export class BackendService {
   }
 
   async postTherapistPatient(therapistPatient: TherapistPatientRequest) {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.postTherapistPatient}`, {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postTherapistPatientEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -218,7 +222,7 @@ export class BackendService {
   }
 
   async removeTherapistPatient(therapistPatient: TherapistPatientRequest) {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.removeTherapistPatient}`, {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.removeTherapistPatientEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -277,7 +281,7 @@ export class BackendService {
     return resp.text();
   }
 
-  async searchPatients(searchPatientsRequest: SearchPatientsRequest): Promise<string[]> {
+  async searchPatients(searchPatientsRequest: SearchPatientsRequest): Promise<Array<Patient>> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.searchPatientsEndpoint}`, {
       method: 'POST',
       headers: {

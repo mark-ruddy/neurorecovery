@@ -1,36 +1,52 @@
 <div class='general-form-container'>
-  <form [formGroup]='searchPatientsForm' (ngSubmit)='onSubmitSearchPatientsForm()' class='general'>
-    <div class='form-input-container'>
-      <h2>Add a patient</h2>
-      <mat-form-field appearance='fill'>
-        <mat-label>Search for a patient</mat-label>
-        <input matInput formControlName='email' placeholder='Search for a patient by email to add'/>
-      </mat-form-field>
-    </div>
-  </form>
+  <div class='general-form'>
+    <form [formGroup]='searchPatientsForm' (ngSubmit)='onSubmitSearchPatientsForm()' class='general'>
+      <div class='form-input-container'>
+        <h2>Add a patient</h2>
+        <mat-form-field appearance='fill' class='form-input-wide'>
+          <mat-label>Search for a patient by email</mat-label>
+          <input matInput formControlName='email'/>
+        </mat-form-field>
+      </div>
+    </form>
 
-  <h3 *ngIf='searchedPatients.length == 0 && searchJustRan'>No patients match the search term {{ mostRecentSearchTerm }}</h3>
-  <div *ngIf='searchedPatients.length != 0'>
-    <h3>Search Results</h3>
-    <div *ngFor='let patient of searchedPatients; let i = index'>
-      <p>{{ patient }}</p>
-      <p>Has injury on this side: {{ patientForms[i].injury_side }}</p>
-      <button mat-raised-button color='primary' (click)='onAddPatient(patient)'>Add</button>
+    <h2 *ngIf='searchedPatients.length == 0 && searchJustRan'>No patients match the search term {{ mostRecentSearchTerm }}</h2>
+    <div *ngIf='searchedPatients.length != 0' class='search-results-container'>
+      <h2>Search Results</h2>
+      <mat-list role='list'>
+        <ng-container *ngFor='let patient of searchedPatients' class='search-results-list-container'>
+          <mat-list-item role='listitem'>
+            <p class='patient-search-result-email'>{{ patient.email }}</p>
+            <button mat-raised-button color='primary' (click)='onAddPatient(patient.email)'>Add</button>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
     </div>
-  </div>
 
-  <hr>
+    <mat-divider class='divider'></mat-divider>
 
-  <div>
-    <h2>Your Patients</h2>
-    <div *ngIf='patients.length == 0'>
-      <p>You have no patients yet.</p>
-    </div>
-    <div *ngIf='patients.length > 0'>
-      <div *ngFor='let patient of patients'>
-        <!-- TODO: get the patient info from the backend request and display it here -->
-        <p>{{ patient }}</p>
-        <button mat-raised-button color='primary' (click)='onRemovePatient(patient)'>Remove</button>
+    <div>
+      <h2>Your Patients</h2>
+      <div *ngIf='patients.length == 0'>
+        <h3>You have no patients yet.</h3>
+      </div>
+      <div *ngIf='patients.length > 0'>
+        <mat-expansion-panel *ngFor='let patient of patients; let i = index' class='margin-above'>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Patient {{patientForms[i].full_name}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{patient}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list role='list'>
+            <mat-list-item role='listitem' class='listitem-text'>Stroke Date: {{patientForms[i].stroke_date}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Injury Side: {{patientForms[i].injury_side}}</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{patientForms[i].additional_info}}</mat-list-item>
+          </mat-list>
+          <button mat-raised-button color='primary' (click)='onRemovePatient(patient)'>Remove</button>
+        </mat-expansion-panel>
       </div>
     </div>
   </div>

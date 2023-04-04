@@ -2,12 +2,15 @@
   <button mat-icon-button (click)='sidenav.toggle()'>
     <mat-icon>menu</mat-icon>
   </button>
-  <a class='toolbar-title'><span>NeuroRecovery</span></a>
+
+  <a class='icon-link header-icon' routerLink='/info'><img class='icon' rel='icon' type='image/png' src='assets/logo_48.png'></a>
+  <a class='toolbar-title' routerLink='/info'><span>NeuroRecovery</span></a>
+
   <span class='toolbar-spacer'></span>
   <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
   <div *ngIf='loggedIn'>
     <span class='login-text'><a routerLink='/user' class='email-link'>{{email}}</a></span>
-    <button *ngIf='userType == "Therapist"' routerLink='/therapist-patient' color='primary' mat-flat-button>Manage Patients</button>
+    <button class='login-text' *ngIf='userType == "Therapist"' routerLink='/therapist-patients' color='primary' mat-flat-button>Manage Patients</button>
     <button class='login-button' (click)='logout()' type='button' color='basic' mat-flat-button>Logout</button>
   </div>
 </mat-toolbar>
@@ -18,7 +21,7 @@
       <a mat-list-item routerLink="/info">Update Your Information</a>
       <a mat-list-item routerLink="/instant">Instant Exercise Session</a>
       <a mat-list-item routerLink="/scheduled">Scheduled Exercise Session</a>
-      <a mat-list-item (click)="launchMatlab()">Launch Matlab</a>
+      <a mat-list-item (click)="launchLocalMatlab()">Launch Local Matlab</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
