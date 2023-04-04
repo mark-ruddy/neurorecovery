@@ -2,7 +2,7 @@
   <div class='general-form'>
   <form [formGroup]='contactForm' (ngSubmit)='onSubmit()'>
     <h2>Enter the email of a patient or therapist below to schedule an exercise session with them.</h2>
-    <h2>A calendar file(ics) will be created and sent in an email to the meeting invitee.</h2>
+    <h2>A calendar file(ics) will be created and sent in an email to the meeting invitee and you.</h2>
     <mat-form-field appearance='fill' class='form-input-wide'>
       <mat-label>Patient/Therapist Email</mat-label>
       <input formControlName='contactEmail' type='email' matInput>

@@ -32,6 +32,8 @@ NEURORECOVERY_MONGODB_PASS=au5maduk55
 public backendBaseUrl = 'http://neurorecovery-app.xyz:8080'; 
 ```
 
+- For the `send_email` function to work in the backend, it requires AWS credentials to use Simple Email Service(SES) to send the emails to the meeting invitee and sender, add them to the Linux enviromnent following the AWS docs - https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html
+
 - Run `tilt up` and visit `localhost:10350`, if the local dependencies are not installed, then there will be some failing tests - this is OK if the goal is to get the deployment up only.
 - Run `kubectl get all -n neurorecovery` and `helm ls -a -n neurorecovery` to view the deployed resources.
 

@@ -50,6 +50,8 @@ export class RegisterComponent implements OnInit {
           verticalPosition: 'top',
           horizontalPosition: 'center',
         });
+        this.loginInProgress = false;
+        this.registerForm.reset();
       }
     }
   }

@@ -10,26 +10,32 @@ export class LoginService {
   constructor(private backendService: BackendService, private snackBar: MatSnackBar) { }
 
   async loginWithCredentials(email: string, password: string): Promise<boolean> {
-    let sessionId = await this.backendService.loginUser({
-      email: email,
-      password: password,
-    });
-
-    localStorage.setItem('email', email);
-    localStorage.setItem('logged_in', "true");
-    localStorage.setItem('session_id', sessionId);
-    return true;
+    try {
+      let sessionId = await this.backendService.loginUser({
+        email: email,
+        password: password,
+      });
+      localStorage.setItem('email', email);
+      localStorage.setItem('logged_in', "true");
+      localStorage.setItem('session_id', sessionId);
+      return true;
+    } catch (e) {
+      return false
+    }
   }
 
   async register(email: string, password: string): Promise<boolean> {
-    let sessionId = await this.backendService.registerUser({
-      email: email,
-      password: password,
-    });
-
-    localStorage.setItem('email', email);
-    localStorage.setItem('logged_in', 'true');
-    localStorage.setItem('session_id', sessionId);
+    try {
+      let sessionId = await this.backendService.registerUser({
+        email: email,
+        password: password,
+      });
+      localStorage.setItem('email', email);
+      localStorage.setItem('logged_in', 'true');
+      localStorage.setItem('session_id', sessionId);
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 

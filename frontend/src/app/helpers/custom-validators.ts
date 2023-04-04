@@ -68,6 +68,7 @@ export const errorMessages: { [key: string]: string } = {
   matlabFailedLaunch: "Matlab failed to launch",
   failedAddingPatient: "Failed to add patient",
   failedRemovingPatient: "Failed to remove patient",
+  failedCalendarFileSend: "Failed to send calendar file",
 }
 
 export const successMessages: { [key: string]: string } = {
@@ -76,7 +77,7 @@ export const successMessages: { [key: string]: string } = {
   successfulFormSubmission: "Successful form submission",
   finishedExercises: "Successfully finished exercise session",
   matlabSuccessfulLaunch: "Matlab has been launched",
-  calendarFileCreated: "Calendar file created",
+  calendarFileSent: "Calendar file sent",
   removedPatient: "Successfully removed patient",
   addedPatient: "Successfully added patient",
 }

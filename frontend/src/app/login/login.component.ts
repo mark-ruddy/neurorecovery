@@ -40,12 +40,14 @@ export class LoginComponent implements OnInit {
         this.appComponent.refreshUserType();
         this.router.navigate(['instant']);
       } else {
-        this.snackBar.open(errorMessages['failedLogin'], '', {
+        this.snackBar.open(errorMessages['invalidLogin'], '', {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-warn'],
           verticalPosition: 'top',
           horizontalPosition: 'center',
         });
+        this.loginInProgress = false;
+        this.loginForm.reset();
       }
     }
   }

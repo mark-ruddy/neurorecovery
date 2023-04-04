@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { successMessages } from '../helpers/custom-validators';
+import { errorMessages, successMessages } from '../helpers/custom-validators';
 import { Router } from '@angular/router';
 
 import * as ics from 'ics';
@@ -33,7 +33,7 @@ export class ScheduledComponent implements OnInit {
     estimatedTime: this.formBuilder.control(30, Validators.required),
   })
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
     }
@@ -70,8 +70,19 @@ export class ScheduledComponent implements OnInit {
       session_id: localStorage.getItem('session_id')!,
     } as EmailRequest;
 
-    this.backendService.postSendEmail(emailRequest)
-    this.snackBar.open(successMessages['calendarFileCreated'], '', {
+    try {
+      await this.backendService.postSendEmail(emailRequest);
+    } catch (e) {
+      this.snackBar.open(errorMessages['failedCalendarFileSend'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-warn'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+      return;
+    }
+
+    this.snackBar.open(successMessages['calendarFileSent'], '', {
       duration: 3000,
       panelClass: ['mat-toolbar'],
       verticalPosition: 'top',
