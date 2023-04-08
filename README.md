@@ -1,8 +1,5 @@
 # NeuroRecovery
-## Report Generation
-1. `pandoc report_neurorecovery.md -o dist/report_neurorecovery.docx`
-2. Manually add first page from template in libreoffice
-3. Export as pdf to `dist/report_neurorecovery.pdf` - this is report generated
+The NeuroRecovery App assists post-stroke patients with their recovery through a web application
 
 ## Deployment with Tilt CI/CD
 The NeuroRecovery app is tested and deployed with [Tilt CI/CD](https://tilt.dev/).  
@@ -32,7 +29,7 @@ NEURORECOVERY_MONGODB_PASS=au5maduk55
 public backendBaseUrl = 'http://neurorecovery-app.xyz:8080'; 
 ```
 
-- For the `send_email` function to work in the backend, it requires AWS credentials to use Simple Email Service(SES) to send the emails to the meeting invitee and sender, add them to the Linux enviromnent following the AWS docs - https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html
+- For the `send_email` function to work in the backend, it requires AWS credentials to use Simple Email Service(SES) to send the emails to the meeting invitee and sender, add the access key ID and secret key to `backend/.env`, you can get those creds by following the AWS docs - https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html
 
 - Run `tilt up` and visit `localhost:10350`, if the local dependencies are not installed, then there will be some failing tests - this is OK if the goal is to get the deployment up only.
 - Run `kubectl get all -n neurorecovery` and `helm ls -a -n neurorecovery` to view the deployed resources.
@@ -50,3 +47,9 @@ For a production deployment some extra steps may be considered:
 
 - Restricting CORS settings for the backend server to only accepting requests from the frontend server:
   - Modify the `layer(CorsLayer::permissive())` line  in the `create_router()` function in `main.rs` of the backend code.
+
+## Report Generation
+1. `pandoc report_neurorecovery.md -o dist/report_neurorecovery.docx`
+2. Manually add first page from template in libreoffice
+3. Export as pdf to `dist/report_neurorecovery.pdf` - this is report generated
+
