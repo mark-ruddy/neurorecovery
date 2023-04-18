@@ -8,6 +8,7 @@ import { InstantUlComponent } from './instant-ul/instant-ul.component';
 import { InstantComponent } from './instant/instant.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ScheduledResultComponent } from './scheduled-result/scheduled-result.component';
 import { ScheduledComponent } from './scheduled/scheduled.component';
 import { TherapistPatientsComponent } from './therapist-patients/therapist-patients.component';
 import { UserComponent } from './user/user.component';
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'info', component: InfoComponent },
   { path: 'instant', component: InstantComponent },
   { path: 'scheduled', component: ScheduledComponent },
-  { path: 'scheduled-results', component: ScheduledComponent },
+  { path: 'scheduled-results', component: ScheduledResultComponent },
   { path: 'therapist-patients', component: TherapistPatientsComponent },
 
   { path: 'instant-ul', component: InstantUlComponent },

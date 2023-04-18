@@ -89,6 +89,6 @@ export class ScheduledComponent implements OnInit {
       horizontalPosition: 'center',
     });
 
-    this.router.navigateByUrl('/scheduled-result', { state: { email: this.email, receiverEmail: this.receiverEmail } });
+    await this.router.navigateByUrl('/scheduled-results', { state: { email: this.email, receiverEmail: this.receiverEmail } });
   }
 }
