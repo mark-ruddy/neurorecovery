@@ -20,13 +20,10 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "@illgrenoble/guacamole-common-js": "^0.0.1",
     "@videogular/ngx-videogular": "^6.0.0",
     "file-saver": "^2.0.5",
     "ics": "^3.1.0",
-    "@raytecvision/ngx-remote-desktop": "3.1.2",
     "rxjs": "~7.5.0",
-    "screenfull": "^3.3.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
