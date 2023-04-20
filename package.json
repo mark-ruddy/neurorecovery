@@ -1,8 +1,11 @@
 {
   "dependencies": {
-    "@videogular/ngx-videogular": "^6.0.0"
+    "@illgrenoble/guacamole-common-js": "^0.0.1",
+    "@videogular/ngx-videogular": "^6.0.0",
+    "ngx-remote-desktop": "^0.9.2",
+    "screenfull": "^3.3.3"
   },
   "devDependencies": {
-    "@types/core-js": "3.1.0"
+    "@types/core-js": "2.5.5"
   }
 }

@@ -23,6 +23,8 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 
+import { NgxRemoteDesktopModule } from '@raytecvision/ngx-remote-desktop';
+
 import { AppRoutingModule } from './app-routing.module';
 import { InfoComponent } from './info/info.component';
 import { AppComponent } from './app.component';
@@ -36,6 +38,7 @@ import { InstantLlComponent } from './instant-ll/instant-ll.component';
 import { InstantHandComponent } from './instant-hand/instant-hand.component';
 import { ScheduledResultComponent } from './scheduled-result/scheduled-result.component';
 import { TherapistPatientsComponent } from './therapist-patients/therapist-patients.component';
+import { MatlabRdpComponent } from './matlab-rdp/matlab-rdp.component';
 
 export const modulesImports: any[] = [
   MatToolbarModule,
@@ -56,6 +59,7 @@ export const modulesImports: any[] = [
   VgControlsModule,
   VgOverlayPlayModule,
   VgBufferingModule,
+  NgxRemoteDesktopModule,
   BrowserModule,
   BrowserAnimationsModule,
   ReactiveFormsModule,
@@ -76,6 +80,7 @@ export const modulesImports: any[] = [
     InstantHandComponent,
     ScheduledResultComponent,
     TherapistPatientsComponent,
+    MatlabRdpComponent,
   ],
   imports: modulesImports,
   providers: [],
