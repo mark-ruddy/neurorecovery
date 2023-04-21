@@ -4,7 +4,7 @@ use log::info;
 use rusoto_core::Region;
 use rusoto_ses::{RawMessage, SendRawEmailRequest, Ses, SesClient};
 
-const SENDING_EMAIL: &str = "neurorecovery@protonmail.com";
+const SENDING_EMAIL: &str = "neurorecoveryapp@protonmail.com";
 
 pub async fn send_email(email_request: &EmailRequest) -> Result<(), Box<dyn std::error::Error>> {
     info!(
