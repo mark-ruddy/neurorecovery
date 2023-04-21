@@ -11,7 +11,7 @@ pub async fn send_email(email_request: &EmailRequest) -> Result<(), Box<dyn std:
         "Generating email to send to: {} and {}",
         email_request.email, email_request.receiver_email
     );
-    let ses = SesClient::new(Region::EuNorth1);
+    let ses = SesClient::new(Region::EuWest2);
     let body = format!(
         "Hello,\n\nYou have been invited to a meeting by {}. Please find the attached ICS file to add the event to your calendar.\n\nBest regards,\n{}",
         email_request.email,

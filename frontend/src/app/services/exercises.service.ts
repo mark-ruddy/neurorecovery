@@ -24,7 +24,7 @@ export class ExercisesService {
   started = false;
   startEpoch = 0;
 
-  timePerExercise = 1;
+  timePerExercise = 3;
   timerCurrent = 0;
   timerFinished = true;
   interval: any = null;
