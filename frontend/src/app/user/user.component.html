@@ -40,10 +40,10 @@
     <br>
 
     <!-- TODO - collapsable exercise list or something -->
-    <div *ngIf='exerciseSessions!.length > 0' class='margin-above margin stretch'>
+    <div *ngIf='exerciseSessions!.length > 0' class='margin-above margin-below margin stretch'>
       <h2>Exercise Sessions</h2>
       <mat-card>
-        <mat-card-header class='card-header'>Your Exercise Session Stats</mat-card-header>
+        <mat-card-header class='card-header'>Your Exercise Session Statistics</mat-card-header>
         <mat-card-content>
           <mat-list role='list'>
             <mat-list-item role='listitem' class='listitem-text'>Exercise sessions completed: {{totalExerciseSessionsCompleted}}</mat-list-item>
@@ -51,6 +51,7 @@
           </mat-list>
         </mat-card-content>
       </mat-card>
+      <br>
 
       <h2>Completed Exercise Sessions</h2>
       <mat-expansion-panel *ngFor='let exerciseSession of exerciseSessions' class='margin-above' hideToggle>

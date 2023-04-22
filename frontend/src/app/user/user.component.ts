@@ -41,6 +41,13 @@ export class UserComponent implements OnInit {
 
   constructor(private loginService: LoginService, private backendService: BackendService) { }
 
+  secondsToHms(seconds: number): string {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor((seconds % 3600) % 60);
+    return `${h}hr ${m}m ${s}s`;
+  }
+
   async ngOnInit() {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
@@ -75,7 +82,7 @@ export class UserComponent implements OnInit {
       this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
       this.exerciseSessions.forEach(exerciseSession => this.totalTimeSpentExercisingSecs += parseInt(exerciseSession.total_time_taken_secs));
     }
-    this.totalTimeSpentExercisingHumanReadable = new Date(this.totalTimeSpentExercisingSecs * 1000).toISOString();
+    this.totalTimeSpentExercisingHumanReadable = this.secondsToHms(this.totalTimeSpentExercisingSecs)
     this.userDataFetchInProgress = false;
   }
 }
