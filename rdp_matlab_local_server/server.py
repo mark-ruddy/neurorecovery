@@ -12,9 +12,6 @@ REMMINA_PASS = os.environ.get("REMMINA_PASS")
 
 rdp_conn = f"rdp://Administrator:{REMMINA_PASS}@ec2-16-170-168-47.eu-north-1.compute.amazonaws.com"
 
-# NOTE: For the eduroam connection, instead of a DNS name it'll be an IP addr like below, and matlab username, will need to encrypt the password too and add it to the .env file:
-# rdp_conn = f"rdp://matlab:{REMMINA_PASS}@1.1.1.1"
-
 @app.route('/')
 def index():
     return "The launch matlab RDP server is running here. Visit /launch_matlab_rdp to launch matlab"
@@ -28,3 +25,6 @@ def launch_rdp_matlab_api():
     response.headers.add("Access-Control-Request-Headers", "X-Requested-With, accept, content-type")
     response.headers.add("Access-Control-Allow-Methods", "GET")
     return response
+
+# NOTE: For the eduroam connection, instead of a DNS name it'll be an IP addr like below, and matlab username, will need to encrypt the password too and add it to the .env file:
+# rdp_conn = f"rdp://matlab:{REMMINA_PASS}@1.1.1.1"

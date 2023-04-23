@@ -50,13 +50,10 @@ export class ScheduledComponent implements OnInit {
       title: 'NeuroRecovery Meeting',
       description: 'NeuroRecovery Meeting',
       location: 'Online Call',
-      // TODO: user must set the meeting link?
-      // url: 'https://example.com/meeting',
     })
     if (error) {
       console.log(error);
     }
-    // NOTE: Ics file will be downloaded on the requesting users browser, and also emailed to both parties
     let blob = new Blob([value!], { type: 'text/calendar;charset=utf-8' });
     saveAs(blob, 'neurorecovery_meeting.ics');
 
