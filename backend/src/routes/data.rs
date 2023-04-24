@@ -11,11 +11,12 @@ use mongodb::{
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
-const COLLECTIONS: [&str; 4] = [
+const COLLECTIONS: [&str; 5] = [
     "users",
     "patient_forms",
     "therapist_forms",
     "therapist_patients",
+    "exercise_sessions",
 ];
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
