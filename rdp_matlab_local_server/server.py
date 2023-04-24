@@ -10,7 +10,7 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 REMMINA_PASS = os.environ.get("REMMINA_PASS")
 
-rdp_conn = f"rdp://Administrator:{REMMINA_PASS}@ec2-16-170-168-47.eu-north-1.compute.amazonaws.com"
+rdp_conn = f"rdp://Administrator:{REMMINA_PASS}@ec2-35-179-74-36.eu-west-2.compute.amazonaws.com"
 
 @app.route('/')
 def index():
