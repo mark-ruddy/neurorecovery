@@ -38,6 +38,40 @@ export class AppComponent implements OnInit {
     this.userType = await this.backendService.getUserType(authenticatedRequest);
   }
 
+  launchLocalMatlab() {
+    fetch('http://localhost:9090/launch_matlab', {
+      method: 'GET'
+    })
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          this.snackBar.open(errorMessages['matlabFailedLaunch'], '', {
+            duration: 3000,
+            panelClass: ['mat-toolbar', 'mat-warn'],
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+          throw new Error('Non-200 code from launch_matlab/');
+        }
+        this.snackBar.open(successMessages['matlabSuccessfulLaunch'], '', {
+          duration: 3000,
+          panelClass: ['mat-toolbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+        console.log('Successfully launched MATLAB!');
+      })
+      .catch(error => {
+        this.snackBar.open(errorMessages['matlabFailedLaunch'], '', {
+          duration: 3000,
+          panelClass: ['mat-toolbar', 'mat-warn'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+        console.error('Matlab error:', error);
+      });
+  }
+
   launchRdpMatlab() {
     fetch('http://localhost:9090/launch_matlab_rdp', {
       method: 'GET'
@@ -72,8 +106,8 @@ export class AppComponent implements OnInit {
       });
   }
 
-  launchLocalMatlab() {
-    fetch('http://localhost:9090/launch_matlab', {
+  launchQuickAssistMatlab() {
+    fetch('http://localhost:9090/launch_matlab_quickassist', {
       method: 'GET'
     })
       .then(response => {
@@ -105,6 +139,8 @@ export class AppComponent implements OnInit {
         console.error('Matlab error:', error);
       });
   }
+
+
 
   logout() {
     this.loginService.logout();
