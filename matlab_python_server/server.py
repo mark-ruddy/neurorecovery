@@ -35,19 +35,15 @@ def launch_matlab_unix():
 def launch_matlab_rdp():
     if platform.system().lower() == "windows":
         subprocess.call(f'cmdkey /generic:"ec2-35-179-74-36.eu-west-2.compute.amazonaws.com" /user:"Administrator" /pass:"{RDP_PASS}"', shell=True);
-        launch_matlab_rdp_cmd(windows_rdp_cmd)
+        subprocess.call(windows_rdp_cmd, shell=True)
     else:
-        launch_matlab_rdp_cmd(linux_rdp_cmd)
+        subprocess.call(linux_rdp_cmd, shell=True)
 
     response = jsonify("Matlab RDP should be launched")
     response.headers.add("Access-Control-Allow-Origin", "*")
     response.headers.add("Access-Control-Request-Headers", "X-Requested-With, accept, content-type")
     response.headers.add("Access-Control-Allow-Methods", "GET")
     return response
-
-def launch_matlab_rdp_cmd(cmd):
-    # TODO: need option to find if OS is windows and not use remmina
-    subprocess.call(cmd, shell=True)
 
 @app.route('/launch_matlab_quickassist')
 def launch_matlab_quickassist():
