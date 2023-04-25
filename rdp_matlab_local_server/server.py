@@ -21,7 +21,7 @@ def index():
 
 @app.route('/launch_matlab_rdp')
 def launch_rdp_matlab_api():
-    if platform.system() == "windows":
+    if platform.system().lower() == "windows":
         subprocess.call(f'cmdkey /generic:"ec2-35-179-74-36.eu-west-2.compute.amazonaws.com" /user:"Administrator" /pass:"{RDP_PASS}"', shell=True);
         launch_matlab_rdp(windows_rdp_cmd)
     else:
