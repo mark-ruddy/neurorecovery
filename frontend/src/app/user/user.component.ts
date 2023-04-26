@@ -34,6 +34,7 @@ export class UserComponent implements OnInit {
   totalExerciseSessionsCompleted: number = 0;
   totalTimeSpentExercisingSecs: number = 0;
   totalTimeSpentExercisingHumanReadable: string = '';
+  formattedTimeTakenPerExercise = '';
 
   userType = '';
   email = '';
@@ -82,7 +83,18 @@ export class UserComponent implements OnInit {
       this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
       this.exerciseSessions.forEach(exerciseSession => this.totalTimeSpentExercisingSecs += parseInt(exerciseSession.total_time_taken_secs));
     }
+    this.formattedTimeTakenPerExercise = this.formatTimeTakenPerExercise(this.exerciseSessions[0].serialised_time_spent_in_secs);
     this.totalTimeSpentExercisingHumanReadable = this.secondsToHms(this.totalTimeSpentExercisingSecs)
     this.userDataFetchInProgress = false;
+  }
+
+  formatTimeTakenPerExercise(serialisedTimeTakenPerExercise: string): string {
+    /// serialisedTimeTakenPerExercise is formatted like 22,33,78 and I want it converted to "22s, 33s, 78s"
+    let timeTakenPerExercise = serialisedTimeTakenPerExercise.split(',');
+    let formattedTimeTakenPerExercise = '';
+    timeTakenPerExercise.forEach(timeTaken => {
+      formattedTimeTakenPerExercise += `${timeTaken}s, `;
+    });
+    return formattedTimeTakenPerExercise
   }
 }

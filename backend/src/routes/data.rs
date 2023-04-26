@@ -62,6 +62,7 @@ pub struct ExerciseSession {
     pub datetime: String,
     pub total_time_taken_secs: String,
     pub num_exercises_completed: String,
+    pub serialised_time_spent_in_secs: String,
     pub email: String,
     pub session_id: String,
 }

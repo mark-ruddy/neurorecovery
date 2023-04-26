@@ -29,6 +29,10 @@ export class ExercisesService {
   timerFinished = true;
   interval: any = null;
 
+  sectionStartTime = 0;
+  sectionEndTime = 0;
+  timeSpentInSections: number[] = [];
+
   exerciseIndex = 0;
   exerciseTimes = new Array<TimeSet>;
   onLastExercise = false;
@@ -111,6 +115,7 @@ export class ExercisesService {
   }
 
   playCurrentExercise() {
+    this.sectionStartTime = new Date().getTime();
     this.api.getDefaultMedia().currentTime = this.exerciseTimes[this.exerciseIndex].StartTime;
     this.api.getDefaultMedia().play();
   }
@@ -124,6 +129,8 @@ export class ExercisesService {
         this.resetTimer();
         this.startTimer();
       }
+      this.sectionEndTime = new Date().getTime();
+      this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
       this.playCurrentExercise();
       if (this.exerciseIndex == (this.exerciseTimes.length - 1)) {
         this.onLastExercise = true;
@@ -136,6 +143,9 @@ export class ExercisesService {
 
   back() {
     if (this.exerciseIndex > 0) {
+      this.sectionEndTime = new Date().getTime();
+      this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
+
       this.timerFinished = true;
       this.exerciseIndex -= 1;
       this.playCurrentExercise();
@@ -161,6 +171,7 @@ export class ExercisesService {
         datetime: this.datetime,
         total_time_taken_secs: this.totalTimeTakenSecs.toString(),
         num_exercises_completed: this.numExercisesCompleted.toString(),
+        serialised_time_spent_in_secs: this.serialiseTimeSpentInSections(),
         email: localStorage.getItem('email')!,
         session_id: localStorage.getItem('session_id')!,
       })
@@ -174,5 +185,16 @@ export class ExercisesService {
     });
     this.resetState();
     this.router.navigate(['instant']);
+  }
+
+  serialiseTimeSpentInSections(): string {
+    let serialised = "";
+    for (let i = 0; i < this.timeSpentInSections.length; i++) {
+      serialised += this.timeSpentInSections[i].toString();
+      if (i < (this.timeSpentInSections.length - 1)) {
+        serialised += ",";
+      }
+    }
+    return serialised;
   }
 }

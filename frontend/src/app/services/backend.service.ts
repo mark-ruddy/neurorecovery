@@ -34,6 +34,7 @@ export interface ExerciseSession {
   datetime: string,
   total_time_taken_secs: string,
   num_exercises_completed: string,
+  serialised_time_spent_in_secs: string,
   email: string,
   session_id: string,
 }
