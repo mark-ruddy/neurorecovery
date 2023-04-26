@@ -57,6 +57,9 @@ export class ExercisesService {
     this.timerCurrent = 0;
     this.timerFinished = true;
     this.interval = null;
+    this.sectionStartTime = 0;
+    this.sectionEndTime = 0;
+    this.timeSpentInSections = [];
     this.exerciseIndex = 0;
     this.exerciseTimes = new Array<TimeSet>;
     this.onLastExercise = false;
@@ -75,8 +78,11 @@ export class ExercisesService {
     this.playCurrentExercise();
   }
 
-  fill_external_values(kind: string) {
+  fill_external_values(kind: string, timer: number | null) {
     this.kind = kind;
+    if (timer != null) {
+      this.timePerExercise = timer;
+    }
   }
 
   startTimer() {

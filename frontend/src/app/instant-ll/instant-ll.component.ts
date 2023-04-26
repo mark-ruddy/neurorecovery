@@ -7,11 +7,12 @@ import { ExercisesService } from '../services/exercises.service';
   styleUrls: ['./instant-ll.component.scss']
 })
 export class InstantLlComponent implements OnInit, OnDestroy {
+  public timer = 3;
 
   constructor(public exercisesService: ExercisesService) { }
 
   ngOnInit(): void {
-    this.exercisesService.fill_external_values("Instant Lower Limb");
+    this.exercisesService.fill_external_values("Instant Lower Limb", this.timer);
     this.exercisesService.exerciseTimes = [
       { StartTime: 46, EndTime: 80 },
       { StartTime: 88, EndTime: 111 },
@@ -25,5 +26,10 @@ export class InstantLlComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.exercisesService.resetState();
+  }
+
+  onTimerChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.timer = parseInt(value);
   }
 }
