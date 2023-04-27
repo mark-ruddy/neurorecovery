@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   async onSubmit() {
-    console.log(this.registerForm.value);
     this.loginInProgress = true;
     if (this.registerForm.valid) {
       let success = await this.loginService.register(this.registerForm.value.email!, this.registerForm.value.password!);

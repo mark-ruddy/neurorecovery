@@ -24,10 +24,12 @@
         <mat-icon aria-hidden='false' fontIcon='skip_next'></mat-icon>
       </button>
     </div>
+
     <div *ngIf='this.exercisesService.started' class='play-pause-container'>
       <button (click)='this.exercisesService.playPause()' color='primary' class='below-controls-button' mat-raised-button>
-        <mat-icon *ngIf='this.exercisesService.api.getDefaultMedia().canPlay' aria-hidden='false' aria-label='play/pause' fontIcon='pause'></mat-icon>
-    </button>
+      <mat-icon *ngIf='this.exercisesService.api.state === "playing"' aria-hidden='false' aria-label='pause' fontIcon='pause'></mat-icon>
+      <mat-icon *ngIf='this.exercisesService.api.state === "paused"' aria-hidden='false' aria-label='play' fontIcon='play_arrow'></mat-icon>
+      </button>
     </div>
 
     <div *ngIf='this.exercisesService.started' class='below-controls-container'>

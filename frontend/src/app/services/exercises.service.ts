@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { VgApiService } from '@videogular/ngx-videogular/core';
+import { VgApiService, VgStates } from '@videogular/ngx-videogular/core';
 import { successMessages } from '../helpers/custom-validators';
 import { BackendService } from './backend.service';
 import { LoginService } from './login.service';
@@ -160,9 +160,10 @@ export class ExercisesService {
   }
 
   playPause() {
-    this.api.getDefaultMedia().pause();
-    if (this.api.getDefaultMedia().canPlay) {
-      this.api.getDefaultMedia().play();
+    if (this.api.state === VgStates.VG_PLAYING) {
+      this.api.pause();
+    } else {
+      this.api.play();
     }
   }
 

@@ -124,7 +124,6 @@ export class BackendService {
   }
 
   async postPatientForm(patientForm: PatientForm) {
-    console.log("Got patient form: ", patientForm);
     let resp = await fetch(`${this.backendBaseUrl}/${this.postPatientFormEndpoint}`, {
       method: 'POST',
       headers: {

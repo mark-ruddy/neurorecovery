@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
   errorMessages = errorMessages;
   userDataFetchInProgress = false;
 
+  patientNameEditing = false;
   strokeDateEditing = false;
   injuryTypeEditing = false;
   injurySideEditing = false;
@@ -49,18 +50,18 @@ export class UserComponent implements OnInit {
   };
 
   therapistFormBuilder = this.formBuilder.group({
-    fullName: this.formBuilder.control('', Validators.required),
+    full_name: this.formBuilder.control('', Validators.required),
     numberOfPatients: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
     expectedNumberOfWeeklyAppointments: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
-    additionalInfo: this.formBuilder.control(''),
+    additional_info: this.formBuilder.control(''),
   })
 
   patientFormBuilder = this.formBuilder.group({
-    fullName: this.formBuilder.control('', Validators.required),
-    strokeDate: this.formBuilder.control('', [Validators.required, dateInPast()]),
-    injuryType: this.formBuilder.control('', Validators.required),
-    injurySide: this.formBuilder.control('', Validators.required),
-    additionalInfo: this.formBuilder.control(''),
+    full_name: this.formBuilder.control('', Validators.required),
+    stroke_date: this.formBuilder.control('', [Validators.required, dateInPast()]),
+    injury_type: this.formBuilder.control('', Validators.required),
+    injury_side: this.formBuilder.control('', Validators.required),
+    additional_info: this.formBuilder.control(''),
   })
 
   exerciseSessions: Array<ExerciseSession> = [];
@@ -106,19 +107,21 @@ export class UserComponent implements OnInit {
 
     if (this.userType == "Patient") {
       this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
+      this.patientFormBuilder.patchValue(this.patientForm)
     }
 
     if (this.userType == "Therapist") {
       this.therapistForm = await this.backendService.getTherapistForm(authenticatedRequest);
+      this.therapistFormBuilder.patchValue(this.therapistForm)
     }
 
     this.exerciseSessions = await this.backendService.getExerciseSessions(authenticatedRequest);
     if (this.exerciseSessions.length > 0) {
       this.totalExerciseSessionsCompleted = this.exerciseSessions.length;
       this.exerciseSessions.forEach(exerciseSession => this.totalTimeSpentExercisingSecs += parseInt(exerciseSession.total_time_taken_secs));
+      this.formattedTimeTakenPerExercise = this.formatTimeTakenPerExercise(this.exerciseSessions[0].serialised_time_spent_in_secs);
+      this.totalTimeSpentExercisingHumanReadable = this.secondsToHms(this.totalTimeSpentExercisingSecs)
     }
-    this.formattedTimeTakenPerExercise = this.formatTimeTakenPerExercise(this.exerciseSessions[0].serialised_time_spent_in_secs);
-    this.totalTimeSpentExercisingHumanReadable = this.secondsToHms(this.totalTimeSpentExercisingSecs)
     this.userDataFetchInProgress = false;
   }
 
@@ -141,24 +144,46 @@ export class UserComponent implements OnInit {
     });
   }
 
-  onUpdatePatientForm() {
+  resetAllEdits() {
+    // set all the edit vars to false
+    this.patientNameEditing = false;
+    this.strokeDateEditing = false;
+    this.injuryTypeEditing = false;
+    this.injurySideEditing = false;
+    this.patientAdditionalInfoEditing = false;
+    this.numPatientsEditing = false;
+    this.expectedWeeklyAppointmentsEditing = false;
+    this.therapistAdditionalInfoEditing = false;
+  }
+
+  async onUpdatePatientForm() {
     if (!this.loginService.mustBeLoggedIn()) {
       return;
     }
 
     if (this.patientFormBuilder.valid) {
       let parsedForm = {
-        full_name: this.patientFormBuilder.value.fullName,
-        stroke_date: this.patientFormBuilder.value.strokeDate,
-        injury_type: this.patientFormBuilder.value.injuryType,
-        injury_side: this.patientFormBuilder.value.injurySide,
-        additional_info: this.patientFormBuilder.value.additionalInfo,
+        full_name: this.patientFormBuilder.value.full_name,
+        stroke_date: this.patientFormBuilder.value.stroke_date,
+        injury_type: this.patientFormBuilder.value.injury_type,
+        injury_side: this.patientFormBuilder.value.injury_side,
+        additional_info: this.patientFormBuilder.value.additional_info,
         email: localStorage.getItem('email'),
         session_id: localStorage.getItem('session_id'),
       } as PatientForm;
       this.backendService.postPatientForm(parsedForm);
       this.successfultUpdateSnackbar();
-      this.router.navigate(['user']);
+
+      // set all edits to false after submission
+      this.resetAllEdits();
+
+      // re-get the patientForm so that it updates
+      let authenticatedRequest = {
+        email: localStorage.getItem('email')!,
+        session_id: localStorage.getItem('session_id'),
+      } as AuthenticatedRequest;
+      this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
+      this.patientFormBuilder.patchValue(this.patientForm)
     }
   }
 }

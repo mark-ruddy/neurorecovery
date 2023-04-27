@@ -9,7 +9,8 @@
   <span class='toolbar-spacer'></span>
   <button *ngIf='!loggedIn' routerLink="/login" class='login-button' type='button' color='primary' mat-raised-button>Log In</button>
   <div *ngIf='loggedIn'>
-    <span class='login-text'><a routerLink='/user' class='email-link'>{{email}}</a></span>
+    <span class='login-text'>{{email}}</span>
+    <button mat-flat-button color="primary" routerLink='/user' class='login-text'>View Profile</button>
     <button class='login-text' *ngIf='userType == "Therapist"' routerLink='/therapist-patients' color='primary' mat-flat-button>Manage Patients</button>
     <button class='login-button' (click)='logout()' type='button' color='basic' mat-flat-button>Logout</button>
   </div>
@@ -18,7 +19,7 @@
 <mat-sidenav-container class='sidenav-container'>
   <mat-sidenav #sidenav mode='side' opened='true'>
     <mat-nav-list class='sidenav-list'>
-      <a mat-list-item routerLink="/info">Update Your Information</a>
+      <a mat-list-item routerLink="/info">Enter Your Details</a>
       <a mat-list-item routerLink="/instant">Instant Exercise Session</a>
       <a mat-list-item routerLink="/scheduled">Scheduled Exercise Session</a>
       <a mat-list-item (click)="launchQuickAssistMatlab()">Launch QuickAssist Matlab</a>
