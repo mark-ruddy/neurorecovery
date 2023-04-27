@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { isInteger } from '../helpers/custom-validators';
 import { ExercisesService } from '../services/exercises.service';
 
 @Component({

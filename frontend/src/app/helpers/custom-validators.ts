@@ -70,6 +70,7 @@ export const errorMessages: { [key: string]: string } = {
   failedRemovingPatient: "Failed to remove patient",
   failedCalendarFileSend: "Failed to send calendar file",
   patientAlreadyAdded: "Patient already added",
+  invalidTimerProvided: "Invalid timer provided",
 }
 
 export const successMessages: { [key: string]: string } = {

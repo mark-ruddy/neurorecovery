@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { VgApiService, VgStates } from '@videogular/ngx-videogular/core';
-import { successMessages } from '../helpers/custom-validators';
+import { errorMessages, isInteger, successMessages } from '../helpers/custom-validators';
 import { BackendService } from './backend.service';
 import { LoginService } from './login.service';
 
@@ -67,6 +67,17 @@ export class ExercisesService {
   }
 
   start() {
+    // first check that the timer provided is valid
+    if (!Number.isInteger(this.timePerExercise) || this.timePerExercise <= 0) {
+      this.snackBar.open(errorMessages['invalidTimerProvided'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-warn'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+      return;
+    }
+
     this.started = true;
 
     this.startEpoch = new Date().getTime();
