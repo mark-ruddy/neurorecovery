@@ -202,7 +202,8 @@ export class ExercisesService {
     if (this.timeSpentInSections) {
       for (let i = 0; i < this.timeSpentInSections.length; i++) {
         if (this.timeSpentInSections[i] !== undefined) {
-          serialised += this.timeSpentInSections[i].toString();
+          let roundedTimeSpentInSection = Math.round(this.timeSpentInSections[i] * 100) / 100;
+          serialised += roundedTimeSpentInSection.toString();
           if (i < (this.timeSpentInSections.length - 1)) {
             serialised += ",";
           }

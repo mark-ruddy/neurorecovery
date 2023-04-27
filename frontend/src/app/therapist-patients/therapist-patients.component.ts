@@ -71,6 +71,17 @@ export class TherapistPatientsComponent implements OnInit {
       return;
     }
 
+    // first check if patient is already there or not
+    if (this.patients.includes(email)) {
+      this.snackBar.open(errorMessages['patientAlreadyAdded'], '', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-warn'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+      return;
+    }
+
     let therapistPatientRequest = {
       patient_email: email,
       email: localStorage.getItem('email'),
