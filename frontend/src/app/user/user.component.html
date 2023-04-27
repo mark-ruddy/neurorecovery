@@ -17,9 +17,82 @@
         <mat-card-header class='card-header'>Patient {{patientForm.full_name}} Info</mat-card-header>
         <mat-card-content>
           <mat-list role='list'>
-            <mat-list-item role='listitem' class='listitem-text'>Stroke Date: {{patientForm.stroke_date}}</mat-list-item>
-            <mat-list-item role='listitem' class='listitem-text'>Injury Side: {{patientForm.injury_side}}</mat-list-item>
-            <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{patientForm.additional_info}}</mat-list-item>
+            <form [formGroup]='patientFormBuilder'>
+              <mat-list-item *ngIf="!strokeDateEditing" role='listitem' class='listitem-text'>
+                Stroke Date: {{patientForm.stroke_date}}
+                <button mat-icon-button (click)="strokeDateEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="strokeDateEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Stroke Date</mat-label>
+                <input type='date' formControlName='strokeDate' value='{{patientForm.stroke_date}}' matInput>
+                <mat-error>
+                    {{ errorMessages['dateCannotBeInFuture'] }}
+                </mat-error>
+                <button mat-icon-button (click)="onUpdatePatientForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="strokeDateEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <mat-list-item *ngIf="!injuryTypeEditing" role='listitem' class='listitem-text'>Injury Type: {{patientForm.injury_type}}
+                <button mat-icon-button (click)="injuryTypeEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="injuryTypeEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Injury Type</mat-label>
+                <mat-select formControlName='injuryType' value='{{patientForm.injury_type}}' required>
+                    <mat-option [value]='injuryType' *ngFor='let injuryType of injuryTypes'>{{injuryType}}</mat-option>
+                </mat-select>
+                <button mat-icon-button (click)="onUpdatePatientForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="injuryTypeEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <mat-list-item *ngIf="!injurySideEditing" role='listitem' class='listitem-text'>
+                Injury Side: {{patientForm.injury_side}}
+                <button mat-icon-button (click)="injurySideEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="injurySideEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Injury Side</mat-label>
+                <mat-select formControlName='injurySide' value='{{patientForm.injury_side}}' required>
+                    <mat-option [value]='injurySide' *ngFor='let injurySide of injurySides'>{{injurySide}}</mat-option>
+                </mat-select>
+                <button mat-icon-button (click)="onUpdatePatientForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="injurySideEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+
+
+              <mat-list-item *ngIf="!patientAdditionalInfoEditing" role='listitem' class='listitem-text'>
+                Additional Info: {{patientForm.additional_info}}
+                <button mat-icon-button (click)="patientAdditionalInfoEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="patientAdditionalInfoEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Additional Info</mat-label>
+                <textarea formControlName='additionalInfo' matInput>{{patientForm.additional_info}}</textarea>
+                <button mat-icon-button (click)="onUpdatePatientForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="patientAdditionalInfoEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+            </form>
           </mat-list>
         </mat-card-content>
       </mat-card>
@@ -30,9 +103,11 @@
         <mat-card-header class='card-header'>Therapist {{therapistForm.full_name}} Info</mat-card-header>
         <mat-card-content>
           <mat-list role='list'>
-            <mat-list-item role='listitem' class='listitem-text'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
-            <mat-list-item role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
-            <mat-list-item role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
+            <form [formGroup]='therapistFormBuilder'>
+              <mat-list-item *ngIf="!numPatientsEditing" role='listitem' class='listitem-text'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
+              <mat-list-item *ngIf="!expectedWeeklyAppointmentsEditing" role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
+              <mat-list-item *ngIf="!therapistAdditionalInfoEditing" role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
+            </form>
           </mat-list>
         </mat-card-content>
       </mat-card>
