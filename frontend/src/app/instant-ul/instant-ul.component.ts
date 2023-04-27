@@ -7,13 +7,13 @@ import { ExercisesService } from '../services/exercises.service';
   styleUrls: ['./instant-ul.component.scss']
 })
 export class InstantUlComponent implements OnInit, OnDestroy {
-  public timer = 3;
+  public timer = 60;
 
-  constructor(public exerciseService: ExercisesService) { }
+  constructor(public exercisesService: ExercisesService) { }
 
   ngOnInit(): void {
-    this.exerciseService.fill_external_values("Instant Upper Limb", this.timer);
-    this.exerciseService.exerciseTimes = [
+    this.exercisesService.fill_external_values("Instant Upper Limb", this.timer);
+    this.exercisesService.exerciseTimes = [
       { StartTime: 46, EndTime: 84 },
       { StartTime: 90, EndTime: 121 },
       { StartTime: 127, EndTime: 148 },
@@ -24,11 +24,11 @@ export class InstantUlComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.exerciseService.resetState();
+    this.exercisesService.resetState();
   }
 
-  onTimerChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  onTimerChange(value: string) {
     this.timer = parseInt(value);
+    this.exercisesService.fill_external_values("Instant Upper Limb", this.timer)
   }
 }

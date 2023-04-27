@@ -7,7 +7,7 @@ import { ExercisesService } from '../services/exercises.service';
   styleUrls: ['./instant-ll.component.scss']
 })
 export class InstantLlComponent implements OnInit, OnDestroy {
-  public timer = 3;
+  public timer = 60;
 
   constructor(public exercisesService: ExercisesService) { }
 
@@ -28,8 +28,8 @@ export class InstantLlComponent implements OnInit, OnDestroy {
     this.exercisesService.resetState();
   }
 
-  onTimerChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  onTimerChange(value: string) {
     this.timer = parseInt(value);
+    this.exercisesService.fill_external_values("Instant Lower Limb", this.timer)
   }
 }

@@ -441,6 +441,7 @@ mod tests {
             kind: "instant_ll".to_string(),
             datetime: "non".to_string(),
             num_exercises_completed: "7".to_string(),
+            serialised_time_spent_in_secs: "22,33".to_string(),
         };
 
         let resp = client

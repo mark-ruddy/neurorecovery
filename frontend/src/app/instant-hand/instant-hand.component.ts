@@ -7,7 +7,7 @@ import { ExercisesService } from '../services/exercises.service';
   styleUrls: ['./instant-hand.component.scss']
 })
 export class InstantHandComponent implements OnInit, OnDestroy {
-  public timer = 3;
+  public timer = 60;
 
   constructor(public exercisesService: ExercisesService) { }
 
@@ -29,8 +29,8 @@ export class InstantHandComponent implements OnInit, OnDestroy {
     this.exercisesService.resetState();
   }
 
-  onTimerChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  onTimerChange(value: string) {
     this.timer = parseInt(value);
+    this.exercisesService.fill_external_values("Instant Hand", this.timer)
   }
 }

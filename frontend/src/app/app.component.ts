@@ -140,8 +140,6 @@ export class AppComponent implements OnInit {
       });
   }
 
-
-
   logout() {
     this.loginService.logout();
     this.refreshLoginStatus();
