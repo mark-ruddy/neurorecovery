@@ -31,7 +31,7 @@
         <h3>You have no patients yet.</h3>
       </div>
       <div *ngIf='patients.length > 0'>
-        <mat-expansion-panel *ngFor='let patient of patients; let i = index' class='margin-above'>
+        <mat-expansion-panel *ngFor='let patient of patients; let i = index' class='margin-above your-patients-item'>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Patient {{patientForms[i].full_name}}

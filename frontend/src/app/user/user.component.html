@@ -120,9 +120,62 @@
         <mat-card-content>
           <mat-list role='list'>
             <form [formGroup]='therapistFormBuilder'>
-              <mat-list-item *ngIf="!numPatientsEditing" role='listitem' class='listitem-text'>Number of Patients: {{therapistForm.num_patients}}</mat-list-item>
-              <mat-list-item *ngIf="!expectedWeeklyAppointmentsEditing" role='listitem' class='listitem-text'>Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}</mat-list-item>
-              <mat-list-item *ngIf="!therapistAdditionalInfoEditing" role='listitem' class='listitem-text'>Additional Info: {{therapistForm.additional_info}}</mat-list-item>
+              <mat-list-item *ngIf="!numPatientsEditing" role='listitem' class='listitem-text'>
+                Number of Patients: {{therapistForm.num_patients}}
+                <button mat-icon-button (click)="numPatientsEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="numPatientsEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Number of Patients</mat-label>
+                <input formControlName='num_patients' value='{{therapistForm.num_patients}}' matInput>
+                <mat-error>
+                  {{ errorMessages['mustBeInteger'] }}
+                </mat-error>
+                <button mat-icon-button (click)="onUpdateTherapistForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="numPatientsEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <mat-list-item *ngIf="!expectedWeeklyAppointmentsEditing" role='listitem' class='listitem-text'>
+                Expected number of weekly appointments: {{therapistForm.expected_weekly_appointments}}
+                <button mat-icon-button (click)="expectedWeeklyAppointmentsEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="expectedWeeklyAppointmentsEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Expected number of weekly appointments</mat-label>
+                <input formControlName='expected_weekly_appointments' value='{{therapistForm.expected_weekly_appointments}}' matInput>
+                <mat-error>
+                  {{ errorMessages['mustBeInteger'] }}
+                </mat-error>
+                <button mat-icon-button (click)="onUpdateTherapistForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="expectedWeeklyAppointmentsEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <mat-list-item *ngIf="!therapistAdditionalInfoEditing" role='listitem' class='listitem-text'>
+                Additional Info: {{therapistForm.additional_info}}
+                <button mat-icon-button (click)="therapistAdditionalInfoEditing = true">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="therapistAdditionalInfoEditing" appearance='fill' class='form-input-wide'>
+                <mat-label>Additional Info</mat-label>
+                <input formControlName='additional_info' value='{{therapistForm.additional_info}}' matInput>
+                <button mat-icon-button (click)="onUpdateTherapistForm()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="therapistAdditionalInfoEditing = false">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
             </form>
           </mat-list>
         </mat-card-content>
@@ -155,7 +208,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-list role='list'>
-            <mat-list-item role='listitem' class='listitem-text'>Time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
+            <mat-list-item role='listitem' class='listitem-text'>Total time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
             <mat-list-item role='listitem' class='listitem-text'>Number exercises completed: {{exerciseSession.num_exercises_completed}}</mat-list-item>
             <mat-list-item role='listitem' class='listitem-text'>Time taken per exercise: {{formatTimeTakenPerExercise(exerciseSession.serialised_time_spent_in_secs)}}</mat-list-item>
         </mat-list>

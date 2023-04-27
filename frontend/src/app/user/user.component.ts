@@ -51,8 +51,8 @@ export class UserComponent implements OnInit {
 
   therapistFormBuilder = this.formBuilder.group({
     full_name: this.formBuilder.control('', Validators.required),
-    numberOfPatients: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
-    expectedNumberOfWeeklyAppointments: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
+    num_patients: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
+    expected_weekly_appointments: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
     additional_info: this.formBuilder.control(''),
   })
 
@@ -129,8 +129,12 @@ export class UserComponent implements OnInit {
     /// serialisedTimeTakenPerExercise is formatted like 22,33,78 and I want it converted to "22s, 33s, 78s"
     let timeTakenPerExercise = serialisedTimeTakenPerExercise.split(',');
     let formattedTimeTakenPerExercise = '';
-    timeTakenPerExercise.forEach(timeTaken => {
-      formattedTimeTakenPerExercise += `${timeTaken}s, `;
+    timeTakenPerExercise.forEach((timeTaken, i) => {
+      if (i != timeTakenPerExercise.length - 1) {
+        formattedTimeTakenPerExercise += `${timeTaken}s, `;
+      } else {
+        formattedTimeTakenPerExercise += `${timeTaken}s`;
+      }
     });
     return formattedTimeTakenPerExercise
   }
@@ -184,6 +188,36 @@ export class UserComponent implements OnInit {
       } as AuthenticatedRequest;
       this.patientForm = await this.backendService.getPatientForm(authenticatedRequest);
       this.patientFormBuilder.patchValue(this.patientForm)
+    }
+  }
+
+  async onUpdateTherapistForm() {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
+    if (this.therapistFormBuilder.valid) {
+      let parsedForm = {
+        full_name: this.therapistFormBuilder.value.full_name,
+        num_patients: this.therapistFormBuilder.value.num_patients,
+        expected_weekly_appointments: this.therapistFormBuilder.value.expected_weekly_appointments,
+        additional_info: this.therapistFormBuilder.value.additional_info,
+        email: localStorage.getItem('email'),
+        session_id: localStorage.getItem('session_id'),
+      } as TherapistForm;
+      this.backendService.postTherapistForm(parsedForm);
+      this.successfultUpdateSnackbar();
+
+      // set all edits to false after submission
+      this.resetAllEdits();
+
+      // re-get the therapistForm so that it updates
+      let authenticatedRequest = {
+        email: localStorage.getItem('email')!,
+        session_id: localStorage.getItem('session_id'),
+      } as AuthenticatedRequest;
+      this.therapistForm = await this.backendService.getTherapistForm(authenticatedRequest);
+      this.therapistFormBuilder.patchValue(this.therapistForm)
     }
   }
 }

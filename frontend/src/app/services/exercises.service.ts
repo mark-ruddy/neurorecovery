@@ -72,6 +72,9 @@ export class ExercisesService {
     this.startEpoch = new Date().getTime();
     this.datetime = new Date().toLocaleString();
     this.numExercisesCompleted = this.exerciseTimes.length;
+    for (let i = 0; i < this.exerciseTimes.length; i++) {
+      this.timeSpentInSections.push(0);
+    }
 
     this.resetTimer();
     this.startTimer();
@@ -127,16 +130,15 @@ export class ExercisesService {
   }
 
   next() {
-    console.log(this.exerciseIndex);
-    console.log(this.highestCompletedExerciseIndex);
+    this.sectionEndTime = new Date().getTime();
+    this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
     if (this.exerciseIndex < (this.exerciseTimes.length - 1)) {
       this.exerciseIndex += 1;
       if (this.exerciseIndex > this.highestCompletedExerciseIndex) {
         this.resetTimer();
         this.startTimer();
       }
-      this.sectionEndTime = new Date().getTime();
-      this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
+
       this.playCurrentExercise();
       if (this.exerciseIndex == (this.exerciseTimes.length - 1)) {
         this.onLastExercise = true;
@@ -195,13 +197,19 @@ export class ExercisesService {
   }
 
   serialiseTimeSpentInSections(): string {
+    console.log("timeSpentInSections: ", this.timeSpentInSections);
     let serialised = "";
-    for (let i = 0; i < this.timeSpentInSections.length; i++) {
-      serialised += this.timeSpentInSections[i].toString();
-      if (i < (this.timeSpentInSections.length - 1)) {
-        serialised += ",";
+    if (this.timeSpentInSections) {
+      for (let i = 0; i < this.timeSpentInSections.length; i++) {
+        if (this.timeSpentInSections[i] !== undefined) {
+          serialised += this.timeSpentInSections[i].toString();
+          if (i < (this.timeSpentInSections.length - 1)) {
+            serialised += ",";
+          }
+        }
       }
     }
+    console.log("serialised: ", serialised);
     return serialised;
   }
 }
