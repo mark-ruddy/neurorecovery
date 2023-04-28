@@ -175,7 +175,7 @@ export class UserComponent implements OnInit {
         email: localStorage.getItem('email'),
         session_id: localStorage.getItem('session_id'),
       } as PatientForm;
-      this.backendService.postPatientForm(parsedForm);
+      await this.backendService.postPatientForm(parsedForm);
       this.successfultUpdateSnackbar();
 
       // set all edits to false after submission
@@ -205,7 +205,7 @@ export class UserComponent implements OnInit {
         email: localStorage.getItem('email'),
         session_id: localStorage.getItem('session_id'),
       } as TherapistForm;
-      this.backendService.postTherapistForm(parsedForm);
+      await this.backendService.postTherapistForm(parsedForm);
       this.successfultUpdateSnackbar();
 
       // set all edits to false after submission
