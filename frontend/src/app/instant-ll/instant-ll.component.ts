@@ -36,6 +36,6 @@ export class InstantLlComponent implements OnInit, OnDestroy {
 
   onNoteChange(value: string) {
     this.note = value;
-    this.exercisesService.fill_external_values("Instant Hand", this.timer, this.note);
+    this.exercisesService.fill_external_values("Instant Lower Limb", this.timer, this.note);
   }
 }
