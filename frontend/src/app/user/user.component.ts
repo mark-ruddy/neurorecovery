@@ -30,7 +30,6 @@ export class UserComponent implements OnInit {
   expectedWeeklyAppointmentsEditing = false;
   therapistAdditionalInfoEditing = false;
   exerciseSessionNoteEditing = false;
-  exerciseSessionNoteEditingIndex = -1;
 
   patientForm: PatientForm = {
     full_name: 'sample',
@@ -79,7 +78,7 @@ export class UserComponent implements OnInit {
   })
 
   exerciseSessionFormBuilder = this.formBuilder.group({
-    note: this.formBuilder.control(''),
+    note: this.formBuilder.control('', Validators.required),
   })
 
   exerciseSessions: Array<ExerciseSession> = [];
@@ -177,7 +176,6 @@ export class UserComponent implements OnInit {
     this.expectedWeeklyAppointmentsEditing = false;
     this.therapistAdditionalInfoEditing = false;
     this.exerciseSessionNoteEditing = false;
-    this.exerciseSessionNoteEditingIndex = -1;
   }
 
   async onUpdatePatientForm() {

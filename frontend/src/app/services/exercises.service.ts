@@ -50,7 +50,7 @@ export class ExercisesService {
   ngOnInit(): void { }
 
   resetState() {
-    this.resetTimer();
+    this.resetTimer(true);
     this.preload = 'auto';
     this.api = new VgApiService;
     this.started = false;
@@ -89,8 +89,8 @@ export class ExercisesService {
       this.timeSpentInSections.push(0);
     }
 
-    this.resetTimer();
-    this.startTimer();
+    this.resetTimer(true);
+    this.startTimer(false);
     this.playCurrentExercise(true);
   }
 
@@ -102,12 +102,15 @@ export class ExercisesService {
     this.note = note;
   }
 
-  startTimer() {
-    if (!this.timerFinished) {
+  startTimer(alwaysSet: boolean) {
+    console.log("Start timer with finished: ", this.timerFinished);
+    if (!this.timerFinished && !alwaysSet) {
       return;
     }
-    this.timerFinished = false;
-    this.timerCurrent = this.timePerExercise;
+    if (!alwaysSet) {
+      this.timerFinished = false;
+      this.timerCurrent = this.timePerExercise;
+    }
     this.interval = setInterval(() => {
       if (this.timerCurrent > 0) {
         this.timerCurrent--;
@@ -122,7 +125,10 @@ export class ExercisesService {
     }, 1000)
   }
 
-  resetTimer() {
+  resetTimer(andTime: boolean) {
+    if (andTime) {
+      this.timerCurrent = 0;
+    }
     clearInterval(this.interval);
   }
 
@@ -156,8 +162,8 @@ export class ExercisesService {
     if (this.exerciseIndex < (this.exerciseTimes.length - 1)) {
       this.exerciseIndex += 1;
       if (this.exerciseIndex > this.highestCompletedExerciseIndex) {
-        this.resetTimer();
-        this.startTimer();
+        this.resetTimer(true);
+        this.startTimer(false);
       }
 
       this.playCurrentExercise(true);
@@ -178,6 +184,8 @@ export class ExercisesService {
       console.log("Back adding to index: ", this.exerciseIndex, " ", (this.sectionEndTime - this.sectionStartTime) / 1000)
 
       this.timerFinished = true;
+      this.resetTimer(true);
+
       this.exerciseIndex -= 1;
       this.playCurrentExercise(true);
     }
@@ -187,8 +195,10 @@ export class ExercisesService {
   playPause() {
     if (this.api.state === VgStates.VG_PLAYING) {
       this.api.pause();
+      this.resetTimer(false);
     } else {
       this.api.play();
+      this.startTimer(true);
     }
   }
 
