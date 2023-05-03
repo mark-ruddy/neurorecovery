@@ -63,6 +63,7 @@ pub struct ExerciseSession {
     pub total_time_taken_secs: String,
     pub num_exercises_completed: String,
     pub serialised_time_spent_in_secs: String,
+    pub note: String,
     pub email: String,
     pub session_id: String,
 }
@@ -409,5 +410,21 @@ pub async fn insert_exercise_session(
 ) -> Result<(), Box<dyn Error>> {
     let coll = db.collection::<ExerciseSession>("exercise_sessions");
     coll.insert_one(exercise_session, None).await?;
+    Ok(())
+}
+
+pub async fn update_exercise_session_note(
+    db: &Database,
+    email: &str,
+    datetime: &str,
+    new_note: &str,
+) -> Result<(), Box<dyn Error>> {
+    let coll = db.collection::<ExerciseSession>("exercise_sessions");
+    coll.update_one(
+        doc! { "email": email, "datetime": datetime },
+        doc! { "$set": { "note": new_note } },
+        None,
+    )
+    .await?;
     Ok(())
 }

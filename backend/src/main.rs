@@ -1,6 +1,6 @@
 use axum::{
     extract::Extension,
-    routing::{get, post},
+    routing::{get, patch, post},
     Router, Server,
 };
 use clap::Parser;
@@ -64,10 +64,6 @@ fn create_router(state: Arc<routes::State>) -> Router {
         .route("/login_user", post(routes::login_user))
         .route("/post_patient_form", post(routes::post_patient_form))
         .route("/post_therapist_form", post(routes::post_therapist_form))
-        .route(
-            "/post_exercise_session",
-            post(routes::post_exercise_session),
-        )
         .route("/get_patient_form", post(routes::get_patient_form))
         .route("/get_therapist_form", post(routes::get_therapist_form))
         .route(
@@ -83,8 +79,16 @@ fn create_router(state: Arc<routes::State>) -> Router {
             post(routes::remove_therapist_patient),
         )
         .route(
+            "/post_exercise_session",
+            post(routes::post_exercise_session),
+        )
+        .route(
             "/get_exercise_sessions",
             post(routes::get_exercise_sessions),
+        )
+        .route(
+            "/patch_exercise_session_note",
+            patch(routes::patch_exercise_session_note),
         )
         .route("/get_user_type", post(routes::get_user_type))
         .route("/send_email", post(routes::send_email))
@@ -442,6 +446,7 @@ mod tests {
             datetime: "non".to_string(),
             num_exercises_completed: "7".to_string(),
             serialised_time_spent_in_secs: "22,33".to_string(),
+            note: "None".to_string(),
         };
 
         let resp = client
@@ -546,7 +551,6 @@ mod tests {
             session_id: register_resp_json.session_id.clone(),
             patient_email_substring: "sampl".to_string(),
         };
-        println!("REAACEEDDD");
         let resp = client
             .post("/search_patients")
             .json(&search_request)

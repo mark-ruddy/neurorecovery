@@ -240,6 +240,32 @@ pub async fn post_exercise_session(
     Ok(())
 }
 
+pub async fn patch_exercise_session_note(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<data::ExerciseSession>,
+) -> Result<(), StatusCode> {
+    match utils::check_authenticated_request(&state.db, &payload.session_id, &payload.email).await {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    match data::update_exercise_session_note(
+        &state.db,
+        &payload.email,
+        &payload.datetime,
+        &payload.note,
+    )
+    .await
+    {
+        Ok(()) => (),
+        Err(e) => {
+            error!("Failure inserting exercise session: {}", e);
+            return Err(StatusCode::INTERNAL_SERVER_ERROR);
+        }
+    }
+    Ok(())
+}
+
 pub async fn get_patient_form(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<AuthenticatedRequest>,

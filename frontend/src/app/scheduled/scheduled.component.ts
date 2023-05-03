@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { errorMessages, successMessages } from '../helpers/custom-validators';
+import { dateInPast, errorMessages, successMessages } from '../helpers/custom-validators';
 import { Router } from '@angular/router';
 
 import * as ics from 'ics';
@@ -17,19 +17,17 @@ import { BackendService, EmailRequest } from '../services/backend.service';
 export class ScheduledComponent implements OnInit {
   email = '';
   receiverEmail = '';
+  errorMessages = errorMessages;
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private snackBar: MatSnackBar, private router: Router, private backendService: BackendService) { }
 
   ngOnInit(): void {
-    if (!this.loginService.mustBeLoggedIn()) {
-      return;
-    }
     this.email = localStorage.getItem('email')!;
   }
 
   contactForm = this.formBuilder.group({
     contactEmail: this.formBuilder.control('', Validators.required),
-    datetime: this.formBuilder.control('', Validators.required),
+    datetime: this.formBuilder.control('', [Validators.required, dateInPast()]),
     estimatedTime: this.formBuilder.control(30, Validators.required),
   })
 

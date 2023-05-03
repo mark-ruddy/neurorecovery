@@ -3,17 +3,23 @@
   <form [formGroup]='contactForm' (ngSubmit)='onSubmit()'>
     <h2>Enter the email of a patient or therapist below to schedule an exercise session with them.</h2>
     <h2>A calendar file(ics) will be created and sent in an email to the meeting invitee and you.</h2>
-    <mat-form-field appearance='fill' class='form-input-wide'>
+    <mat-form-field appearance='fill' class='form-input-wide scheduled-input'>
       <mat-label>Patient/Therapist Email</mat-label>
       <input formControlName='contactEmail' type='email' matInput>
+      <mat-error>
+        {{ errorMessages['mustBeValidEmail'] }}
+      </mat-error>
     </mat-form-field>
-    <mat-form-field appearance='fill' class='form-input-wide'>
+    <mat-form-field appearance='fill' class='form-input-wide scheduled-input'>
       <mat-label>Date/Time for Session</mat-label>
       <input formControlName='datetime' type='datetime-local' matInput>
+      <mat-error>
+          {{ errorMessages['dateCannotBeInFuture'] }}
+      </mat-error>
     </mat-form-field>
-    <mat-form-field appearance='fill' class='form-input-wide'>
+    <mat-form-field appearance='fill' class='form-input-wide scheduled-input'>
       <mat-label>Estimated meeting length in minutes</mat-label>
-      <input formControlName='estimatedTime' type='number' matInput>
+      <input formControlName='estimatedTime' type='number' matInput class='scheduled-input'>
     </mat-form-field>
     <button [disabled]='!contactForm.valid' type='submit' color='primary' mat-raised-button>Send Session Invitation</button>
   </form>

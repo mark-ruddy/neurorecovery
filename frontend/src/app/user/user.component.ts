@@ -29,6 +29,8 @@ export class UserComponent implements OnInit {
   numPatientsEditing = false;
   expectedWeeklyAppointmentsEditing = false;
   therapistAdditionalInfoEditing = false;
+  exerciseSessionNoteEditing = false;
+  exerciseSessionNoteEditingIndex = -1;
 
   patientForm: PatientForm = {
     full_name: 'sample',
@@ -49,6 +51,18 @@ export class UserComponent implements OnInit {
     session_id: 'sample',
   };
 
+  exerciseSessionForm: ExerciseSession = {
+    kind: 'sample',
+    datetime: 'sample',
+    total_time_taken_secs: 'sample',
+    num_exercises_completed: 'sample',
+    serialised_time_spent_in_secs: 'sample',
+    note: 'sample',
+    email: 'sample',
+    session_id: 'sample',
+  }
+
+
   therapistFormBuilder = this.formBuilder.group({
     full_name: this.formBuilder.control('', Validators.required),
     num_patients: this.formBuilder.control<number | null>(null, [Validators.required, isInteger()]),
@@ -62,6 +76,10 @@ export class UserComponent implements OnInit {
     injury_type: this.formBuilder.control('', Validators.required),
     injury_side: this.formBuilder.control('', Validators.required),
     additional_info: this.formBuilder.control(''),
+  })
+
+  exerciseSessionFormBuilder = this.formBuilder.group({
+    note: this.formBuilder.control(''),
   })
 
   exerciseSessions: Array<ExerciseSession> = [];
@@ -139,7 +157,7 @@ export class UserComponent implements OnInit {
     return formattedTimeTakenPerExercise
   }
 
-  successfultUpdateSnackbar() {
+  successfulUpdateSnackbar() {
     this.snackBar.open(successMessages['successfulFormUpdate'], '', {
       duration: 3000,
       panelClass: ['mat-toolbar'],
@@ -158,6 +176,8 @@ export class UserComponent implements OnInit {
     this.numPatientsEditing = false;
     this.expectedWeeklyAppointmentsEditing = false;
     this.therapistAdditionalInfoEditing = false;
+    this.exerciseSessionNoteEditing = false;
+    this.exerciseSessionNoteEditingIndex = -1;
   }
 
   async onUpdatePatientForm() {
@@ -176,7 +196,7 @@ export class UserComponent implements OnInit {
         session_id: localStorage.getItem('session_id'),
       } as PatientForm;
       await this.backendService.postPatientForm(parsedForm);
-      this.successfultUpdateSnackbar();
+      this.successfulUpdateSnackbar();
 
       // set all edits to false after submission
       this.resetAllEdits();
@@ -206,7 +226,7 @@ export class UserComponent implements OnInit {
         session_id: localStorage.getItem('session_id'),
       } as TherapistForm;
       await this.backendService.postTherapistForm(parsedForm);
-      this.successfultUpdateSnackbar();
+      this.successfulUpdateSnackbar();
 
       // set all edits to false after submission
       this.resetAllEdits();
@@ -218,6 +238,35 @@ export class UserComponent implements OnInit {
       } as AuthenticatedRequest;
       this.therapistForm = await this.backendService.getTherapistForm(authenticatedRequest);
       this.therapistFormBuilder.patchValue(this.therapistForm)
+    }
+  }
+
+  async onUpdateExerciseSessionNote(exercise_session_index: number) {
+    if (!this.loginService.mustBeLoggedIn()) {
+      return;
+    }
+
+    if (this.exerciseSessionFormBuilder.valid) {
+      let parsedForm = {
+        kind: this.exerciseSessions[exercise_session_index].kind,
+        datetime: this.exerciseSessions[exercise_session_index].datetime,
+        total_time_taken_secs: this.exerciseSessions[exercise_session_index].total_time_taken_secs,
+        num_exercises_completed: this.exerciseSessions[exercise_session_index].num_exercises_completed,
+        serialised_time_spent_in_secs: this.exerciseSessions[exercise_session_index].serialised_time_spent_in_secs,
+        note: this.exerciseSessionFormBuilder.value.note,
+        email: this.exerciseSessions[exercise_session_index].email,
+        session_id: this.exerciseSessions[exercise_session_index].session_id,
+      } as ExerciseSession;
+
+      await this.backendService.patchExerciseSessionNote(parsedForm);
+      this.successfulUpdateSnackbar();
+      this.resetAllEdits();
+      let authenticatedRequest = {
+        email: localStorage.getItem('email')!,
+        session_id: localStorage.getItem('session_id'),
+      } as AuthenticatedRequest;
+      this.exerciseSessions = await this.backendService.getExerciseSessions(authenticatedRequest);
+      this.exerciseSessionFormBuilder.patchValue(this.exerciseSessionForm)
     }
   }
 }

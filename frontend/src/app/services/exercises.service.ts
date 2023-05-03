@@ -37,6 +37,7 @@ export class ExercisesService {
   exerciseTimes = new Array<TimeSet>;
   onLastExercise = false;
   highestCompletedExerciseIndex = 0;
+  timerOnNextExercise = 0;
 
   // external values
   kind = "";
@@ -44,6 +45,7 @@ export class ExercisesService {
   datetime = "";
   totalTimeTakenSecs = 0;
   numExercisesCompleted = 0;
+  note = '';
 
   ngOnInit(): void { }
 
@@ -89,14 +91,15 @@ export class ExercisesService {
 
     this.resetTimer();
     this.startTimer();
-    this.playCurrentExercise();
+    this.playCurrentExercise(true);
   }
 
-  fill_external_values(kind: string, timer: number | null) {
+  fill_external_values(kind: string, timer: number | null, note: string) {
     this.kind = kind;
     if (timer != null) {
       this.timePerExercise = timer;
     }
+    this.note = note;
   }
 
   startTimer() {
@@ -128,21 +131,28 @@ export class ExercisesService {
     this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
       () => {
         if (this.api.getDefaultMedia().currentTime >= this.exerciseTimes[this.exerciseIndex].EndTime) {
-          this.playCurrentExercise();
+          this.playCurrentExercise(false);
         }
       }
     );
   }
 
-  playCurrentExercise() {
-    this.sectionStartTime = new Date().getTime();
+  playCurrentExercise(setStartTime: boolean) {
+    if (setStartTime) {
+      this.sectionStartTime = new Date().getTime();
+    }
+    console.log("section start time: ", this.sectionStartTime)
     this.api.getDefaultMedia().currentTime = this.exerciseTimes[this.exerciseIndex].StartTime;
     this.api.getDefaultMedia().play();
   }
 
   next() {
     this.sectionEndTime = new Date().getTime();
+    console.log("section end time: ", this.sectionEndTime)
+
     this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
+    console.log("Next adding to index: ", this.exerciseIndex, " ", (this.sectionEndTime - this.sectionStartTime) / 1000)
+
     if (this.exerciseIndex < (this.exerciseTimes.length - 1)) {
       this.exerciseIndex += 1;
       if (this.exerciseIndex > this.highestCompletedExerciseIndex) {
@@ -150,7 +160,7 @@ export class ExercisesService {
         this.startTimer();
       }
 
-      this.playCurrentExercise();
+      this.playCurrentExercise(true);
       if (this.exerciseIndex == (this.exerciseTimes.length - 1)) {
         this.onLastExercise = true;
       }
@@ -163,11 +173,13 @@ export class ExercisesService {
   back() {
     if (this.exerciseIndex > 0) {
       this.sectionEndTime = new Date().getTime();
+
       this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
+      console.log("Back adding to index: ", this.exerciseIndex, " ", (this.sectionEndTime - this.sectionStartTime) / 1000)
 
       this.timerFinished = true;
       this.exerciseIndex -= 1;
-      this.playCurrentExercise();
+      this.playCurrentExercise(true);
     }
     this.onLastExercise = false;
   }
@@ -192,6 +204,7 @@ export class ExercisesService {
         total_time_taken_secs: this.totalTimeTakenSecs.toString(),
         num_exercises_completed: this.numExercisesCompleted.toString(),
         serialised_time_spent_in_secs: this.serialiseTimeSpentInSections(),
+        note: this.note,
         email: localStorage.getItem('email')!,
         session_id: localStorage.getItem('session_id')!,
       })

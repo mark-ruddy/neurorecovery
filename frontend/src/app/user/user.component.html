@@ -198,7 +198,7 @@
       <br>
 
       <h2>Completed Exercise Sessions</h2>
-      <mat-expansion-panel *ngFor='let exerciseSession of exerciseSessions' class='margin-above' hideToggle>
+      <mat-expansion-panel *ngFor='let exerciseSession of exerciseSessions; let i = index' class='margin-above' hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class='listitem-text'>
             {{ exerciseSession.kind }}
@@ -211,6 +211,25 @@
             <mat-list-item role='listitem' class='listitem-text'>Total time taken: {{exerciseSession.total_time_taken_secs}}s</mat-list-item>
             <mat-list-item role='listitem' class='listitem-text'>Number of exercises completed: {{exerciseSession.num_exercises_completed}}</mat-list-item>
             <mat-list-item role='listitem' class='listitem-text'>Time taken per exercise: {{formatTimeTakenPerExercise(exerciseSession.serialised_time_spent_in_secs)}}</mat-list-item>
+
+            <form [formGroup]='exerciseSessionFormBuilder'>
+              <mat-list-item *ngIf="!exerciseSessionNoteEditing && exerciseSessionNoteEditingIndex != i" role='listitem' class='listitem-text'>
+                Optional note for this session: {{exerciseSession.note}}
+                <button mat-icon-button (click)="exerciseSessionNoteEditing = true; exerciseSessionNoteEditingIndex = i ">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-form-field *ngIf="exerciseSessionNoteEditing && exerciseSessionNoteEditingIndex == i" appearance='fill' class='form-input-wide'>
+                <mat-label>Optional note for this session</mat-label>
+                <input formControlName='note' value='{{exerciseSession.note}}' matInput>
+                <button mat-icon-button (click)="onUpdateExerciseSessionNote(i)">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button (click)="exerciseSessionNoteEditing = false; exerciseSessionNoteEditingIndex = 0">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-form-field>
+            </form>
         </mat-list>
       </mat-expansion-panel>
     </div>

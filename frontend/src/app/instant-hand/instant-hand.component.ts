@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { isInteger } from '../helpers/custom-validators';
 import { ExercisesService } from '../services/exercises.service';
 
 @Component({
@@ -9,11 +8,12 @@ import { ExercisesService } from '../services/exercises.service';
 })
 export class InstantHandComponent implements OnInit, OnDestroy {
   public timer = 60;
+  public note = '';
 
   constructor(public exercisesService: ExercisesService) { }
 
   ngOnInit(): void {
-    this.exercisesService.fill_external_values("Instant Hand", this.timer);
+    this.exercisesService.fill_external_values("Instant Hand", this.timer, this.note);
     this.exercisesService.exerciseTimes = [
       { StartTime: 11, EndTime: 46 },
       { StartTime: 47, EndTime: 96 },
@@ -32,6 +32,11 @@ export class InstantHandComponent implements OnInit, OnDestroy {
 
   onTimerChange(value: string) {
     this.timer = parseInt(value);
-    this.exercisesService.fill_external_values("Instant Hand", this.timer)
+    this.exercisesService.fill_external_values("Instant Hand", this.timer, this.note);
+  }
+
+  onNoteChange(value: string) {
+    this.note = value;
+    this.exercisesService.fill_external_values("Instant Hand", this.timer, this.note);
   }
 }

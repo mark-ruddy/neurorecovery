@@ -35,6 +35,7 @@ export interface ExerciseSession {
   total_time_taken_secs: string,
   num_exercises_completed: string,
   serialised_time_spent_in_secs: string,
+  note: string,
   email: string,
   session_id: string,
 }
@@ -80,13 +81,14 @@ export class BackendService {
   public registerUserEndpoint = 'register_user';
   public postPatientFormEndpoint = 'post_patient_form';
   public postTherapistFormEndpoint = 'post_therapist_form';
-  public postExerciseSessionEndpoint = 'post_exercise_session';
   public getPatientFormEndpoint = 'get_patient_form';
   public getTherapistFormEndpoint = 'get_therapist_form';
   public getTherapistPatientsEndpoint = 'get_therapist_patients';
   public postTherapistPatientEndpoint = 'post_therapist_patient';
   public removeTherapistPatientEndpoint = 'remove_therapist_patient';
+  public postExerciseSessionEndpoint = 'post_exercise_session';
   public getExerciseSessionsEndpoint = 'get_exercise_sessions';
+  public patchExerciseSessionNoteEndpoint = 'patch_exercise_session_note';
   public getUserTypeEndpoint = 'get_user_type';
   public sendEmailEndpoint = 'send_email';
   public searchPatientsEndpoint = 'search_patients';
@@ -143,19 +145,6 @@ export class BackendService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(therapistForm),
-    })
-    if (!resp.ok) {
-      throw new Error(resp.statusText);
-    }
-  }
-
-  async postExerciseSession(exerciseSession: ExerciseSession) {
-    let resp = await fetch(`${this.backendBaseUrl}/${this.postExerciseSessionEndpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(exerciseSession),
     })
     if (!resp.ok) {
       throw new Error(resp.statusText);
@@ -234,6 +223,20 @@ export class BackendService {
     }
   }
 
+  async postExerciseSession(exerciseSession: ExerciseSession) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.postExerciseSessionEndpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(exerciseSession),
+    })
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+  }
+
+
   async getExerciseSessions(authenticatedRequest: AuthenticatedRequest): Promise<Array<ExerciseSession>> {
     let resp = await fetch(`${this.backendBaseUrl}/${this.getExerciseSessionsEndpoint}`, {
       method: 'POST',
@@ -297,5 +300,18 @@ export class BackendService {
       }
     }
     return resp.json();
+  }
+
+  async patchExerciseSessionNote(exerciseSession: ExerciseSession) {
+    let resp = await fetch(`${this.backendBaseUrl}/${this.patchExerciseSessionNoteEndpoint}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(exerciseSession),
+    });
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
   }
 }

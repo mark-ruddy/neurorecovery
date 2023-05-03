@@ -8,13 +8,13 @@
     <div *ngIf='!this.exercisesService.started' class='below-controls-container'>
       <button (click)='this.exercisesService.start()' color='primary' class='start-button' mat-raised-button>Start Session</button>
       <mat-form-field>
-        <mat-label class='timer-label'>Timer (s)</mat-label>
+        <mat-label class='timer-label'>Timer in seconds</mat-label>
         <input matInput type="number" [ngModel]="timer" (ngModelChange)="onTimerChange($event)" class="timer-input">
       </mat-form-field>
     </div>
 
     <div *ngIf='this.exercisesService.started' class='below-controls-container'>
-      <button (click)='this.exercisesService.back()' color='primary' class='below-controls-button' mat-raised-button>
+      <button (click)='this.exercisesService.back()' [disabled]='this.exercisesService.exerciseIndex == 0' color='primary' class='below-controls-button' mat-raised-button>
         <mat-icon aria-hidden='false' fontIcon='skip_previous'></mat-icon>Last Exercise
       </button>
       <button *ngIf='!this.exercisesService.onLastExercise' [disabled]='!this.exercisesService.timerFinished' (click)='this.exercisesService.next()' color='primary' class='below-controls-button' mat-raised-button>Next Exercise
@@ -35,5 +35,10 @@
     <div *ngIf='this.exercisesService.started' class='below-controls-container'>
       <span class='status-text'>Next exercise available in {{exercisesService.timerCurrent}}s</span>
       <span class='status-text'>Exercise {{exercisesService.exerciseIndex + 1}}/{{exercisesService.exerciseTimes.length}} Playing</span>
+      <mat-form-field *ngIf='this.exercisesService.onLastExercise' appearance='fill' class='form-input-half'>
+        <mat-label class='note-label'>Optional note for this exercise session</mat-label>
+        <input matInput type="text" [ngModel]="note" (ngModelChange)="onNoteChange($event)" class="note-input">
+      </mat-form-field>
+    </div>
   </div>
 </div>
