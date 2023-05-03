@@ -47,7 +47,8 @@ def launch_matlab_rdp():
 
 @app.route('/launch_matlab_quickassist')
 def launch_matlab_quickassist():
-    subprocess.call("explorer.exe shell:AppsFolder\\MicrosoftCorporationII.QuickAssist_8wekyb3d8bbwe!App", shell=True)
+    subprocess.call("quickassist", shell=True)
+    # subprocess.call("explorer.exe shell:AppsFolder\\MicrosoftCorporationII.QuickAssist_8wekyb3d8bbwe!App", shell=True)
 
     response = jsonify("Matlab QuickAssist should be launched")
     response.headers.add("Access-Control-Allow-Origin", "*")

@@ -56,6 +56,18 @@ export function dateInPast(): ValidatorFn {
   }
 }
 
+export function dateInFuture(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let dateField = control as FormControl;
+    let asDate = new Date(dateField.value);
+    let now = new Date();
+    if (asDate < now) {
+      return { dateInPast: true };
+    }
+    return null;
+  }
+}
+
 export const errorMessages: { [key: string]: string } = {
   invalidLogin: "Incorrect email or password",
   invalidRegistration: "Registration failed - Please try again",
@@ -65,6 +77,7 @@ export const errorMessages: { [key: string]: string } = {
   minimumPasswordLength: "Password must meet minimum length of 8",
   mustBeInteger: "Must be a whole number",
   dateCannotBeInFuture: "Date cannot be in the future",
+  dateCannotBeInPast: "Date cannot be in the past",
   matlabFailedLaunch: "Matlab failed to launch",
   failedAddingPatient: "Failed to add patient",
   failedRemovingPatient: "Failed to remove patient",

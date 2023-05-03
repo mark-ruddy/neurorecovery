@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { dateInPast, errorMessages, successMessages } from '../helpers/custom-validators';
+import { dateInFuture, errorMessages, successMessages } from '../helpers/custom-validators';
 import { Router } from '@angular/router';
 
 import * as ics from 'ics';
@@ -27,7 +27,7 @@ export class ScheduledComponent implements OnInit {
 
   contactForm = this.formBuilder.group({
     contactEmail: this.formBuilder.control('', Validators.required),
-    datetime: this.formBuilder.control('', [Validators.required, dateInPast()]),
+    datetime: this.formBuilder.control('', [Validators.required, dateInFuture()]),
     estimatedTime: this.formBuilder.control(30, Validators.required),
   })
 
