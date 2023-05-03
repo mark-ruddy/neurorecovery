@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { VgApiService, VgStates } from '@videogular/ngx-videogular/core';
-import { errorMessages, isInteger, successMessages } from '../helpers/custom-validators';
+import { errorMessages, successMessages } from '../helpers/custom-validators';
 import { BackendService } from './backend.service';
 import { LoginService } from './login.service';
 
@@ -66,6 +66,7 @@ export class ExercisesService {
     this.exerciseTimes = new Array<TimeSet>;
     this.onLastExercise = false;
     this.highestCompletedExerciseIndex = 0;
+    this.timerOnNextExercise = 0;
   }
 
   start() {
@@ -90,7 +91,7 @@ export class ExercisesService {
     }
 
     this.resetTimer(true);
-    this.startTimer(false);
+    this.startTimer(false, null);
     this.playCurrentExercise(true);
   }
 
@@ -102,14 +103,18 @@ export class ExercisesService {
     this.note = note;
   }
 
-  startTimer(alwaysSet: boolean) {
-    console.log("Start timer with finished: ", this.timerFinished);
+  startTimer(alwaysSet: boolean, customTimer: number | null) {
+    console.log("Start timer called with: ", this.timerFinished, " ", customTimer);
     if (!this.timerFinished && !alwaysSet) {
       return;
     }
-    if (!alwaysSet) {
+    if (!alwaysSet && customTimer == null) {
       this.timerFinished = false;
       this.timerCurrent = this.timePerExercise;
+    }
+    if (!alwaysSet && customTimer != null) {
+      this.timerFinished = false;
+      this.timerCurrent = customTimer;
     }
     this.interval = setInterval(() => {
       if (this.timerCurrent > 0) {
@@ -163,7 +168,12 @@ export class ExercisesService {
       this.exerciseIndex += 1;
       if (this.exerciseIndex > this.highestCompletedExerciseIndex) {
         this.resetTimer(true);
-        this.startTimer(false);
+        if (this.timerOnNextExercise != 0) {
+          this.startTimer(false, this.timerOnNextExercise);
+          this.timerOnNextExercise = 0;
+        } else {
+          this.startTimer(false, null);
+        }
       }
 
       this.playCurrentExercise(true);
@@ -183,6 +193,9 @@ export class ExercisesService {
       this.timeSpentInSections[this.exerciseIndex] += (this.sectionEndTime - this.sectionStartTime) / 1000;
       console.log("Back adding to index: ", this.exerciseIndex, " ", (this.sectionEndTime - this.sectionStartTime) / 1000)
 
+      if (this.exerciseIndex - 1 == this.highestCompletedExerciseIndex) {
+        this.timerOnNextExercise = this.timerCurrent;
+      }
       this.timerFinished = true;
       this.resetTimer(true);
 
@@ -198,11 +211,12 @@ export class ExercisesService {
       this.resetTimer(false);
     } else {
       this.api.play();
-      this.startTimer(true);
+      this.startTimer(true, null);
     }
   }
 
   exit() {
+    console.log("Seconds serialised: ", this.serialiseTimeSpentInSections())
     if (this.loginService.isLoggedIn()) {
       // if user is logged in then send back details of completed session
       this.totalTimeTakenSecs = (new Date().getTime() - this.startEpoch) / 1000;
