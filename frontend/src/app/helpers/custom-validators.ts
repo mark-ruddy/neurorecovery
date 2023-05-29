@@ -84,6 +84,7 @@ export const errorMessages: { [key: string]: string } = {
   failedCalendarFileSend: "Failed to send calendar file",
   patientAlreadyAdded: "Patient already added",
   invalidTimerProvided: "Invalid timer provided",
+  spyderFailedLaunch: "Spyder failed to launch",
 }
 
 export const successMessages: { [key: string]: string } = {
@@ -96,4 +97,5 @@ export const successMessages: { [key: string]: string } = {
   calendarFileSent: "Calendar file sent",
   removedPatient: "Successfully removed patient",
   addedPatient: "Successfully added patient",
+  spyderSuccessfulLaunch: "Spyder has been launched",
 }

@@ -140,6 +140,40 @@ export class AppComponent implements OnInit {
       });
   }
 
+  launchSpyderEcgPlot() {
+    fetch('http://localhost:9090/launch_spyder_ecg_plot', {
+      method: 'GET'
+    })
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          this.snackBar.open(errorMessages['spyderFailedLaunch'], '', {
+            duration: 3000,
+            panelClass: ['mat-toolbar', 'mat-warn'],
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+          throw new Error('Non-200 code from launch_sypder_ecg_plot/');
+        }
+        this.snackBar.open(successMessages['spyderSuccessfulLaunch'], '', {
+          duration: 3000,
+          panelClass: ['mat-toolbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+        console.log('Successfully launched spyder!');
+      })
+      .catch(error => {
+        this.snackBar.open(errorMessages['spyderFailedLaunch'], '', {
+          duration: 3000,
+          panelClass: ['mat-toolbar', 'mat-warn'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+        console.error('Spyder launch error:', error);
+      });
+  }
+
   logout() {
     this.loginService.logout();
     this.refreshLoginStatus();

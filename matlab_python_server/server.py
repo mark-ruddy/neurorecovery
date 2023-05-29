@@ -5,6 +5,8 @@ from flask import Flask, jsonify
 from os.path import join, dirname
 from dotenv import load_dotenv
 
+from spyder_ecg_plot import open_spyder_ecg_plot
+
 app = Flask(__name__)
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -51,6 +53,17 @@ def launch_matlab_quickassist():
     # subprocess.call("explorer.exe shell:AppsFolder\\MicrosoftCorporationII.QuickAssist_8wekyb3d8bbwe!App", shell=True)
 
     response = jsonify("Matlab QuickAssist should be launched")
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Request-Headers", "X-Requested-With, accept, content-type")
+    response.headers.add("Access-Control-Allow-Methods", "GET")
+    return response
+
+@app.route('/launch_spyder_ecg_plot')
+def launch_spyder_ecg_plot():
+    # NOTE: call function "open_spyder_ecg_plot" from spyder_ecg_plot.py file
+    open_spyder_ecg_plot()
+
+    response = jsonify("Spyder ECG plot should be launched")
     response.headers.add("Access-Control-Allow-Origin", "*")
     response.headers.add("Access-Control-Request-Headers", "X-Requested-With, accept, content-type")
     response.headers.add("Access-Control-Allow-Methods", "GET")
