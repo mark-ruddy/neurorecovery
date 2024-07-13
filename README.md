@@ -1,6 +1,8 @@
 # NeuroRecovery
 The NeuroRecovery App assists post-stroke patients with their recovery through a web application
 
+![Overview](report/images/presentation/overview.png)
+
 ## Deployment with Tilt CI/CD
 The NeuroRecovery app is tested and deployed with [Tilt CI/CD](https://tilt.dev/).  
 
